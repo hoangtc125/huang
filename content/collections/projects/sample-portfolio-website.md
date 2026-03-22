@@ -1,4 +1,5 @@
 ---
+published: false
 title: "Portfolio Website"
 slug: "portfolio-website"
 description: "Trang portfolio cá nhân được xây dựng với Next.js và TailwindCSS"
@@ -6,7 +7,7 @@ thumbnail: "/images/projects/portfolio-thumb.jpg"
 images:
   - "/images/projects/portfolio-1.jpg"
   - "/images/projects/portfolio-2.jpg"
-category: "web"
+type: "web"
 tags:
   - "Next.js"
   - "TypeScript"

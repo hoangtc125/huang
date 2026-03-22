@@ -6,28 +6,33 @@
 
 title: "Tiêu đề bài viết"
 slug: "tieu-de-bai-viet"
-description: "Mô tả ngắn gọn (hiển thị ở danh sách & SEO)"
+description: "Mô tả ngắn gọn (hiển thị ở danh sách & SEO, ~150 ký tự)"
 cover: "/images/blog/cover.jpg"
 
-# Phân loại
-category: "tech" # tech | life | tutorial | review
-tags:
-  - "tag1"
-  - "tag2"
+# Topic (phân loại chính — phải khớp với slug trong content/collections/topics/)
+topic: "web-development"   # web-development | system-design | career
 
-# Tác giả (nếu có nhiều tác giả, nếu chỉ mình bạn thì bỏ qua)
-author: ""
+# Tags (phụ, dùng để tìm kiếm thêm)
+tags:
+  - "React"
+  - "TypeScript"
+
+# Cross-links
+related_projects:    # slug của các project liên quan
+  - ""
+related_blogs:       # slug của các blog liên quan
+  - ""
 
 # Trạng thái
-published: true # false = draft, không hiển thị
+published: true   # false = draft, không hiển thị
 featured: false
 date: "2026-01-15"
 updated: ""
 
-# Đọc
-reading_time: 5 # phút, có thể tự tính từ content
+# Reading time (phút) — để trống sẽ tự tính từ content
+reading_time: 5
 
-# SEO
+# SEO (tùy chọn, để trống = dùng title + description)
 seo_title: ""
 seo_description: ""
 ---
@@ -40,13 +45,11 @@ Viết nội dung...
 
 ### Heading 3
 
-Viết nội dung...
-
 ```javascript
-// Code blocks hoạt động bình thường
+// Code blocks với syntax highlighting
 console.log("Hello World");
 ```
 
-> Blockquotes cũng được hỗ trợ
+> Blockquotes để highlight ý quan trọng
 
 ![Alt text](/images/blog/image.jpg)
