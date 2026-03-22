@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className="min-h-screen flex flex-col relative bg-[#0a0a0a] overflow-hidden">
+        <div className="min-h-screen flex flex-col relative bg-[#0a0a0a] overflow-x-clip">
           <AnimatedBackground />
 
           {/* Top gradient glow */}

@@ -40,9 +40,9 @@ export default function HomeClient({ projects }: { projects: Project[] }) {
             transition={{ delay: 0.1 }}
             className="text-3xl md:text-4xl font-medium tracking-tight text-zinc-400"
           >
-            Hey, I&apos;m{" "}
+            Hey, I&apos;m not {" "} 
             <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-zinc-100 via-white to-zinc-400 animate-text-shimmer">
-              Tran Cong Hoang
+              Jensen Huang
             </span>
           </motion.h1>
           <motion.h2

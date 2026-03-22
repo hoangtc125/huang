@@ -100,13 +100,13 @@ export default function AboutClient({ qas }: Props) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="prose prose-invert prose-zinc max-w-none text-zinc-400 leading-relaxed"
+              className="space-y-4 text-zinc-400 leading-relaxed"
             >
               <p>
-                I&apos;m a software engineer focused on building robust, scalable, and
-                beautiful digital products. My journey in tech started with a fascination
-                for how things work under the hood, which quickly evolved into a passion
-                for creating tools that solve real problems.
+                I&apos;m <span className="text-zinc-200 font-medium">Tran Cong Hoang</span> — a software engineer focused on
+                building robust, scalable, and beautiful digital products. My journey in
+                tech started with a fascination for how things work under the hood, which
+                quickly evolved into a passion for creating tools that solve real problems.
               </p>
               <p>
                 With a background spanning frontend web development, cross-platform mobile
