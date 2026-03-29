@@ -18,7 +18,7 @@ const TABS: { id: ProjectType | "all"; label: string; icon: ReactNode }[] = [
 const statusColors: Record<string, string> = {
   live: "bg-emerald-500",
   "in-progress": "bg-amber-500",
-  review: "bg-indigo-500",
+  review: "bg-rose-400",
   archived: "bg-zinc-500",
 };
 
@@ -38,10 +38,10 @@ export default function HomeClient({ projects }: { projects: Project[] }) {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.1 }}
-            className="text-3xl md:text-4xl font-medium tracking-tight text-zinc-400"
+            className="text-3xl md:text-4xl font-medium tracking-tight text-[hsl(var(--muted-foreground))]"
           >
             Hey, I&apos;m not {" "} 
-            <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-zinc-100 via-white to-zinc-400 animate-text-shimmer">
+            <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-rose-200 via-amber-100 to-rose-300 animate-text-shimmer">
               Jensen Huang
             </span>
           </motion.h1>
@@ -49,9 +49,9 @@ export default function HomeClient({ projects }: { projects: Project[] }) {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-base md:text-lg text-zinc-500 font-medium tracking-tight"
+            className="text-base md:text-lg text-[hsl(var(--muted-foreground))] font-medium tracking-tight"
           >
-            Software Engineer <span className="text-zinc-700">and</span> Technical
+            Software Engineer <span className="text-[hsl(var(--muted-foreground)/0.7)]">and</span> Technical
             Content Specialist
           </motion.h2>
         </section>
@@ -62,7 +62,7 @@ export default function HomeClient({ projects }: { projects: Project[] }) {
             <h2 className="text-2xl font-semibold text-white tracking-tight">
               Garden
             </h2>
-            <div className="flex items-center gap-1 p-1 bg-zinc-900/50 rounded-lg border border-white/5 backdrop-blur-sm">
+            <div className="flex items-center gap-1 p-1 bg-[hsl(var(--card)/0.35)] rounded-lg border border-[hsl(var(--border)/0.45)] backdrop-blur-sm">
               {TABS.map((tab) => (
                 <button
                   key={tab.id}
@@ -70,8 +70,8 @@ export default function HomeClient({ projects }: { projects: Project[] }) {
                   className={cn(
                     "flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200",
                     activeTab === tab.id
-                      ? "bg-zinc-800 text-white shadow-sm"
-                      : "text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800/50"
+                      ? "bg-[hsl(var(--card)/0.65)] text-[hsl(var(--foreground))] shadow-sm"
+                      : "text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] hover:bg-[hsl(var(--card)/0.45)]"
                   )}
                 >
                   {tab.icon}
@@ -94,7 +94,7 @@ export default function HomeClient({ projects }: { projects: Project[] }) {
                 >
                   <Link
                     href={`/project/${project.slug}`}
-                    className="group flex items-center gap-4 md:gap-6 p-4 rounded-2xl bg-zinc-900/20 border border-white/5 hover:bg-zinc-900/60 hover:border-white/10 transition-all duration-300"
+                    className="group flex items-center gap-4 md:gap-6 p-4 rounded-2xl bg-[hsl(var(--card)/0.25)] border border-[hsl(var(--border)/0.45)] hover:bg-[hsl(var(--card)/0.55)] transition-all duration-300"
                   >
                     {project.iconUrl ? (
                       <img
@@ -104,28 +104,28 @@ export default function HomeClient({ projects }: { projects: Project[] }) {
                         referrerPolicy="no-referrer"
                       />
                     ) : (
-                      <div className="w-12 h-12 md:w-16 md:h-16 rounded-xl bg-zinc-800 flex items-center justify-center shrink-0">
-                        <Code className="w-6 h-6 text-zinc-500" />
+                      <div className="w-12 h-12 md:w-16 md:h-16 rounded-xl bg-[hsl(var(--card)/0.6)] border border-[hsl(var(--border)/0.35)] flex items-center justify-center shrink-0">
+                        <Code className="w-6 h-6 text-[hsl(var(--muted-foreground))]" />
                       </div>
                     )}
 
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-3 mb-1">
-                        <h3 className="text-base md:text-lg font-semibold text-zinc-200 group-hover:text-white transition-colors truncate">
+                        <h3 className="text-base md:text-lg font-semibold text-[hsl(var(--foreground))] transition-colors truncate">
                           {project.title}
                         </h3>
                         <span className="hidden md:inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-zinc-800 text-zinc-400 uppercase tracking-wider shrink-0">
                           {project.type}
                         </span>
                         {project.status && (
-                          <span className="hidden md:inline-flex items-center gap-1 text-xs text-zinc-500">
+                          <span className="hidden md:inline-flex items-center gap-1 text-xs text-[hsl(var(--muted-foreground))]">
                             <span className={cn("w-1.5 h-1.5 rounded-full", statusColors[project.status] ?? "bg-zinc-500")} />
                             {project.status}
                           </span>
                         )}
                       </div>
 
-                      <p className="text-sm text-zinc-500 line-clamp-1 md:line-clamp-2 mb-2">
+                      <p className="text-sm text-[hsl(var(--muted-foreground))] line-clamp-1 md:line-clamp-2 mb-2">
                         {project.shortDesc}
                       </p>
 
@@ -133,7 +133,7 @@ export default function HomeClient({ projects }: { projects: Project[] }) {
                         {project.techStack.slice(0, 3).map((tech) => (
                           <span
                             key={tech}
-                            className="text-xs text-zinc-500 bg-white/5 px-2 py-0.5 rounded-md"
+                            className="text-xs text-[hsl(var(--muted-foreground))] bg-[hsl(var(--card)/0.35)] border border-[hsl(var(--border)/0.25)] px-2 py-0.5 rounded-md"
                           >
                             {tech}
                           </span>

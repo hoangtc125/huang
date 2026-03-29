@@ -11,12 +11,12 @@ export default function RelatedContent({ blogs, projects }: Props) {
   if (blogs.length === 0 && projects.length === 0) return null;
 
   return (
-    <aside className="space-y-6 pt-8 border-t border-white/5">
-      <h2 className="text-lg font-semibold text-zinc-300">Related Content</h2>
+    <aside className="space-y-6 pt-8 border-t border-[hsl(var(--border)/0.45)]">
+      <h2 className="text-lg font-semibold text-[hsl(var(--foreground))]">Related Content</h2>
 
       {blogs.length > 0 && (
         <div className="space-y-3">
-          <div className="flex items-center gap-2 text-xs font-medium text-zinc-500 uppercase tracking-wider">
+          <div className="flex items-center gap-2 text-xs font-medium text-[hsl(var(--muted-foreground))] uppercase tracking-wider">
             <BookOpen className="w-3.5 h-3.5" />
             Articles
           </div>
@@ -25,15 +25,17 @@ export default function RelatedContent({ blogs, projects }: Props) {
               <Link
                 key={post.slug}
                 href={`/blog/${post.slug}`}
-                className="group flex items-center justify-between p-4 rounded-xl bg-zinc-900/30 border border-white/5 hover:bg-zinc-900/60 hover:border-white/10 transition-all duration-200"
+                className="group flex items-center justify-between p-4 rounded-xl bg-[hsl(var(--card)/0.35)] border border-[hsl(var(--border)/0.45)] hover:bg-[hsl(var(--card)/0.55)] transition-all duration-200"
               >
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-zinc-200 group-hover:text-white transition-colors truncate">
+                  <p className="text-sm font-medium text-[hsl(var(--foreground))] transition-colors truncate">
                     {post.title}
                   </p>
-                  <p className="text-xs text-zinc-500 mt-0.5 truncate">{post.description}</p>
+                  <p className="text-xs text-[hsl(var(--muted-foreground))] mt-0.5 truncate">
+                    {post.description}
+                  </p>
                 </div>
-                <ArrowRight className="w-4 h-4 text-zinc-600 group-hover:text-zinc-300 group-hover:translate-x-1 transition-all shrink-0 ml-3" />
+                <ArrowRight className="w-4 h-4 text-[hsl(var(--muted-foreground))] group-hover:translate-x-1 transition-all shrink-0 ml-3" />
               </Link>
             ))}
           </div>
@@ -42,7 +44,7 @@ export default function RelatedContent({ blogs, projects }: Props) {
 
       {projects.length > 0 && (
         <div className="space-y-3">
-          <div className="flex items-center gap-2 text-xs font-medium text-zinc-500 uppercase tracking-wider">
+          <div className="flex items-center gap-2 text-xs font-medium text-[hsl(var(--muted-foreground))] uppercase tracking-wider">
             <Code className="w-3.5 h-3.5" />
             Projects
           </div>
@@ -51,7 +53,7 @@ export default function RelatedContent({ blogs, projects }: Props) {
               <Link
                 key={project.slug}
                 href={`/project/${project.slug}`}
-                className="group flex items-center justify-between p-4 rounded-xl bg-zinc-900/30 border border-white/5 hover:bg-zinc-900/60 hover:border-white/10 transition-all duration-200"
+                className="group flex items-center justify-between p-4 rounded-xl bg-[hsl(var(--card)/0.35)] border border-[hsl(var(--border)/0.45)] hover:bg-[hsl(var(--card)/0.55)] transition-all duration-200"
               >
                 <div className="flex items-center gap-3 flex-1 min-w-0">
                   {project.iconUrl ? (
@@ -62,18 +64,20 @@ export default function RelatedContent({ blogs, projects }: Props) {
                       referrerPolicy="no-referrer"
                     />
                   ) : (
-                    <div className="w-8 h-8 rounded-lg bg-zinc-800 flex items-center justify-center shrink-0">
-                      <Code className="w-4 h-4 text-zinc-500" />
+                    <div className="w-8 h-8 rounded-lg bg-[hsl(var(--card)/0.6)] flex items-center justify-center shrink-0 border border-[hsl(var(--border)/0.35)]">
+                      <Code className="w-4 h-4 text-[hsl(var(--muted-foreground))]" />
                     </div>
                   )}
                   <div className="min-w-0">
-                    <p className="text-sm font-medium text-zinc-200 group-hover:text-white transition-colors truncate">
+                    <p className="text-sm font-medium text-[hsl(var(--foreground))] transition-colors truncate">
                       {project.title}
                     </p>
-                    <p className="text-xs text-zinc-500 mt-0.5 truncate">{project.shortDesc}</p>
+                    <p className="text-xs text-[hsl(var(--muted-foreground))] mt-0.5 truncate">
+                      {project.shortDesc}
+                    </p>
                   </div>
                 </div>
-                <ArrowRight className="w-4 h-4 text-zinc-600 group-hover:text-zinc-300 group-hover:translate-x-1 transition-all shrink-0 ml-3" />
+                <ArrowRight className="w-4 h-4 text-[hsl(var(--muted-foreground))] group-hover:translate-x-1 transition-all shrink-0 ml-3" />
               </Link>
             ))}
           </div>

@@ -17,15 +17,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className="min-h-screen flex flex-col relative bg-[#0a0a0a] overflow-x-clip">
+        <div className="min-h-screen flex flex-col relative overflow-x-clip">
           <AnimatedBackground />
 
           {/* Top gradient glow */}
-          <div className="absolute top-0 left-0 right-0 h-[500px] bg-gradient-to-b from-zinc-900/20 to-transparent pointer-events-none z-0" />
+          <div className="absolute top-0 left-0 right-0 h-[520px] bg-gradient-to-b from-rose-300/10 via-transparent to-transparent pointer-events-none z-0" />
 
           <Header />
 
-          <main className="flex-1 w-full max-w-5xl mx-auto px-6 py-12 relative z-10">
+          <main className="flex-1 w-full max-w-6xl mx-auto px-6 py-12 relative z-10">
             {children}
           </main>
 

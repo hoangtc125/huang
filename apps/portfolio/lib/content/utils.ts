@@ -49,12 +49,14 @@ async function getProcessor() {
   const { default: remarkGfm } = await import("remark-gfm");
   const { default: remarkRehype } = await import("remark-rehype");
   const { default: rehypeHighlight } = await import("rehype-highlight");
+  const { default: rehypeSlug } = await import("rehype-slug");
   const { default: rehypeStringify } = await import("rehype-stringify");
 
   _processor = unified()
     .use(remarkParse)
     .use(remarkGfm)
     .use(remarkRehype)
+    .use(rehypeSlug) // adds id=... to headings so TOC links can work
     .use(rehypeHighlight)
     .use(rehypeStringify);
 
@@ -65,4 +67,43 @@ export async function markdownToHtml(markdown: string): Promise<string> {
   const processor = await getProcessor();
   const result = await processor.process(markdown);
   return String(result);
+}
+
+type TocItem = { id: string; text: string; level: 2 | 3 };
+
+function headingText(node: unknown): string {
+  // Extract plain text from a mdast heading node (handles nested emphasis/links).
+  const parts: string[] = [];
+  const stack: any[] = [node];
+  while (stack.length) {
+    const cur = stack.pop();
+    if (!cur) continue;
+    if (typeof cur.value === "string") parts.push(cur.value);
+    if (Array.isArray(cur.children)) {
+      for (let i = cur.children.length - 1; i >= 0; i--) stack.push(cur.children[i]);
+    }
+  }
+  return parts.join("").replace(/\s+/g, " ").trim();
+}
+
+export async function extractToc(markdown: string): Promise<TocItem[]> {
+  const { unified } = await import("unified");
+  const { default: remarkParse } = await import("remark-parse");
+  const { visit } = await import("unist-util-visit");
+  const { default: GithubSlugger } = await import("github-slugger");
+
+  const tree = unified().use(remarkParse).parse(markdown);
+  const slugger = new GithubSlugger();
+  const items: TocItem[] = [];
+
+  visit(tree as any, "heading", (node: any) => {
+    const depth = Number(node.depth);
+    if (depth !== 2 && depth !== 3) return;
+    const text = headingText(node);
+    if (!text) return;
+    const id = slugger.slug(text);
+    items.push({ id, text, level: depth as 2 | 3 });
+  });
+
+  return items;
 }

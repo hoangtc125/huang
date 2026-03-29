@@ -46,7 +46,7 @@ export default function BlogList({ posts, topics }: Props) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-zinc-400"
+            className="text-[hsl(var(--muted-foreground))]"
           >
             Thoughts on software engineering, architecture, and the tech industry.
           </motion.p>
@@ -65,8 +65,8 @@ export default function BlogList({ posts, topics }: Props) {
               className={cn(
                 "px-3 py-1.5 rounded-lg text-sm font-medium border transition-all",
                 activeTopic === "all"
-                  ? "bg-zinc-100 text-zinc-900 border-zinc-100"
-                  : "bg-transparent text-zinc-400 border-white/10 hover:border-white/20 hover:text-zinc-300"
+                  ? "bg-rose-200 text-[#2b1216] border-rose-200"
+                  : "bg-transparent text-[hsl(var(--muted-foreground))] border-[hsl(var(--border)/0.45)] hover:border-[hsl(var(--border)/0.7)] hover:text-[hsl(var(--foreground))]"
               )}
             >
               All
@@ -82,7 +82,7 @@ export default function BlogList({ posts, topics }: Props) {
                     "px-3 py-1.5 rounded-lg text-sm font-medium border transition-all",
                     isActive
                       ? colorCls
-                      : "bg-transparent text-zinc-400 border-white/10 hover:border-white/20 hover:text-zinc-300"
+                      : "bg-transparent text-[hsl(var(--muted-foreground))] border-[hsl(var(--border)/0.45)] hover:border-[hsl(var(--border)/0.7)] hover:text-[hsl(var(--foreground))]"
                   )}
                 >
                   {topic.icon && <span className="mr-1.5">{topic.icon}</span>}
@@ -96,7 +96,9 @@ export default function BlogList({ posts, topics }: Props) {
         {/* Post List */}
         <section className="space-y-6">
           {filtered.length === 0 ? (
-            <p className="text-zinc-500 py-8 text-center">No posts in this topic yet.</p>
+            <p className="text-[hsl(var(--muted-foreground))] py-8 text-center">
+              No posts in this topic yet.
+            </p>
           ) : (
             filtered.map((post, index) => {
               const topic = topicMap[post.topic];
@@ -110,7 +112,7 @@ export default function BlogList({ posts, topics }: Props) {
                 >
                   <Link
                     href={`/blog/${post.slug}`}
-                    className="group block p-6 rounded-2xl bg-zinc-900/30 border border-white/5 hover:bg-zinc-900/50 hover:border-white/10 transition-all duration-300"
+                    className="group block p-6 rounded-2xl bg-[hsl(var(--card)/0.35)] border border-[hsl(var(--border)/0.45)] hover:bg-[hsl(var(--card)/0.55)] transition-all duration-300"
                   >
                     <div className="flex flex-col gap-4">
                       {/* Meta */}
@@ -134,7 +136,7 @@ export default function BlogList({ posts, topics }: Props) {
                             day: "numeric",
                           })}
                         </span>
-                        <span className="flex items-center gap-1.5 text-xs font-medium text-zinc-500">
+                        <span className="flex items-center gap-1.5 text-xs font-medium text-[hsl(var(--muted-foreground))]">
                           <Clock className="w-3.5 h-3.5" />
                           {post.readingTime} min read
                         </span>
@@ -145,7 +147,7 @@ export default function BlogList({ posts, topics }: Props) {
                         <h2 className="text-xl font-semibold text-zinc-100 group-hover:text-white transition-colors">
                           {post.title}
                         </h2>
-                        <p className="text-zinc-400 leading-relaxed line-clamp-2">
+                        <p className="text-[hsl(var(--muted-foreground))] leading-relaxed line-clamp-2">
                           {post.description}
                         </p>
                       </div>
@@ -156,13 +158,13 @@ export default function BlogList({ posts, topics }: Props) {
                           {post.tags.slice(0, 3).map((tag) => (
                             <span
                               key={tag}
-                              className="px-2.5 py-1 rounded-md bg-zinc-800/50 border border-white/5 text-xs font-medium text-zinc-400"
+                              className="px-2.5 py-1 rounded-md bg-[hsl(var(--card)/0.35)] border border-[hsl(var(--border)/0.35)] text-xs font-medium text-[hsl(var(--muted-foreground))]"
                             >
                               {tag}
                             </span>
                           ))}
                         </div>
-                        <div className="flex items-center gap-2 text-sm font-medium text-zinc-400 group-hover:text-white transition-colors shrink-0">
+                        <div className="flex items-center gap-2 text-sm font-medium text-[hsl(var(--muted-foreground))] group-hover:text-[hsl(var(--foreground))] transition-colors shrink-0">
                           Read article
                           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </div>
