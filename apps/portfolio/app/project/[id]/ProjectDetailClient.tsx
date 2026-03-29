@@ -21,9 +21,10 @@ type Tab = "features" | "architecture" | "gallery";
 interface Props {
   project: Project;
   relatedBlogs: BlogPost[];
+  architectureHtml: string;
 }
 
-export default function ProjectDetailClient({ project, relatedBlogs }: Props) {
+export default function ProjectDetailClient({ project, relatedBlogs, architectureHtml }: Props) {
   const [activeTab, setActiveTab] = useState<Tab>("features");
 
   const tabs = [
@@ -166,7 +167,20 @@ export default function ProjectDetailClient({ project, relatedBlogs }: Props) {
                   transition={{ duration: 0.2 }}
                   className="p-8 rounded-2xl bg-zinc-900/30 border border-white/5"
                 >
-                  <p className="text-lg text-zinc-300 leading-relaxed">{project.architecture}</p>
+                  <div
+                    className="blog-content prose prose-invert max-w-none
+                      prose-headings:font-semibold prose-headings:tracking-tight
+                      prose-h2:text-xl prose-h3:text-lg
+                      prose-a:text-rose-300 hover:prose-a:text-rose-200
+                      prose-strong:text-zinc-100
+                      prose-code:text-rose-200 prose-code:bg-zinc-800/60 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-code:before:content-none prose-code:after:content-none
+                      prose-pre:bg-zinc-800/60 prose-pre:border prose-pre:border-white/5 prose-pre:rounded-xl prose-pre:p-0
+                      prose-table:border prose-table:border-white/10
+                      prose-th:bg-zinc-800/60 prose-th:px-4 prose-th:py-2
+                      prose-td:px-4 prose-td:py-2 prose-td:border prose-td:border-white/5
+                      prose-p:text-zinc-300 prose-li:text-zinc-300"
+                    dangerouslySetInnerHTML={{ __html: architectureHtml }}
+                  />
                 </motion.div>
               )}
 

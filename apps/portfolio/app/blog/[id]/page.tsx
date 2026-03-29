@@ -9,6 +9,7 @@ import { markdownToHtml, extractToc } from "@/lib/content/utils";
 import RelatedContent from "@/components/RelatedContent";
 import TopicBadge from "@/components/TopicBadge";
 import TableOfContents from "@/components/TableOfContents";
+import BlogContent from "@/components/BlogContent";
 
 export async function generateStaticParams() {
   const posts = getBlogPosts();
@@ -151,7 +152,8 @@ export default async function BlogPostPage({
               )}
             </header>
 
-            <div
+            <BlogContent
+              html={html}
               className="blog-content prose prose-invert max-w-none
                 prose-headings:font-semibold prose-headings:tracking-tight
                 prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl
@@ -164,7 +166,6 @@ export default async function BlogPostPage({
                 prose-table:border prose-table:border-[hsl(var(--border)/0.45)]
                 prose-th:bg-[hsl(var(--card)/0.6)] prose-th:px-4 prose-th:py-2
                 prose-td:px-4 prose-td:py-2 prose-td:border prose-td:border-[hsl(var(--border)/0.35)]"
-              dangerouslySetInnerHTML={{ __html: html }}
             />
           </article>
 

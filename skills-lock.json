@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "skills": {
+    "content-creator": {
+      "source": "shubhamsaboo/awesome-llm-apps",
+      "sourceType": "github",
+      "computedHash": "4c8c5eb0a945c3c50d845145fbe3d4347b599eb531cbeb154099276a4bb4a6b6"
+    },
+    "persona-content-creator": {
+      "source": "googleworkspace/cli",
+      "sourceType": "github",
+      "computedHash": "4ecf1f632e143ba7fbff60b82640cffc3f3be83b48811c476e56060e4abbf305"
+    }
+  }
+}

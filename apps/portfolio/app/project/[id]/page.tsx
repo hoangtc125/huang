@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getProjects, getProjectBySlug } from "@/lib/content/projects";
 import { getBlogsBySlugs } from "@/lib/content/blogs";
+import { markdownToHtml } from "@/lib/content/utils";
 import ProjectDetailClient from "./ProjectDetailClient";
 
 // ── Static generation ─────────────────────────────────────────────────────
@@ -45,6 +46,15 @@ export default async function ProjectDetailPage({
   if (!project) notFound();
 
   const relatedBlogs = getBlogsBySlugs(project.relatedBlogs);
+  const architectureHtml = project.architecture
+    ? await markdownToHtml(project.architecture)
+    : "";
 
-  return <ProjectDetailClient project={project} relatedBlogs={relatedBlogs} />;
+  return (
+    <ProjectDetailClient
+      project={project}
+      relatedBlogs={relatedBlogs}
+      architectureHtml={architectureHtml}
+    />
+  );
 }

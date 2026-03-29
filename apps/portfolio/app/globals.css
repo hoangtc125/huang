@@ -158,7 +158,237 @@
   text-align: left;
 }
 
-/* Blog content: Smooth image loading */
+/* Global custom scrollbar — rose-brown theme */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(345 20% 22% / 0.6) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(345 20% 22% / 0.6);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(345 25% 30% / 0.8);
+}
+
+/* Thinner scrollbar for TOC sidebar & code blocks */
+.toc-scrollbar,
+.blog-content pre {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(345 20% 28% / 0.5) transparent;
+}
+
+.toc-scrollbar::-webkit-scrollbar,
+.blog-content pre::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.toc-scrollbar::-webkit-scrollbar-thumb,
+.blog-content pre::-webkit-scrollbar-thumb {
+  background: hsl(345 20% 28% / 0.5);
+  border-radius: 999px;
+}
+
+.toc-scrollbar::-webkit-scrollbar-thumb:hover,
+.blog-content pre::-webkit-scrollbar-thumb:hover {
+  background: hsl(345 25% 35% / 0.7);
+}
+
+/* Blog content: Code block toolbar */
+.code-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid hsl(var(--border) / 0.3);
+  background: hsl(var(--card) / 0.4);
+  border-radius: 0.75rem 0.75rem 0 0;
+  font-family: var(--font-sans);
+}
+
+.code-lang {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: hsl(var(--muted-foreground));
+  user-select: none;
+}
+
+.code-buttons {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.code-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.6rem;
+  border: none;
+  border-radius: 0.375rem;
+  background: transparent;
+  color: hsl(var(--muted-foreground));
+  font-size: 0.75rem;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.code-btn:hover {
+  background: hsl(var(--border) / 0.5);
+  color: hsl(var(--foreground));
+}
+
+.code-btn-success {
+  color: #4ade80 !important;
+}
+
+/* Blog content: Image hover — pure CSS, no DOM manipulation */
 .blog-content img {
-  transition: opacity 0.3s ease;
+  cursor: zoom-in;
+  transition: opacity 0.3s ease, filter 0.2s ease, transform 0.2s ease;
+}
+
+.blog-content img:hover {
+  filter: brightness(0.92);
+  transform: scale(1.005);
+}
+
+/* Lightbox overlay */
+.blog-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: hsl(var(--background) / 0.92);
+  backdrop-filter: blur(12px);
+  animation: lightbox-in 0.2s ease;
+  padding: 2rem;
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
+
+@keyframes lightbox-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Close button */
+.blog-lightbox-close {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 10001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid hsl(var(--border) / 0.45);
+  border-radius: 0.75rem;
+  background: hsl(var(--card) / 0.6);
+  backdrop-filter: blur(8px);
+  color: hsl(var(--foreground));
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.blog-lightbox-close:hover {
+  background: hsl(var(--card) / 0.9);
+}
+
+/* Zoom controls bar */
+.blog-lightbox-controls {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10001;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.35rem;
+  border: 1px solid hsl(var(--border) / 0.45);
+  border-radius: 0.75rem;
+  background: hsl(var(--card) / 0.7);
+  backdrop-filter: blur(12px);
+}
+
+.blog-lightbox-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  border-radius: 0.5rem;
+  background: transparent;
+  color: hsl(var(--muted-foreground));
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.blog-lightbox-btn:hover {
+  background: hsl(var(--border) / 0.5);
+  color: hsl(var(--foreground));
+}
+
+.blog-lightbox-zoom-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: hsl(var(--muted-foreground));
+  min-width: 2.5rem;
+  text-align: center;
+  user-select: none;
+}
+
+/* Image wrapper — handles transform for zoom/pan */
+.blog-lightbox-img-wrap {
+  transition: transform 0.15s ease;
+  touch-action: none;
+  user-select: none;
+}
+
+.blog-lightbox-img-wrap:active {
+  cursor: grabbing !important;
+  transition: none;
+}
+
+.blog-lightbox-img {
+  max-width: 90vw;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: 0.75rem;
+  border: 1px solid hsl(var(--border) / 0.45);
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.5);
+  pointer-events: none;
+}
+
+.blog-lightbox-caption {
+  position: fixed;
+  bottom: 4.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10001;
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+  text-align: center;
+  white-space: nowrap;
 }

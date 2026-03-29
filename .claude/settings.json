@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(grep -r \"pre\\\\|code\" e:/project/huang/apps/portfolio/lib --include=*.tsx --include=*.ts)",
-      "Bash(find e:/project/huang/content/collections/blogs -type f -name *.md)"
+      "Bash(find e:/project/huang/content/collections/blogs -type f -name *.md)",
+      "Bash(find E:/project/smashmate-apps/apps -name proxy.ts -o -name wrangler.toml -o -name .env*)"
     ]
   }
 }
