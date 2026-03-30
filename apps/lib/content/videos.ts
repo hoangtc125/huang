@@ -1,5 +1,5 @@
 import type { Video } from "./types";
-import raw from "./generated-content.json";
+import videoEntries from "./generated/videos";
 
 type RawEntry = {
   file: string;
@@ -9,7 +9,7 @@ type RawEntry = {
 
 export function getVideos(): Video[] {
   const videos: Video[] = [];
-  const entries = (raw.videos ?? []) as RawEntry[];
+  const entries = videoEntries as unknown as RawEntry[];
 
   for (const entry of entries) {
     const { data } = entry;

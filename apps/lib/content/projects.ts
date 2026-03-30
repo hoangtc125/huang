@@ -1,5 +1,5 @@
 import type { Project, ProjectFeature } from "./types";
-import raw from "./generated-content.json";
+import projectEntries from "./generated/projects";
 
 type RawEntry = {
   file: string;
@@ -9,7 +9,7 @@ type RawEntry = {
 
 export function getProjects(options?: { featured?: boolean }): Project[] {
   const projects: Project[] = [];
-  const entries = (raw.projects ?? []) as RawEntry[];
+  const entries = projectEntries as unknown as RawEntry[];
 
   for (const entry of entries) {
     const { data, content } = entry;

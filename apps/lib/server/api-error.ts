@@ -8,7 +8,7 @@ export function dbError(
   error: unknown,
   context: string,
   statusCode = 500,
-  clientMessage = "Lỗi hệ thống, vui lòng thử lại sau"
+  clientMessage = "Loi he thong, vui long thu lai sau"
 ) {
   const msg = error instanceof Error ? error.message : String(error);
   console.error(`[${context}]`, msg);

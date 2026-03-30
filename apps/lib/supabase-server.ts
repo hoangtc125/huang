@@ -2,8 +2,8 @@ import { createClient } from "@supabase/supabase-js";
 import { getSupabaseServerEnv } from "@/lib/env.server";
 
 /**
- * Supabase client for server-side API routes.
- * No cookie/auth needed — portfolio is public, uses anon key only.
+ * Supabase client for read-only server routes.
+ * No cookie/auth needed; portfolio data is public.
  */
 export function createSupabaseServerClient() {
   const env = getSupabaseServerEnv();

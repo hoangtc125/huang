@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
     const supabase = createSupabaseServerClient();
 
     // Parameterized query via Supabase SDK — safe from SQL injection
-    const { error } = await supabase.from("contacts").insert({
+    const { error } = await supabase.from("huang_contacts").insert({
       name,
       email,
       message,

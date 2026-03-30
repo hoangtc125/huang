@@ -1,39 +1,34 @@
--- ============================================================
+﻿-- ============================================================
 -- Supabase migration for Huang Portfolio
--- Run this in Supabase SQL Editor (Dashboard > SQL Editor)
+-- Run this in Supabase SQL Editor
 -- ============================================================
 
--- 1. Contacts table — stores contact form submissions
-CREATE TABLE IF NOT EXISTS contacts (
+-- 1) Contacts table
+CREATE TABLE IF NOT EXISTS huang_contacts (
   id          BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  name        TEXT        NOT NULL CHECK (char_length(name) <= 100),
-  email       TEXT        NOT NULL CHECK (char_length(email) <= 254),
-  message     TEXT        NOT NULL CHECK (char_length(message) <= 2000),
+  name        TEXT NOT NULL CHECK (char_length(name) <= 100),
+  email       TEXT NOT NULL CHECK (char_length(email) <= 254),
+  message     TEXT NOT NULL CHECK (char_length(message) <= 2000),
   created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
--- Index for reading recent contacts
-CREATE INDEX IF NOT EXISTS idx_contacts_created_at ON contacts (created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_huang_contacts_created_at ON huang_contacts (created_at DESC);
 
--- 2. Page views table — tracks view counts per resource
-CREATE TABLE IF NOT EXISTS page_views (
+-- 2) Page views table
+CREATE TABLE IF NOT EXISTS huang_page_views (
   id             BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  resource_type  TEXT    NOT NULL CHECK (resource_type IN ('blog', 'project', 'video')),
-  slug           TEXT    NOT NULL CHECK (char_length(slug) <= 200),
-  view_count     BIGINT  NOT NULL DEFAULT 0,
+  resource_type  TEXT NOT NULL CHECK (resource_type IN ('blog', 'project', 'video')),
+  slug           TEXT NOT NULL CHECK (char_length(slug) <= 200),
+  view_count     BIGINT NOT NULL DEFAULT 0,
   created_at     TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at     TIMESTAMPTZ NOT NULL DEFAULT now(),
-
-  -- Each (type, slug) pair is unique
   UNIQUE (resource_type, slug)
 );
 
--- Index for fast lookups
-CREATE INDEX IF NOT EXISTS idx_page_views_lookup ON page_views (resource_type, slug);
+CREATE INDEX IF NOT EXISTS idx_huang_page_views_lookup ON huang_page_views (resource_type, slug);
 
--- 3. RPC function — atomic upsert + increment view count
---    Returns the new view count. Safe from race conditions.
-CREATE OR REPLACE FUNCTION increment_page_view(
+-- 3) RPC function: atomic upsert + increment
+CREATE OR REPLACE FUNCTION huang_increment_page_view(
   p_resource_type TEXT,
   p_slug          TEXT
 )
@@ -43,11 +38,11 @@ AS $$
 DECLARE
   new_count BIGINT;
 BEGIN
-  INSERT INTO page_views (resource_type, slug, view_count, updated_at)
+  INSERT INTO huang_page_views (resource_type, slug, view_count, updated_at)
   VALUES (p_resource_type, p_slug, 1, now())
   ON CONFLICT (resource_type, slug)
   DO UPDATE SET
-    view_count = page_views.view_count + 1,
+    view_count = huang_page_views.view_count + 1,
     updated_at = now()
   RETURNING view_count INTO new_count;
 
@@ -55,44 +50,46 @@ BEGIN
 END;
 $$;
 
--- 4. Row Level Security (RLS)
--- Enable RLS on both tables
-ALTER TABLE contacts ENABLE ROW LEVEL SECURITY;
-ALTER TABLE page_views ENABLE ROW LEVEL SECURITY;
+-- 4) RLS
+ALTER TABLE huang_contacts ENABLE ROW LEVEL SECURITY;
+ALTER TABLE huang_page_views ENABLE ROW LEVEL SECURITY;
 
--- contacts: allow anonymous INSERT only (no SELECT/UPDATE/DELETE from client)
-CREATE POLICY "anon_insert_contacts"
-  ON contacts
+-- contacts: allow anonymous INSERT only
+DROP POLICY IF EXISTS "huang_anon_insert_contacts" ON huang_contacts;
+CREATE POLICY "huang_anon_insert_contacts"
+  ON huang_contacts
   FOR INSERT
   TO anon
   WITH CHECK (true);
 
--- page_views: allow anonymous SELECT and call the RPC
-CREATE POLICY "anon_read_page_views"
-  ON page_views
+-- page views: anonymous can read only
+DROP POLICY IF EXISTS "huang_anon_read_page_views" ON huang_page_views;
+CREATE POLICY "huang_anon_read_page_views"
+  ON huang_page_views
   FOR SELECT
   TO anon
   USING (true);
 
--- page_views: allow anonymous INSERT/UPDATE via the RPC function
--- The RPC runs as SECURITY INVOKER by default, so we need INSERT+UPDATE
-CREATE POLICY "anon_upsert_page_views"
-  ON page_views
-  FOR INSERT
-  TO anon
-  WITH CHECK (true);
+-- cleanup old policy names if they still exist
+DROP POLICY IF EXISTS "anon_insert_contacts" ON huang_contacts;
+DROP POLICY IF EXISTS "anon_read_page_views" ON huang_page_views;
+DROP POLICY IF EXISTS "anon_upsert_page_views" ON huang_page_views;
+DROP POLICY IF EXISTS "anon_update_page_views" ON huang_page_views;
 
-CREATE POLICY "anon_update_page_views"
-  ON page_views
-  FOR UPDATE
-  TO anon
-  USING (true)
-  WITH CHECK (true);
+-- grant execute only for service role
+REVOKE ALL ON FUNCTION huang_increment_page_view(TEXT, TEXT) FROM PUBLIC;
+REVOKE ALL ON FUNCTION huang_increment_page_view(TEXT, TEXT) FROM anon;
+REVOKE ALL ON FUNCTION huang_increment_page_view(TEXT, TEXT) FROM authenticated;
+GRANT EXECUTE ON FUNCTION huang_increment_page_view(TEXT, TEXT) TO service_role;
+
+-- cleanup legacy function grants (if function still exists)
+REVOKE ALL ON FUNCTION increment_page_view(TEXT, TEXT) FROM PUBLIC;
+REVOKE ALL ON FUNCTION increment_page_view(TEXT, TEXT) FROM anon;
+REVOKE ALL ON FUNCTION increment_page_view(TEXT, TEXT) FROM authenticated;
 
 -- ============================================================
--- Done! Your portfolio backend is ready.
---
--- Environment variables needed in Cloudflare:
---   SUPABASE_URL     = https://your-project.supabase.co
---   SUPABASE_ANON_KEY = your-anon-key
+-- Required env variables:
+--   SUPABASE_URL
+--   SUPABASE_ANON_KEY
+--   SUPABASE_SERVICE_ROLE_KEY
 -- ============================================================

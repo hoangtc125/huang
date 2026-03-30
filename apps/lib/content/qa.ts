@@ -1,5 +1,5 @@
 import type { QA } from "./types";
-import raw from "./generated-content.json";
+import qaEntries from "./generated/qa";
 
 type RawEntry = {
   file: string;
@@ -9,7 +9,7 @@ type RawEntry = {
 
 export function getQAs(): QA[] {
   const qas: QA[] = [];
-  const entries = (raw.qa ?? []) as RawEntry[];
+  const entries = qaEntries as unknown as RawEntry[];
 
   for (const entry of entries) {
     const { data, content } = entry;

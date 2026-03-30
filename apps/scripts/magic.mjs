@@ -8,14 +8,18 @@
  *   npm run magic new video "Title"  → Create new video entry from template
  *   npm run magic validate           → Validate all content files
  *   npm run magic list               → List all content
+ *   npm run magic compile            → Compile MD to TSX modules
  */
 
 import fs from "fs";
 import path from "path";
+import { execFileSync } from "child_process";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const CONTENT_ROOT = path.join(__dirname, "..", "content");
+const APP_ROOT = path.join(__dirname, "..");
+const CONTENT_ROOT = path.join(__dirname, "..", "..", "content");
+const COMPILE_SCRIPT = path.join(__dirname, "compile-content.mjs");
 
 // ─── Colors ─────────────────────────────────────────────────────────────────
 const c = {
@@ -102,6 +106,7 @@ ${bold("Commands:")}
   ${cyan("npm run magic")}                      Show this help + content stats
   ${cyan("npm run magic list")}                 List all content files
   ${cyan("npm run magic validate")}             Validate all content files
+  ${cyan("npm run magic compile")}              Compile content to TSX modules
   ${cyan('npm run magic new blog "Title"')}     Create new blog post
   ${cyan('npm run magic new video "Title"')}    Create new video entry
 
@@ -349,6 +354,13 @@ ${bold("Next steps:")}
 `);
 }
 
+function compileContent() {
+  execFileSync(process.execPath, [COMPILE_SCRIPT], {
+    cwd: APP_ROOT,
+    stdio: "inherit",
+  });
+}
+
 // ─── Router ───────────────────────────────────────────────────────────────────
 const [, , cmd, subcmd, ...rest] = process.argv;
 
@@ -358,6 +370,8 @@ if (!cmd || cmd === "help" || cmd === "--help" || cmd === "-h") {
   listContent();
 } else if (cmd === "validate") {
   validateContent();
+} else if (cmd === "compile") {
+  compileContent();
 } else if (cmd === "new") {
   const title = rest.join(" ");
   if (subcmd === "blog") {

@@ -1,6 +1,6 @@
 import { calcReadingTime } from "./utils";
 import type { BlogPost } from "./types";
-import raw from "./generated-content.json";
+import blogEntries from "./generated/blogs";
 
 type RawEntry = {
   file: string;
@@ -15,7 +15,7 @@ export function getBlogPosts(options?: {
 }): BlogPost[] {
   const posts: BlogPost[] = [];
   const publishedOnly = options?.publishedOnly ?? true;
-  const entries = (raw.blogs ?? []) as RawEntry[];
+  const entries = blogEntries as unknown as RawEntry[];
 
   for (const entry of entries) {
     const { data, content } = entry;

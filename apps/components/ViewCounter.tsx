@@ -13,31 +13,32 @@ export default function ViewCounter({ type, slug, className }: Props) {
   const [views, setViews] = useState<number | null>(null);
 
   useEffect(() => {
-    // Fire-and-forget: increment view count, then display the result
-    fetch("/api/views", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ type, slug }),
+    const controller = new AbortController();
+
+    fetch(`/api/views?type=${type}&slug=${slug}`, {
+      signal: controller.signal,
+      cache: "no-store",
     })
-      .then((res) => res.json())
+      .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
-        if (typeof data.views === "number") setViews(data.views);
+        if (typeof data?.views === "number") {
+          setViews(data.views);
+        }
       })
-      .catch(() => {
-        // Fallback: try GET if POST fails
-        fetch(`/api/views?type=${type}&slug=${slug}`)
-          .then((res) => res.json())
-          .then((data) => {
-            if (typeof data.views === "number") setViews(data.views);
-          })
-          .catch(() => {});
-      });
+      .catch(() => {});
+
+    return () => controller.abort();
   }, [type, slug]);
 
   if (views === null) return null;
 
   return (
-    <span className={className ?? "flex items-center gap-1.5 text-xs font-medium text-[hsl(var(--muted-foreground))]"}>
+    <span
+      className={
+        className ??
+        "flex items-center gap-1.5 text-xs font-medium text-[hsl(var(--muted-foreground))]"
+      }
+    >
       <Eye className="w-3.5 h-3.5" />
       {views.toLocaleString()} views
     </span>

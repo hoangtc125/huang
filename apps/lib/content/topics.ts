@@ -1,5 +1,5 @@
 import type { Topic } from "./types";
-import raw from "./generated-content.json";
+import topicEntries from "./generated/topics";
 
 type RawEntry = {
   file: string;
@@ -9,7 +9,7 @@ type RawEntry = {
 
 export function getTopics(): Topic[] {
   const topics: Topic[] = [];
-  const entries = (raw.topics ?? []) as RawEntry[];
+  const entries = topicEntries as unknown as RawEntry[];
 
   for (const entry of entries) {
     const { data } = entry;
