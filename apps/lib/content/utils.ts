@@ -1,9 +1,22 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import { fileURLToPath } from "url";
 
-// Project structure is fixed: apps/ (source) and apps/content/ (markdown content).
-export const CONTENT_ROOT = path.join(process.cwd(), "content");
+// Local/dev/build: run from apps/ so content is ./content
+const CWD_CONTENT_ROOT = path.join(process.cwd(), "content");
+// Cloudflare runtime bundle: content is copied next to server function root
+const BUNDLED_CONTENT_ROOT = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "..",
+  "..",
+  "..",
+  "content"
+);
+
+export const CONTENT_ROOT = fs.existsSync(path.join(CWD_CONTENT_ROOT, "collections"))
+  ? CWD_CONTENT_ROOT
+  : BUNDLED_CONTENT_ROOT;
 
 export function getContentPath(...segments: string[]): string {
   return path.join(CONTENT_ROOT, ...segments);
@@ -13,7 +26,7 @@ export function getCollectionFiles(collection: string): string[] {
   const dir = getContentPath("collections", collection);
   if (!fs.existsSync(dir)) {
     throw new Error(
-      `Missing content directory: ${dir}. Ensure apps/content is included in the build context.`
+      `Missing content directory: ${dir}. Tried CWD root: ${CWD_CONTENT_ROOT} and bundle root: ${BUNDLED_CONTENT_ROOT}.`
     );
   }
   try {
