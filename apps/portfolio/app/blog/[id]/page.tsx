@@ -11,6 +11,7 @@ import TopicBadge from "@/components/TopicBadge";
 import TableOfContents from "@/components/TableOfContents";
 import MobileToc from "@/components/MobileToc";
 import BlogContent from "@/components/BlogContent";
+import ViewCounter from "@/components/ViewCounter";
 
 export async function generateStaticParams() {
   const posts = getBlogPosts();
@@ -119,6 +120,7 @@ export default async function BlogPostPage({
                   <Clock className="w-4 h-4" />
                   {post.readingTime} min read
                 </span>
+                <ViewCounter type="blog" slug={post.slug} />
               </div>
 
               <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[hsl(var(--foreground))] leading-tight">

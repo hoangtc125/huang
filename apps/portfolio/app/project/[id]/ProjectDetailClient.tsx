@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import type { Project, BlogPost } from "@/lib/content/types";
 import PageTransition from "@/components/PageTransition";
 import RelatedContent from "@/components/RelatedContent";
+import ViewCounter from "@/components/ViewCounter";
 
 type Tab = "features" | "architecture" | "gallery";
 
@@ -99,6 +100,7 @@ export default function ProjectDetailClient({ project, relatedBlogs, architectur
                   <span className={cn("w-1.5 h-1.5 rounded-full", statusColors[project.status] ?? "bg-zinc-500")} />
                   {project.status}
                 </span>
+                <ViewCounter type="project" slug={project.slug} className="text-zinc-500 flex items-center gap-1.5 text-sm" />
               </div>
 
               <p className="text-lg text-zinc-400 leading-relaxed max-w-3xl">

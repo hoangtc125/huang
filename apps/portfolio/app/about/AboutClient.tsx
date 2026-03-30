@@ -46,6 +46,35 @@ export default function AboutClient({ qas }: Props) {
   const [openQA, setOpenQA] = useState<number | null>(null);
   const [activeSection, setActiveSection] = useState("bio");
 
+  // Contact form state
+  const [contactForm, setContactForm] = useState({ name: "", email: "", message: "" });
+  const [contactStatus, setContactStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [contactError, setContactError] = useState("");
+
+  const handleContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setContactStatus("sending");
+    setContactError("");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(contactForm),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setContactStatus("error");
+        setContactError(data.error || "Đã có lỗi xảy ra");
+        return;
+      }
+      setContactStatus("sent");
+      setContactForm({ name: "", email: "", message: "" });
+    } catch {
+      setContactStatus("error");
+      setContactError("Không thể kết nối, vui lòng thử lại");
+    }
+  };
+
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
     setActiveSection(id);
@@ -221,33 +250,60 @@ export default function AboutClient({ qas }: Props) {
 
               <form
                 className="space-y-4 bg-zinc-900/30 border border-white/5 p-6 rounded-2xl"
-                onSubmit={(e) => e.preventDefault()}
+                onSubmit={handleContactSubmit}
               >
                 <h3 className="text-lg font-medium text-zinc-200 mb-4">Send a message</h3>
-                {["Name", "Email"].map((field) => (
-                  <div key={field} className="space-y-2">
-                    <label className="text-sm font-medium text-zinc-400">{field}</label>
-                    <input
-                      type={field === "Email" ? "email" : "text"}
-                      className="w-full bg-zinc-900/50 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:border-transparent transition-all"
-                      placeholder={field === "Email" ? "john@example.com" : "John Doe"}
-                    />
-                  </div>
-                ))}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-zinc-400">Name</label>
+                  <input
+                    type="text"
+                    value={contactForm.name}
+                    onChange={(e) => setContactForm((f) => ({ ...f, name: e.target.value }))}
+                    className="w-full bg-zinc-900/50 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:border-transparent transition-all"
+                    placeholder="John Doe"
+                    maxLength={100}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-zinc-400">Email</label>
+                  <input
+                    type="email"
+                    value={contactForm.email}
+                    onChange={(e) => setContactForm((f) => ({ ...f, email: e.target.value }))}
+                    className="w-full bg-zinc-900/50 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:border-transparent transition-all"
+                    placeholder="john@example.com"
+                    maxLength={254}
+                    required
+                  />
+                </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-zinc-400">Message</label>
                   <textarea
                     rows={4}
+                    value={contactForm.message}
+                    onChange={(e) => setContactForm((f) => ({ ...f, message: e.target.value }))}
                     className="w-full bg-zinc-900/50 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:border-transparent transition-all resize-none"
                     placeholder="How can I help you?"
+                    maxLength={2000}
+                    required
                   />
                 </div>
+
+                {contactStatus === "error" && (
+                  <p className="text-sm text-red-400">{contactError}</p>
+                )}
+                {contactStatus === "sent" && (
+                  <p className="text-sm text-emerald-400">Gửi thành công! Cảm ơn bạn đã liên hệ.</p>
+                )}
+
                 <button
                   type="submit"
-                  className="w-full flex items-center justify-center gap-2 bg-zinc-100 text-zinc-900 hover:bg-white font-medium px-4 py-2.5 rounded-lg transition-colors mt-2"
+                  disabled={contactStatus === "sending"}
+                  className="w-full flex items-center justify-center gap-2 bg-zinc-100 text-zinc-900 hover:bg-white font-medium px-4 py-2.5 rounded-lg transition-colors mt-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <Send className="w-4 h-4" />
-                  Send Message
+                  {contactStatus === "sending" ? "Đang gửi..." : "Send Message"}
                 </button>
               </form>
             </div>

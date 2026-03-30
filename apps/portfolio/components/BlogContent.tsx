@@ -23,6 +23,9 @@ function ImageLightbox({
   const lastPos = useRef({ x: 0, y: 0 });
   const imgRef = useRef<HTMLDivElement>(null);
 
+  // Pinch-to-zoom state
+  const pinchRef = useRef({ active: false, startDist: 0, startScale: 1 });
+
   const zoomIn = useCallback(() => setScale((s) => Math.min(s * 1.4, 5)), []);
   const zoomOut = useCallback(() => {
     setScale((s) => {
@@ -60,10 +63,60 @@ function ImageLightbox({
     return () => el.removeEventListener("wheel", handler);
   }, [zoomIn, zoomOut]);
 
+  // Mobile pinch-to-zoom
+  useEffect(() => {
+    const el = imgRef.current;
+    if (!el) return;
+
+    const getTouchDist = (touches: TouchList) => {
+      const dx = touches[0].clientX - touches[1].clientX;
+      const dy = touches[0].clientY - touches[1].clientY;
+      return Math.sqrt(dx * dx + dy * dy);
+    };
+
+    const onTouchStart = (e: TouchEvent) => {
+      if (e.touches.length === 2) {
+        e.preventDefault();
+        pinchRef.current = {
+          active: true,
+          startDist: getTouchDist(e.touches),
+          startScale: scale,
+        };
+      }
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (e.touches.length === 2 && pinchRef.current.active) {
+        e.preventDefault();
+        const dist = getTouchDist(e.touches);
+        const ratio = dist / pinchRef.current.startDist;
+        const newScale = Math.min(Math.max(pinchRef.current.startScale * ratio, 1), 5);
+        setScale(newScale);
+        if (newScale <= 1) setTranslate({ x: 0, y: 0 });
+      }
+    };
+
+    const onTouchEnd = (e: TouchEvent) => {
+      if (e.touches.length < 2) {
+        pinchRef.current.active = false;
+      }
+    };
+
+    el.addEventListener("touchstart", onTouchStart, { passive: false });
+    el.addEventListener("touchmove", onTouchMove, { passive: false });
+    el.addEventListener("touchend", onTouchEnd);
+    return () => {
+      el.removeEventListener("touchstart", onTouchStart);
+      el.removeEventListener("touchmove", onTouchMove);
+      el.removeEventListener("touchend", onTouchEnd);
+    };
+  }, [scale]);
+
   // Pan handlers (mouse drag when zoomed)
   const onPointerDown = useCallback(
     (e: React.PointerEvent) => {
       if (scale <= 1) return;
+      if (e.pointerType === "touch" && pinchRef.current.active) return;
       e.preventDefault();
       dragging.current = true;
       lastPos.current = { x: e.clientX, y: e.clientY };
@@ -87,7 +140,7 @@ function ImageLightbox({
     dragging.current = false;
   }, []);
 
-  // Double-click to toggle zoom
+  // Double-click/tap to toggle zoom
   const onDoubleClick = useCallback(
     (e: React.MouseEvent) => {
       e.stopPropagation();

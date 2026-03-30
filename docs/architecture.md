@@ -2,16 +2,24 @@
 
 ## Overview
 
-Portfolio cá nhân static-first — không có backend, không có CMS. Toàn bộ content được viết bằng Markdown và compile thành static HTML lúc build time.
+Portfolio cá nhân — content từ Markdown, deploy trên Cloudflare Workers, backend nhẹ qua Supabase (contact form + view counting).
 
 ```
 e:/project/huang/
 ├── apps/
 │   └── portfolio/           ← Next.js 15 App Router
-│       ├── app/             ← Pages (RSC + client components)
+│       ├── app/             ← Pages (RSC + client) + API routes
+│       │   └── api/         ← Server-side API (contact, views)
 │       ├── components/      ← Shared UI components
-│       ├── lib/content/     ← Content loader (types + loaders)
-│       └── scripts/         ← magic.mjs CLI tool
+│       ├── lib/
+│       │   ├── content/     ← Content loader (types + loaders)
+│       │   ├── server/      ← Server utilities (api-error)
+│       │   ├── supabase-server.ts  ← Supabase client
+│       │   └── env.server.ts       ← Env validation
+│       ├── supabase/        ← SQL migration scripts
+│       ├── scripts/         ← magic.mjs CLI tool
+│       ├── wrangler.jsonc   ← Cloudflare Worker config
+│       └── open-next.config.ts     ← OpenNext adapter
 ├── content/
 │   ├── static/              ← Dữ liệu tĩnh (profile, skills...)
 │   └── collections/         ← Dynamic content (blogs, projects...)
@@ -28,6 +36,8 @@ e:/project/huang/
 | Language | TypeScript 5.8 |
 | Styling | Tailwind CSS v4 |
 | Animations | Framer Motion (motion/react) |
+| Hosting | Cloudflare Workers (via @opennextjs/cloudflare) |
+| Database | Supabase (PostgreSQL) |
 | Frontmatter parsing | gray-matter |
 | MD → HTML | unified + remark-parse + remark-gfm + remark-rehype + rehype-stringify |
 | Syntax highlighting | rehype-highlight + highlight.js (server-side) |
@@ -164,7 +174,7 @@ Layout và typography được thiết kế mobile-first — styles mặc địn
 
 ### Header
 
-- Mobile: hamburger menu (slide-down), header height `h-14`
+- Mobile: dropdown overlay (absolute, góc phải), backdrop blur, header height `h-14`
 - Desktop (`sm:`): inline nav links, height `h-16`
 - Component: `components/Header.tsx` ("use client" — cần state cho menu toggle)
 
@@ -176,13 +186,13 @@ Layout và typography được thiết kế mobile-first — styles mặc địn
 
 ### Blog List (BlogList)
 
-- Mobile: topic filter là sticky button dưới header (`sticky top-14`), click mở slide-out panel
+- Mobile: topic filter là button góc phải dưới header (`sticky top-14`), click mở dropdown overlay với backdrop blur
 - Desktop (`sm:`): inline flex-wrap topic buttons
 - Post cards: padding và font size giảm trên mobile
 
 ### Blog Detail
 
-- Mobile: TOC (mục lục) là sticky floating button (`components/MobileToc.tsx`), click mở slide-out panel
+- Mobile: TOC (mục lục) là button góc phải trên dưới header (`components/MobileToc.tsx`), click mở dropdown với backdrop blur
 - Desktop (`lg:`): sidebar sticky TOC bên phải (`lg:grid lg:grid-cols-[minmax(0,1fr)_18rem]`)
 - Blog title: `text-2xl → sm:text-4xl → md:text-5xl`
 
@@ -214,3 +224,153 @@ npm run magic list                  # Liệt kê tất cả content
 ```
 
 Script: `apps/portfolio/scripts/magic.mjs` — Node.js ES module, không cần cài thêm deps.
+
+## Cloudflare Deployment
+
+### Kiến trúc
+
+```
+Next.js build
+     │
+     ▼  @opennextjs/cloudflare
+.open-next/
+├── worker.js     ← Cloudflare Worker (SSR + API routes)
+└── assets/       ← Static files (CSS, JS, images)
+     │
+     ▼  wrangler deploy
+Cloudflare Workers + Assets CDN
+```
+
+### Config files
+
+| File | Mục đích |
+|------|---------|
+| `wrangler.jsonc` | Worker name, compatibility flags (`nodejs_compat`), assets binding |
+| `open-next.config.ts` | OpenNext adapter config (có thể bật R2 cache) |
+| `next.config.ts` | Security headers + `initOpenNextCloudflareForDev()` |
+
+### Scripts
+
+```bash
+npm run dev       # Local dev (turbopack)
+npm run build     # Next.js build
+npm run preview   # Build + preview trên Cloudflare local
+npm run deploy    # Build + deploy lên Cloudflare production
+npm run upload    # Build + upload (không activate)
+```
+
+### Security Headers
+
+Tất cả responses đều có:
+- `X-Frame-Options: DENY` — chống clickjacking
+- `X-Content-Type-Options: nosniff` — chống MIME sniffing
+- `Referrer-Policy: strict-origin-when-cross-origin`
+- `X-DNS-Prefetch-Control: on`
+
+### Environment Variables
+
+Cần set trên Cloudflare Dashboard (Workers > Settings > Variables):
+
+| Variable | Mô tả | Bảo mật |
+|----------|-------|---------|
+| `SUPABASE_URL` | URL Supabase project | Server-only (không `NEXT_PUBLIC_`) |
+| `SUPABASE_ANON_KEY` | Publishable anon key | Server-only (không `NEXT_PUBLIC_`) |
+
+## Supabase Backend
+
+### Tổng quan
+
+Supabase cung cấp 2 tính năng:
+1. **Contact form** — lưu tin nhắn liên hệ từ trang About
+2. **View counting** — đếm lượt xem cho blog, project, video
+
+### Database Schema
+
+```
+contacts
+├── id           BIGINT (auto)
+├── name         TEXT (max 100)
+├── email        TEXT (max 254)
+├── message      TEXT (max 2000)
+└── created_at   TIMESTAMPTZ
+
+page_views
+├── id              BIGINT (auto)
+├── resource_type   TEXT ('blog' | 'project' | 'video')
+├── slug            TEXT (max 200)
+├── view_count      BIGINT (default 0)
+├── created_at      TIMESTAMPTZ
+├── updated_at      TIMESTAMPTZ
+└── UNIQUE (resource_type, slug)
+```
+
+### RPC Functions
+
+- `increment_page_view(p_resource_type, p_slug)` — atomic upsert + increment, trả về view count mới. An toàn race condition nhờ `ON CONFLICT DO UPDATE`.
+
+### Row Level Security (RLS)
+
+| Table | Policy | Quyền |
+|-------|--------|-------|
+| `contacts` | `anon_insert_contacts` | Anon chỉ được INSERT |
+| `page_views` | `anon_read_page_views` | Anon được SELECT |
+| `page_views` | `anon_upsert_page_views` | Anon được INSERT (qua RPC) |
+| `page_views` | `anon_update_page_views` | Anon được UPDATE (qua RPC) |
+
+> Không có policy SELECT cho `contacts` → client không thể đọc danh sách contact. Chỉ admin qua Supabase Dashboard mới xem được.
+
+### API Routes
+
+```
+POST /api/contact
+├── Input: { name, email, message }
+├── Validation: required fields, email regex, max length
+├── Action: INSERT vào contacts table
+└── Response: { success: true } | { error: "..." }
+
+POST /api/views
+├── Input: { type: "blog"|"project"|"video", slug: "..." }
+├── Validation: whitelist type, regex slug
+├── Action: RPC increment_page_view (atomic upsert)
+└── Response: { views: number }
+
+GET /api/views?type=blog&slug=my-post
+├── Validation: whitelist type, regex slug
+├── Action: SELECT view_count
+└── Response: { views: number }
+```
+
+### Bảo mật
+
+1. **Env vars server-only** — `SUPABASE_URL` và `SUPABASE_ANON_KEY` không có prefix `NEXT_PUBLIC_`, chỉ accessible trong API routes
+2. **Parameterized queries** — Supabase SDK tự escape tất cả values, không SQL injection
+3. **Input validation** — tất cả input được validate (type, length, regex) trước khi query
+4. **Error masking** — server log chi tiết error, client chỉ nhận generic message
+5. **RLS** — database-level access control, ngay cả khi bypass API
+6. **No auth required** — portfolio public, dùng anon key với RLS restricted
+
+### Luồng dữ liệu
+
+```
+User mở blog post
+     │
+     ▼ ViewCounter component (client)
+POST /api/views { type: "blog", slug: "my-post" }
+     │
+     ▼ API route (server)
+     Validate input → Supabase RPC increment_page_view
+     │
+     ▼ Supabase (database)
+     UPSERT page_views SET view_count = view_count + 1
+     │
+     ▼ Response
+     { views: 42 } → hiển thị "42 views" trên UI
+```
+
+### Server Utilities
+
+| File | Mục đích |
+|------|---------|
+| `lib/env.server.ts` | `requireEnv()` — throw nếu thiếu env var |
+| `lib/supabase-server.ts` | `createSupabaseServerClient()` — tạo Supabase client |
+| `lib/server/api-error.ts` | `dbError()` — log thật, trả generic message |

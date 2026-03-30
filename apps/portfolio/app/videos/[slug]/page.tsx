@@ -7,6 +7,7 @@ import { getBlogsBySlugs } from "@/lib/content/blogs";
 import YouTubeEmbed from "@/components/YouTubeEmbed";
 import RelatedContent from "@/components/RelatedContent";
 import PageTransition from "@/components/PageTransition";
+import ViewCounter from "@/components/ViewCounter";
 
 export async function generateStaticParams() {
   const videos = getVideos();
@@ -96,7 +97,7 @@ export default async function VideoDetailPage({
                   {video.duration}
                 </span>
               )}
-              {video.views && <span>{video.views} views</span>}
+              <ViewCounter type="video" slug={video.slug} className="flex items-center gap-1.5 text-sm text-zinc-500" />
             </div>
 
             {video.tags.length > 0 && (
