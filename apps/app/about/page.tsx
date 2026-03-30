@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { getQAs } from "@/lib/content/qa";
 import AboutClient from "./AboutClient";
 
+export const dynamic = "force-static";
+
 export const metadata: Metadata = {
   title: "About | Huang Workspace",
   description:

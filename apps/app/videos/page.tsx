@@ -4,6 +4,8 @@ import { Clock, Eye, Tag } from "lucide-react";
 import { getVideos } from "@/lib/content/videos";
 import PageTransition from "@/components/PageTransition";
 
+export const dynamic = "force-static";
+
 export const metadata: Metadata = {
   title: "Videos | Huang Workspace",
   description:

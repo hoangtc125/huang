@@ -3,6 +3,8 @@ import { getBlogPosts } from "@/lib/content/blogs";
 import { getTopics } from "@/lib/content/topics";
 import BlogList from "./BlogList";
 
+export const dynamic = "force-static";
+
 export const metadata: Metadata = {
   title: "Blog | Huang Workspace",
   description:

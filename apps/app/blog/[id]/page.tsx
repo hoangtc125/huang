@@ -13,6 +13,9 @@ import MobileToc from "@/components/MobileToc";
 import BlogContent from "@/components/BlogContent";
 import ViewCounter from "@/components/ViewCounter";
 
+export const dynamic = "force-static";
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   const posts = getBlogPosts();
   return posts.map((post) => ({ id: post.slug }));
@@ -177,4 +180,3 @@ export default async function BlogPostPage({
     </>
   );
 }
-

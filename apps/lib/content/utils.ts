@@ -10,7 +10,6 @@ const BUNDLED_CONTENT_ROOT = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
   "..",
   "..",
-  "..",
   "content"
 );
 

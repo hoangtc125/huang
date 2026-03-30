@@ -5,6 +5,8 @@ import { getTopics } from "@/lib/content/topics";
 import { getBlogPosts } from "@/lib/content/blogs";
 import PageTransition from "@/components/PageTransition";
 
+export const dynamic = "force-static";
+
 export const metadata: Metadata = {
   title: "Topics | Huang Workspace",
   description:
