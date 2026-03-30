@@ -2,8 +2,8 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 
-// Content root is at <repo-root>/content, 2 levels up from apps/portfolio
-export const CONTENT_ROOT = path.join(process.cwd(), "..", "..", "content");
+// Self-contained app content root at <apps/portfolio>/content
+export const CONTENT_ROOT = path.join(process.cwd(), "content");
 
 export function getContentPath(...segments: string[]): string {
   return path.join(CONTENT_ROOT, ...segments);
@@ -11,6 +11,11 @@ export function getContentPath(...segments: string[]): string {
 
 export function getCollectionFiles(collection: string): string[] {
   const dir = getContentPath("collections", collection);
+  if (!fs.existsSync(dir)) {
+    throw new Error(
+      `Missing content directory: ${dir}. Ensure apps/portfolio/content is included in the build context.`
+    );
+  }
   try {
     return fs
       .readdirSync(dir)

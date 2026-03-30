@@ -15,7 +15,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const CONTENT_ROOT = path.join(__dirname, "..", "..", "..", "content");
+const CONTENT_ROOT = path.join(__dirname, "..", "content");
 
 // ─── Colors ─────────────────────────────────────────────────────────────────
 const c = {
