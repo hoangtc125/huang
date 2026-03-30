@@ -12,7 +12,7 @@ const TABS: { id: ProjectType | "all"; label: string; icon: ReactNode }[] = [
   { id: "all", label: "Projects", icon: <Code className="w-4 h-4" /> },
   { id: "web", label: "Web", icon: <Globe className="w-4 h-4" /> },
   { id: "app", label: "Apps", icon: <Smartphone className="w-4 h-4" /> },
-  { id: "extension", label: "Extensions", icon: <Code className="w-4 h-4" /> },
+  { id: "extension", label: "Ext", icon: <Code className="w-4 h-4" /> },
 ];
 
 const statusColors: Record<string, string> = {

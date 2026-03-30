@@ -169,6 +169,15 @@ function HtmlRenderer({
     const container = containerRef.current;
     if (!container) return;
 
+    // Wrap tables in scroll container for mobile
+    container.querySelectorAll("table").forEach((table) => {
+      if (table.parentElement?.classList.contains("table-scroll-wrapper")) return;
+      const wrapper = document.createElement("div");
+      wrapper.className = "table-scroll-wrapper";
+      table.parentNode!.insertBefore(wrapper, table);
+      wrapper.appendChild(table);
+    });
+
     container.querySelectorAll("pre").forEach((pre) => {
       if (pre.querySelector(".code-actions")) return;
       pre.style.position = "relative";

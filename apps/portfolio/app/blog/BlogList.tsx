@@ -103,27 +103,37 @@ export default function BlogList({ posts, topics }: Props) {
               })}
             </motion.div>
 
-            {/* Mobile sticky filter button */}
+            {/* Mobile filter — sticky bar with absolute dropdown */}
             <div className="sm:hidden sticky top-14 z-40">
-              <button
-                onClick={() => setFilterOpen((v) => !v)}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[hsl(var(--card)/0.8)] border border-[hsl(var(--border)/0.45)] backdrop-blur-md text-sm font-medium text-[hsl(var(--foreground))] shadow-lg w-full justify-between"
-              >
-                <span className="flex items-center gap-2">
+              <div className="flex justify-end">
+                <button
+                  onClick={() => setFilterOpen((v) => !v)}
+                  className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[hsl(var(--card)/0.8)] border border-[hsl(var(--border)/0.45)] backdrop-blur-md text-sm font-medium text-[hsl(var(--foreground))] shadow-lg"
+                >
                   <Filter className="w-4 h-4" />
                   {activeTopicLabel}
-                </span>
-                {filterOpen ? <X className="w-4 h-4" /> : <span className="text-xs text-[hsl(var(--muted-foreground))]">{filtered.length} posts</span>}
-              </button>
+                  <span className="text-xs text-[hsl(var(--muted-foreground))]">({filtered.length})</span>
+                </button>
+              </div>
 
-              {/* Slide-out filter panel */}
+              {/* Backdrop blur */}
+              {filterOpen && (
+                <div
+                  className="fixed inset-0 top-14 z-40 bg-black/40 backdrop-blur-sm"
+                  onClick={() => setFilterOpen(false)}
+                />
+              )}
+
+              {/* Dropdown panel — absolute, right-aligned */}
               <div
                 className={cn(
-                  "overflow-hidden transition-all duration-300 mt-2 rounded-xl border border-[hsl(var(--border)/0.45)] bg-[hsl(var(--card)/0.9)] backdrop-blur-md shadow-lg",
-                  filterOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0 border-0"
+                  "absolute right-0 mt-2 z-50 w-64 rounded-xl border border-[hsl(var(--border)/0.45)] bg-[hsl(var(--background)/0.95)] backdrop-blur-md shadow-xl transition-all duration-200 origin-top-right",
+                  filterOpen
+                    ? "opacity-100 scale-100 pointer-events-auto"
+                    : "opacity-0 scale-95 pointer-events-none"
                 )}
               >
-                <div className="flex flex-wrap gap-2 p-4">
+                <div className="flex flex-wrap gap-2 p-3">
                   <button
                     onClick={() => handleTopicSelect("all")}
                     className={cn(
