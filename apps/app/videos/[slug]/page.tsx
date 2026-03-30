@@ -10,7 +10,6 @@ import PageTransition from "@/components/PageTransition";
 import ViewCounter from "@/components/ViewCounter";
 
 export const dynamic = "force-static";
-export const dynamicParams = false;
 
 export async function generateStaticParams() {
   const videos = getVideos();

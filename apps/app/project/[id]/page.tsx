@@ -6,7 +6,6 @@ import { markdownToHtml } from "@/lib/content/utils";
 import ProjectDetailClient from "./ProjectDetailClient";
 
 export const dynamic = "force-static";
-export const dynamicParams = false;
 
 // ── Static generation ─────────────────────────────────────────────────────
 export async function generateStaticParams() {
