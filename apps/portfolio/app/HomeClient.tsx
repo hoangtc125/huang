@@ -9,7 +9,7 @@ import type { Project, ProjectType } from "@/lib/content/types";
 import PageTransition from "@/components/PageTransition";
 
 const TABS: { id: ProjectType | "all"; label: string; icon: ReactNode }[] = [
-  { id: "all", label: "All Projects", icon: <Code className="w-4 h-4" /> },
+  { id: "all", label: "Projects", icon: <Code className="w-4 h-4" /> },
   { id: "web", label: "Web", icon: <Globe className="w-4 h-4" /> },
   { id: "app", label: "Apps", icon: <Smartphone className="w-4 h-4" /> },
   { id: "extension", label: "Extensions", icon: <Code className="w-4 h-4" /> },
@@ -38,7 +38,7 @@ export default function HomeClient({ projects }: { projects: Project[] }) {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.1 }}
-            className="text-3xl md:text-4xl font-medium tracking-tight text-[hsl(var(--muted-foreground))]"
+            className="text-2xl sm:text-3xl md:text-4xl font-medium tracking-tight text-[hsl(var(--muted-foreground))]"
           >
             Hey, I&apos;m not {" "} 
             <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-rose-200 via-amber-100 to-rose-300 animate-text-shimmer">
@@ -49,7 +49,7 @@ export default function HomeClient({ projects }: { projects: Project[] }) {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-base md:text-lg text-[hsl(var(--muted-foreground))] font-medium tracking-tight"
+            className="text-sm sm:text-base md:text-lg text-[hsl(var(--muted-foreground))] font-medium tracking-tight"
           >
             Software Engineer <span className="text-[hsl(var(--muted-foreground)/0.7)]">and</span> Technical
             Content Specialist
@@ -68,14 +68,14 @@ export default function HomeClient({ projects }: { projects: Project[] }) {
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
                   className={cn(
-                    "flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200",
+                    "flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-2 rounded-md text-sm font-medium transition-all duration-200",
                     activeTab === tab.id
                       ? "bg-[hsl(var(--card)/0.65)] text-[hsl(var(--foreground))] shadow-sm"
                       : "text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] hover:bg-[hsl(var(--card)/0.45)]"
                   )}
                 >
                   {tab.icon}
-                  <span className="hidden sm:inline">{tab.label}</span>
+                  <span className="text-xs sm:text-sm">{tab.label}</span>
                 </button>
               ))}
             </div>
@@ -94,7 +94,7 @@ export default function HomeClient({ projects }: { projects: Project[] }) {
                 >
                   <Link
                     href={`/project/${project.slug}`}
-                    className="group flex items-center gap-4 md:gap-6 p-4 rounded-2xl bg-[hsl(var(--card)/0.25)] border border-[hsl(var(--border)/0.45)] hover:bg-[hsl(var(--card)/0.55)] transition-all duration-300"
+                    className="group flex items-center gap-4 md:gap-6 p-4 sm:p-5 rounded-2xl bg-[hsl(var(--card)/0.25)] border border-[hsl(var(--border)/0.45)] hover:bg-[hsl(var(--card)/0.55)] transition-all duration-300"
                   >
                     {project.iconUrl ? (
                       <img
@@ -125,7 +125,7 @@ export default function HomeClient({ projects }: { projects: Project[] }) {
                         )}
                       </div>
 
-                      <p className="text-sm text-[hsl(var(--muted-foreground))] line-clamp-1 md:line-clamp-2 mb-2">
+                      <p className="text-sm text-[hsl(var(--muted-foreground))] line-clamp-2 mb-2">
                         {project.shortDesc}
                       </p>
 

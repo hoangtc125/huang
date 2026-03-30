@@ -9,6 +9,7 @@ import { markdownToHtml, extractToc } from "@/lib/content/utils";
 import RelatedContent from "@/components/RelatedContent";
 import TopicBadge from "@/components/TopicBadge";
 import TableOfContents from "@/components/TableOfContents";
+import MobileToc from "@/components/MobileToc";
 import BlogContent from "@/components/BlogContent";
 
 export async function generateStaticParams() {
@@ -99,16 +100,7 @@ export default async function BlogPostPage({
           Back to Blog
         </Link>
 
-        {toc.length > 0 && (
-          <details className="lg:hidden rounded-2xl border border-[hsl(var(--border)/0.45)] bg-[hsl(var(--card)/0.35)] p-4">
-            <summary className="cursor-pointer select-none text-sm font-semibold text-[hsl(var(--foreground))]">
-              Mục lục
-            </summary>
-            <div className="pt-4">
-              <TableOfContents items={toc} />
-            </div>
-          </details>
-        )}
+        <MobileToc items={toc} />
 
         <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_18rem] lg:gap-10 lg:items-start">
           <article className="space-y-8">
@@ -129,7 +121,7 @@ export default async function BlogPostPage({
                 </span>
               </div>
 
-              <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-[hsl(var(--foreground))] leading-tight">
+              <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[hsl(var(--foreground))] leading-tight">
                 {post.title}
               </h1>
 

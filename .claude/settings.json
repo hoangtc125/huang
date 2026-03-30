@@ -3,7 +3,10 @@
     "allow": [
       "Bash(grep -r \"pre\\\\|code\" e:/project/huang/apps/portfolio/lib --include=*.tsx --include=*.ts)",
       "Bash(find e:/project/huang/content/collections/blogs -type f -name *.md)",
-      "Bash(find E:/project/smashmate-apps/apps -name proxy.ts -o -name wrangler.toml -o -name .env*)"
+      "Bash(find E:/project/smashmate-apps/apps -name proxy.ts -o -name wrangler.toml -o -name .env*)",
+      "Bash(grep -r \"sm:\\\\|md:\\\\|lg:\\\\|xl:\" e:/project/huang/apps/portfolio/app/*.tsx e:/project/huang/apps/portfolio/components/*.tsx)",
+      "Bash(npx --yes sharp-cli -i \"e:/project/huang/apps/portfolio/public/images/ava.jpg\" -o \"e:/project/huang/apps/portfolio/app/icon.png\" resize 180 180)",
+      "Bash(npx --yes sharp-cli -i \"e:/project/huang/apps/portfolio/public/images/ava.jpg\" -o \"e:/project/huang/apps/portfolio/app/apple-icon.png\" resize 180 180)"
     ]
   }
 }

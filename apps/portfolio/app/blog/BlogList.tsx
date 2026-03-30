@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion } from "motion/react";
 import Link from "next/link";
-import { Calendar, Clock, ArrowRight } from "lucide-react";
+import { Calendar, Clock, ArrowRight, Filter, X } from "lucide-react";
 import type { BlogPost, Topic } from "@/lib/content/types";
 import { cn } from "@/lib/utils";
 import PageTransition from "@/components/PageTransition";
@@ -24,11 +24,20 @@ const TOPIC_COLORS: Record<string, string> = {
 
 export default function BlogList({ posts, topics }: Props) {
   const [activeTopic, setActiveTopic] = useState<string>("all");
+  const [filterOpen, setFilterOpen] = useState(false);
 
   const filtered =
     activeTopic === "all" ? posts : posts.filter((p) => p.topic === activeTopic);
 
   const topicMap = Object.fromEntries(topics.map((t) => [t.slug, t]));
+
+  const activeTopicLabel =
+    activeTopic === "all" ? "All" : topicMap[activeTopic]?.title ?? activeTopic;
+
+  const handleTopicSelect = (slug: string) => {
+    setActiveTopic(slug);
+    setFilterOpen(false);
+  };
 
   return (
     <PageTransition>
@@ -52,45 +61,103 @@ export default function BlogList({ posts, topics }: Props) {
           </motion.p>
         </section>
 
-        {/* Topic Filter */}
+        {/* Topic Filter — Desktop: inline, Mobile: sticky button + slide-out */}
         {topics.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15 }}
-            className="flex flex-wrap gap-2"
-          >
-            <button
-              onClick={() => setActiveTopic("all")}
-              className={cn(
-                "px-3 py-1.5 rounded-lg text-sm font-medium border transition-all",
-                activeTopic === "all"
-                  ? "bg-rose-200 text-[#2b1216] border-rose-200"
-                  : "bg-transparent text-[hsl(var(--muted-foreground))] border-[hsl(var(--border)/0.45)] hover:border-[hsl(var(--border)/0.7)] hover:text-[hsl(var(--foreground))]"
-              )}
+          <>
+            {/* Desktop filter */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15 }}
+              className="hidden sm:flex flex-wrap gap-2"
             >
-              All
-            </button>
-            {topics.map((topic) => {
-              const colorCls = TOPIC_COLORS[topic.color] ?? TOPIC_COLORS.indigo;
-              const isActive = activeTopic === topic.slug;
-              return (
-                <button
-                  key={topic.slug}
-                  onClick={() => setActiveTopic(topic.slug)}
-                  className={cn(
-                    "px-3 py-1.5 rounded-lg text-sm font-medium border transition-all",
-                    isActive
-                      ? colorCls
-                      : "bg-transparent text-[hsl(var(--muted-foreground))] border-[hsl(var(--border)/0.45)] hover:border-[hsl(var(--border)/0.7)] hover:text-[hsl(var(--foreground))]"
-                  )}
-                >
-                  {topic.icon && <span className="mr-1.5">{topic.icon}</span>}
-                  {topic.title}
-                </button>
-              );
-            })}
-          </motion.div>
+              <button
+                onClick={() => setActiveTopic("all")}
+                className={cn(
+                  "px-3 py-1.5 rounded-lg text-sm font-medium border transition-all",
+                  activeTopic === "all"
+                    ? "bg-rose-200 text-[#2b1216] border-rose-200"
+                    : "bg-transparent text-[hsl(var(--muted-foreground))] border-[hsl(var(--border)/0.45)] hover:border-[hsl(var(--border)/0.7)] hover:text-[hsl(var(--foreground))]"
+                )}
+              >
+                All
+              </button>
+              {topics.map((topic) => {
+                const colorCls = TOPIC_COLORS[topic.color] ?? TOPIC_COLORS.indigo;
+                const isActive = activeTopic === topic.slug;
+                return (
+                  <button
+                    key={topic.slug}
+                    onClick={() => setActiveTopic(topic.slug)}
+                    className={cn(
+                      "px-3 py-1.5 rounded-lg text-sm font-medium border transition-all",
+                      isActive
+                        ? colorCls
+                        : "bg-transparent text-[hsl(var(--muted-foreground))] border-[hsl(var(--border)/0.45)] hover:border-[hsl(var(--border)/0.7)] hover:text-[hsl(var(--foreground))]"
+                    )}
+                  >
+                    {topic.icon && <span className="mr-1.5">{topic.icon}</span>}
+                    {topic.title}
+                  </button>
+                );
+              })}
+            </motion.div>
+
+            {/* Mobile sticky filter button */}
+            <div className="sm:hidden sticky top-14 z-40">
+              <button
+                onClick={() => setFilterOpen((v) => !v)}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[hsl(var(--card)/0.8)] border border-[hsl(var(--border)/0.45)] backdrop-blur-md text-sm font-medium text-[hsl(var(--foreground))] shadow-lg w-full justify-between"
+              >
+                <span className="flex items-center gap-2">
+                  <Filter className="w-4 h-4" />
+                  {activeTopicLabel}
+                </span>
+                {filterOpen ? <X className="w-4 h-4" /> : <span className="text-xs text-[hsl(var(--muted-foreground))]">{filtered.length} posts</span>}
+              </button>
+
+              {/* Slide-out filter panel */}
+              <div
+                className={cn(
+                  "overflow-hidden transition-all duration-300 mt-2 rounded-xl border border-[hsl(var(--border)/0.45)] bg-[hsl(var(--card)/0.9)] backdrop-blur-md shadow-lg",
+                  filterOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0 border-0"
+                )}
+              >
+                <div className="flex flex-wrap gap-2 p-4">
+                  <button
+                    onClick={() => handleTopicSelect("all")}
+                    className={cn(
+                      "px-3 py-1.5 rounded-lg text-sm font-medium border transition-all",
+                      activeTopic === "all"
+                        ? "bg-rose-200 text-[#2b1216] border-rose-200"
+                        : "bg-transparent text-[hsl(var(--muted-foreground))] border-[hsl(var(--border)/0.45)]"
+                    )}
+                  >
+                    All
+                  </button>
+                  {topics.map((topic) => {
+                    const colorCls = TOPIC_COLORS[topic.color] ?? TOPIC_COLORS.indigo;
+                    const isActive = activeTopic === topic.slug;
+                    return (
+                      <button
+                        key={topic.slug}
+                        onClick={() => handleTopicSelect(topic.slug)}
+                        className={cn(
+                          "px-3 py-1.5 rounded-lg text-sm font-medium border transition-all",
+                          isActive
+                            ? colorCls
+                            : "bg-transparent text-[hsl(var(--muted-foreground))] border-[hsl(var(--border)/0.45)]"
+                        )}
+                      >
+                        {topic.icon && <span className="mr-1.5">{topic.icon}</span>}
+                        {topic.title}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </>
         )}
 
         {/* Post List */}
@@ -112,11 +179,11 @@ export default function BlogList({ posts, topics }: Props) {
                 >
                   <Link
                     href={`/blog/${post.slug}`}
-                    className="group block p-6 rounded-2xl bg-[hsl(var(--card)/0.35)] border border-[hsl(var(--border)/0.45)] hover:bg-[hsl(var(--card)/0.55)] transition-all duration-300"
+                    className="group block p-4 sm:p-6 rounded-2xl bg-[hsl(var(--card)/0.35)] border border-[hsl(var(--border)/0.45)] hover:bg-[hsl(var(--card)/0.55)] transition-all duration-300"
                   >
-                    <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-3 sm:gap-4">
                       {/* Meta */}
-                      <div className="flex items-center gap-3 flex-wrap">
+                      <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
                         {topic && (
                           <span
                             className={cn(
@@ -144,28 +211,28 @@ export default function BlogList({ posts, topics }: Props) {
 
                       {/* Content */}
                       <div className="space-y-2">
-                        <h2 className="text-xl font-semibold text-zinc-100 group-hover:text-white transition-colors">
+                        <h2 className="text-lg sm:text-xl font-semibold text-zinc-100 group-hover:text-white transition-colors">
                           {post.title}
                         </h2>
-                        <p className="text-[hsl(var(--muted-foreground))] leading-relaxed line-clamp-2">
+                        <p className="text-sm sm:text-base text-[hsl(var(--muted-foreground))] leading-relaxed line-clamp-2">
                           {post.description}
                         </p>
                       </div>
 
                       {/* Footer */}
-                      <div className="flex items-center justify-between mt-2">
+                      <div className="flex items-center justify-between mt-1 sm:mt-2">
                         <div className="flex items-center gap-2 flex-wrap">
                           {post.tags.slice(0, 3).map((tag) => (
                             <span
                               key={tag}
-                              className="px-2.5 py-1 rounded-md bg-[hsl(var(--card)/0.35)] border border-[hsl(var(--border)/0.35)] text-xs font-medium text-[hsl(var(--muted-foreground))]"
+                              className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md bg-[hsl(var(--card)/0.35)] border border-[hsl(var(--border)/0.35)] text-xs font-medium text-[hsl(var(--muted-foreground))]"
                             >
                               {tag}
                             </span>
                           ))}
                         </div>
                         <div className="flex items-center gap-2 text-sm font-medium text-[hsl(var(--muted-foreground))] group-hover:text-[hsl(var(--foreground))] transition-colors shrink-0">
-                          Read article
+                          <span className="hidden sm:inline">Read article</span>
                           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </div>
                       </div>

@@ -149,6 +149,43 @@ Các references được resolve lúc build và render thành `RelatedContent` c
 
 Tốt cho performance: không load iframe/YouTube JS cho mỗi video card.
 
+## Mobile-First Responsive Design
+
+Layout và typography được thiết kế mobile-first — styles mặc định cho màn hình nhỏ, scale up qua breakpoints.
+
+### Breakpoints
+
+| Breakpoint | Ý nghĩa |
+|-----------|---------|
+| Default | Mobile (<640px) |
+| `sm:` (640px) | Tablet nhỏ |
+| `md:` (768px) | Tablet / laptop nhỏ |
+| `lg:` (1024px) | Desktop (sidebar layouts) |
+
+### Header
+
+- Mobile: hamburger menu (slide-down), header height `h-14`
+- Desktop (`sm:`): inline nav links, height `h-16`
+- Component: `components/Header.tsx` ("use client" — cần state cho menu toggle)
+
+### Landing Page (HomeClient)
+
+- **Hero**: font size scale `text-2xl → sm:text-3xl → md:text-4xl` để title/subtitle vừa 1 dòng trên mobile
+- **Garden tabs**: luôn hiện cả icon + text label (text nhỏ hơn trên mobile: `text-xs → sm:text-sm`)
+- **Project cards**: description hiện 2 dòng (`line-clamp-2`) trên mọi breakpoint; padding lớn hơn trên `sm:`
+
+### Blog List (BlogList)
+
+- Mobile: topic filter là sticky button dưới header (`sticky top-14`), click mở slide-out panel
+- Desktop (`sm:`): inline flex-wrap topic buttons
+- Post cards: padding và font size giảm trên mobile
+
+### Blog Detail
+
+- Mobile: TOC (mục lục) là sticky floating button (`components/MobileToc.tsx`), click mở slide-out panel
+- Desktop (`lg:`): sidebar sticky TOC bên phải (`lg:grid lg:grid-cols-[minmax(0,1fr)_18rem]`)
+- Blog title: `text-2xl → sm:text-4xl → md:text-5xl`
+
 ## RSC + Client Split Pattern
 
 Khi page cần cả data fetching và interactivity:
