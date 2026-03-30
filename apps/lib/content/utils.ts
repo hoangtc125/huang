@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 
-// Self-contained app content root at <apps/portfolio>/content
+// Project structure is fixed: apps/ (source) and apps/content/ (markdown content).
 export const CONTENT_ROOT = path.join(process.cwd(), "content");
 
 export function getContentPath(...segments: string[]): string {
@@ -13,7 +13,7 @@ export function getCollectionFiles(collection: string): string[] {
   const dir = getContentPath("collections", collection);
   if (!fs.existsSync(dir)) {
     throw new Error(
-      `Missing content directory: ${dir}. Ensure apps/portfolio/content is included in the build context.`
+      `Missing content directory: ${dir}. Ensure apps/content is included in the build context.`
     );
   }
   try {

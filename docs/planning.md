@@ -1,127 +1,129 @@
-# Planning - Hoàn thiện nội dung Portfolio
+﻿# Planning - HoÃ n thiá»‡n ná»™i dung Portfolio
 
-## Trạng thái hiện tại
+## Tráº¡ng thÃ¡i hiá»‡n táº¡i
 
-- [x] Chuyển đổi từ Vite + React Router → Next.js App Router
-- [x] Build thành công, UI giữ nguyên
-- [ ] **Kết nối app với content markdown files** (hiện app đang dùng `data.ts` hardcoded)
-- [ ] Điền thông tin thật vào content files
-- [ ] Build content-loader để parse markdown → inject vào components
-
----
-
-## Vấn đề cần giải quyết
-
-> App hiện đang đọc data từ `apps/portfolio/data.ts` (hardcoded).
-> Theo kiến trúc, data phải được đọc từ `content/` markdown files.
-> Cần build content-loader (`packages/content-loader/`) để parse MD → data cho app.
+- [x] Chuyá»ƒn Ä‘á»•i tá»« Vite + React Router â†’ Next.js App Router
+- [x] Build thÃ nh cÃ´ng, UI giá»¯ nguyÃªn
+- [ ] **Káº¿t ná»‘i app vá»›i content markdown files** (hiá»‡n app Ä‘ang dÃ¹ng `data.ts` hardcoded)
+- [ ] Äiá»n thÃ´ng tin tháº­t vÃ o content files
+- [ ] Build content-loader Ä‘á»ƒ parse markdown â†’ inject vÃ o components
 
 ---
 
-## Danh sách file content cần điền
+## Váº¥n Ä‘á» cáº§n giáº£i quyáº¿t
 
-### 1. Static Content — `content/static/`
+> App hiá»‡n Ä‘ang Ä‘á»c data tá»« `apps/data.ts` (hardcoded).
+> Theo kiáº¿n trÃºc, data pháº£i Ä‘Æ°á»£c Ä‘á»c tá»« `content/` markdown files.
+> Cáº§n build content-loader (`packages/content-loader/`) Ä‘á»ƒ parse MD â†’ data cho app.
 
-Thông tin cố định, compile lúc build. **Sửa file → rebuild → cập nhật.**
+---
+
+## Danh sÃ¡ch file content cáº§n Ä‘iá»n
+
+### 1. Static Content â€” `apps/content/static/`
+
+ThÃ´ng tin cá»‘ Ä‘á»‹nh, compile lÃºc build. **Sá»­a file â†’ rebuild â†’ cáº­p nháº­t.**
 
 #### `content/static/profile.md`
-- [ ] `name` — Họ tên đầy đủ (hiện: "Nguyen Van A")
-- [ ] `nickname` — Nickname (hiện: "Huang")
-- [ ] `title` — Chức danh (hiện: "Full-stack Developer")
-- [ ] `email` — Email liên hệ (hiện: "your@email.com")
-- [ ] `phone` — Số điện thoại
-- [ ] `location` — Địa điểm
-- [ ] `website` — URL website
-- [ ] `socials.github` — GitHub URL
-- [ ] `socials.linkedin` — LinkedIn URL
-- [ ] `socials.twitter` — Twitter URL (hoặc bỏ nếu không dùng)
-- [ ] `avatar` — Ảnh đại diện (đặt vào `apps/portfolio/public/images/`)
-- [ ] `og_image` — Ảnh Open Graph cho SEO
+- [ ] `name` â€” Há» tÃªn Ä‘áº§y Ä‘á»§ (hiá»‡n: "Nguyen Van A")
+- [ ] `nickname` â€” Nickname (hiá»‡n: "Huang")
+- [ ] `title` â€” Chá»©c danh (hiá»‡n: "Full-stack Developer")
+- [ ] `email` â€” Email liÃªn há»‡ (hiá»‡n: "your@email.com")
+- [ ] `phone` â€” Sá»‘ Ä‘iá»‡n thoáº¡i
+- [ ] `location` â€” Äá»‹a Ä‘iá»ƒm
+- [ ] `website` â€” URL website
+- [ ] `socials.github` â€” GitHub URL
+- [ ] `socials.linkedin` â€” LinkedIn URL
+- [ ] `socials.twitter` â€” Twitter URL (hoáº·c bá» náº¿u khÃ´ng dÃ¹ng)
+- [ ] `avatar` â€” áº¢nh Ä‘áº¡i diá»‡n (Ä‘áº·t vÃ o `apps/public/images/`)
+- [ ] `og_image` â€” áº¢nh Open Graph cho SEO
 
 #### `content/static/about.md`
-- [ ] `headline` — Tagline ngắn (hiện: "Crafting digital experiences with passion")
-- [ ] `years_of_experience` — Số năm kinh nghiệm (hiện: 3)
-- [ ] `available_for_hire` — Có nhận việc không (true/false)
-- [ ] `resume_url` — Link CV/Resume PDF
-- [ ] **Body content** — Viết giới thiệu bản thân bằng Markdown (phần sau `---`)
+- [ ] `headline` â€” Tagline ngáº¯n (hiá»‡n: "Crafting digital experiences with passion")
+- [ ] `years_of_experience` â€” Sá»‘ nÄƒm kinh nghiá»‡m (hiá»‡n: 3)
+- [ ] `available_for_hire` â€” CÃ³ nháº­n viá»‡c khÃ´ng (true/false)
+- [ ] `resume_url` â€” Link CV/Resume PDF
+- [ ] **Body content** â€” Viáº¿t giá»›i thiá»‡u báº£n thÃ¢n báº±ng Markdown (pháº§n sau `---`)
 
 #### `content/static/skills.md`
-- [ ] Cập nhật danh sách skills theo thực tế
-- [ ] Mỗi skill có `name` và `level` (0-100)
-- [ ] Thêm/bớt categories nếu cần (hiện có: Frontend, Backend, DevOps & Tools)
+- [ ] Cáº­p nháº­t danh sÃ¡ch skills theo thá»±c táº¿
+- [ ] Má»—i skill cÃ³ `name` vÃ  `level` (0-100)
+- [ ] ThÃªm/bá»›t categories náº¿u cáº§n (hiá»‡n cÃ³: Frontend, Backend, DevOps & Tools)
 
 #### `content/static/experience.md`
-- [ ] `timeline[]` — Danh sách kinh nghiệm làm việc
-  - Mỗi mục cần: `company`, `role`, `period`, `description`, `highlights[]`
-  - Logo công ty (tùy chọn): đặt vào `apps/portfolio/public/images/companies/`
-- [ ] `education[]` — Học vấn
-  - Mỗi mục cần: `school`, `degree`, `period`
+- [ ] `timeline[]` â€” Danh sÃ¡ch kinh nghiá»‡m lÃ m viá»‡c
+  - Má»—i má»¥c cáº§n: `company`, `role`, `period`, `description`, `highlights[]`
+  - Logo cÃ´ng ty (tÃ¹y chá»n): Ä‘áº·t vÃ o `apps/public/images/companies/`
+- [ ] `education[]` â€” Há»c váº¥n
+  - Má»—i má»¥c cáº§n: `school`, `degree`, `period`
 
 #### `content/static/site.md`
-- [ ] `site_name` — Tên site
-- [ ] `site_url` — URL production
-- [ ] `seo.default_description` — Mô tả SEO mặc định
-- [ ] `nav[]` — Menu navigation (thêm/bớt mục nếu cần)
-- [ ] `footer.copyright` — Dòng copyright
+- [ ] `site_name` â€” TÃªn site
+- [ ] `site_url` â€” URL production
+- [ ] `seo.default_description` â€” MÃ´ táº£ SEO máº·c Ä‘á»‹nh
+- [ ] `nav[]` â€” Menu navigation (thÃªm/bá»›t má»¥c náº¿u cáº§n)
+- [ ] `footer.copyright` â€” DÃ²ng copyright
 
 ---
 
-### 2. Collection Content — `content/collections/`
+### 2. Collection Content â€” `apps/content/collections/`
 
-Nội dung động, mỗi file `.md` = 1 record. **Copy `_template.md` → đổi tên → điền nội dung.**
+Ná»™i dung Ä‘á»™ng, má»—i file `.md` = 1 record. **Copy `_template.md` â†’ Ä‘á»•i tÃªn â†’ Ä‘iá»n ná»™i dung.**
 
-#### `content/collections/projects/` — Dự án
-- [ ] Xóa `sample-portfolio-website.md` (hoặc cập nhật thành project thật)
-- [ ] Tạo 1 file `.md` cho mỗi project thật
-  - Filename: `kebab-case.md` (ví dụ: `everminute.md`)
+#### `apps/content/collections/projects/` â€” Dá»± Ã¡n
+- [ ] XÃ³a `sample-portfolio-website.md` (hoáº·c cáº­p nháº­t thÃ nh project tháº­t)
+- [ ] Táº¡o 1 file `.md` cho má»—i project tháº­t
+  - Filename: `kebab-case.md` (vÃ­ dá»¥: `everminute.md`)
   - Frontmatter: title, slug, description, category, tags, status, featured, order...
-  - Body: mô tả chi tiết project
-  - Ảnh: đặt vào `apps/portfolio/public/images/projects/`
+  - Body: mÃ´ táº£ chi tiáº¿t project
+  - áº¢nh: Ä‘áº·t vÃ o `apps/public/images/projects/`
 
-#### `content/collections/blogs/` — Blog posts
-- [ ] Cập nhật `2026-03-18-xin-chao.md` (hoặc xóa nếu không cần)
-- [ ] Tạo thêm blog posts nếu có
+#### `apps/content/collections/blogs/` â€” Blog posts
+- [ ] Cáº­p nháº­t `2026-03-18-xin-chao.md` (hoáº·c xÃ³a náº¿u khÃ´ng cáº§n)
+- [ ] Táº¡o thÃªm blog posts náº¿u cÃ³
   - Filename: `yyyy-mm-dd-slug.md`
   - Frontmatter: title, slug, description, category, tags, date, published...
-  - Body: nội dung bài viết Markdown
+  - Body: ná»™i dung bÃ i viáº¿t Markdown
 
-#### `content/collections/qa/` — Q&A
-- [ ] Cập nhật `why-hire-me.md` với câu trả lời thật
-- [ ] Tạo thêm Q&A nếu cần
+#### `apps/content/collections/qa/` â€” Q&A
+- [ ] Cáº­p nháº­t `why-hire-me.md` vá»›i cÃ¢u tráº£ lá»i tháº­t
+- [ ] Táº¡o thÃªm Q&A náº¿u cáº§n
   - Filename: `slug-cau-hoi.md`
   - Frontmatter: question, slug, category, order...
-  - Body: câu trả lời chi tiết
+  - Body: cÃ¢u tráº£ lá»i chi tiáº¿t
 
 ---
 
-### 3. Assets — `apps/portfolio/public/images/`
+### 3. Assets â€” `apps/public/images/`
 
-- [ ] `avatar.jpg` — Ảnh đại diện
-- [ ] `og-default.jpg` — Ảnh SEO (1200x630px recommended)
-- [ ] `projects/` — Ảnh thumbnail + screenshots cho mỗi project
-- [ ] `blog/` — Ảnh cover cho blog posts
-- [ ] `companies/` — Logo công ty (nếu dùng trong experience)
+- [ ] `avatar.jpg` â€” áº¢nh Ä‘áº¡i diá»‡n
+- [ ] `og-default.jpg` â€” áº¢nh SEO (1200x630px recommended)
+- [ ] `projects/` â€” áº¢nh thumbnail + screenshots cho má»—i project
+- [ ] `blog/` â€” áº¢nh cover cho blog posts
+- [ ] `companies/` â€” Logo cÃ´ng ty (náº¿u dÃ¹ng trong experience)
 
 ---
 
-## Thứ tự triển khai đề xuất
+## Thá»© tá»± triá»ƒn khai Ä‘á» xuáº¥t
 
-| # | Việc cần làm | Ưu tiên |
+| # | Viá»‡c cáº§n lÃ m | Æ¯u tiÃªn |
 |---|---|---|
-| 1 | Điền `profile.md` + `about.md` + `site.md` | ⚡ Cao |
-| 2 | Điền `experience.md` + `skills.md` | ⚡ Cao |
-| 3 | Tạo project files trong `collections/projects/` | ⚡ Cao |
-| 4 | Build content-loader để parse MD → app | ⚡ Cao |
-| 5 | Tạo Q&A files trong `collections/qa/` | 🔶 Trung bình |
-| 6 | Viết blog posts trong `collections/blogs/` | 🔶 Trung bình |
-| 7 | Thêm ảnh thật (avatar, project screenshots...) | 🔶 Trung bình |
-| 8 | Xóa data hardcoded trong `data.ts` | ⬇️ Sau khi content-loader xong |
+| 1 | Äiá»n `profile.md` + `about.md` + `site.md` | âš¡ Cao |
+| 2 | Äiá»n `experience.md` + `skills.md` | âš¡ Cao |
+| 3 | Táº¡o project files trong `collections/projects/` | âš¡ Cao |
+| 4 | Build content-loader Ä‘á»ƒ parse MD â†’ app | âš¡ Cao |
+| 5 | Táº¡o Q&A files trong `collections/qa/` | ðŸ”¶ Trung bÃ¬nh |
+| 6 | Viáº¿t blog posts trong `collections/blogs/` | ðŸ”¶ Trung bÃ¬nh |
+| 7 | ThÃªm áº£nh tháº­t (avatar, project screenshots...) | ðŸ”¶ Trung bÃ¬nh |
+| 8 | XÃ³a data hardcoded trong `data.ts` | â¬‡ï¸ Sau khi content-loader xong |
 
 ---
 
-## Ghi chú
+## Ghi chÃº
 
-- Hiện tại app **chưa đọc** từ markdown files, đang dùng `data.ts`
-- Cần build `packages/content-loader/` để parse frontmatter + body từ MD files
-- Sau khi có content-loader, sẽ thay `data.ts` bằng data load từ `content/`
-- File `_template.md` trong mỗi collection là template, **không hiển thị** trên site
+- Hiá»‡n táº¡i app **chÆ°a Ä‘á»c** tá»« markdown files, Ä‘ang dÃ¹ng `data.ts`
+- Cáº§n build `packages/content-loader/` Ä‘á»ƒ parse frontmatter + body tá»« MD files
+- Sau khi cÃ³ content-loader, sáº½ thay `data.ts` báº±ng data load tá»« `content/`
+- File `_template.md` trong má»—i collection lÃ  template, **khÃ´ng hiá»ƒn thá»‹** trÃªn site
+
+

@@ -1,31 +1,30 @@
-# Architecture
+﻿# Architecture
 
 ## Overview
 
-Portfolio cá nhân — content từ Markdown, deploy trên Cloudflare Workers, backend nhẹ qua Supabase (contact form + view counting).
+Portfolio cÃ¡ nhÃ¢n â€” content tá»« Markdown, deploy trÃªn Cloudflare Workers, backend nháº¹ qua Supabase (contact form + view counting).
 
 ```
 e:/project/huang/
-├── apps/
-│   └── portfolio/           ← Next.js 15 App Router
-│       ├── app/             ← Pages (RSC + client) + API routes
-│       │   └── api/         ← Server-side API (contact, views)
-│       ├── components/      ← Shared UI components
-│       ├── lib/
-│       │   ├── content/     ← Content loader (types + loaders)
-│       │   ├── server/      ← Server utilities (api-error)
-│       │   ├── supabase-server.ts  ← Supabase client
-│       │   └── env.server.ts       ← Env validation
-│       ├── supabase/        ← SQL migration scripts
-│       ├── scripts/         ← magic.mjs CLI tool
-│       ├── wrangler.jsonc   ← Cloudflare Worker config
-│       └── open-next.config.ts     ← OpenNext adapter
-├── content/
-│   ├── static/              ← Dữ liệu tĩnh (profile, skills...)
-│   └── collections/         ← Dynamic content (blogs, projects...)
-├── docs/                    ← Tài liệu dự án
-└── packages/
-    └── content-loader/      ← Placeholder (logic hiện ở apps/portfolio/lib/content/)
+â”œâ”€â”€ apps/
+â”‚   â”œâ”€â”€ app/             â† Pages (RSC + client) + API routes
+â”‚   â”‚   â””â”€â”€ api/         â† Server-side API (contact, views)
+â”‚   â”œâ”€â”€ components/      â† Shared UI components
+â”‚   â”œâ”€â”€ lib/
+â”‚   â”‚   â”œâ”€â”€ content/     â† Content loader (types + loaders)
+â”‚   â”‚   â”œâ”€â”€ server/      â† Server utilities (api-error)
+â”‚   â”‚   â”œâ”€â”€ supabase-server.ts  â† Supabase client
+â”‚   â”‚   â””â”€â”€ env.server.ts       â† Env validation
+â”‚   â”œâ”€â”€ content/
+â”‚   â”‚   â”œâ”€â”€ static/      â† Dá»¯ liá»‡u tÄ©nh (profile, skills...)
+â”‚   â”‚   â””â”€â”€ collections/ â† Dynamic content (blogs, projects...)
+â”‚   â”œâ”€â”€ supabase/        â† SQL migration scripts
+â”‚   â”œâ”€â”€ scripts/         â† magic.mjs CLI tool
+â”‚   â”œâ”€â”€ wrangler.jsonc   â† Cloudflare Worker config
+â”‚   â””â”€â”€ open-next.config.ts     â† OpenNext adapter
+â”œâ”€â”€ docs/                    â† TÃ i liá»‡u dá»± Ã¡n
+â””â”€â”€ packages/
+    â””â”€â”€ content-loader/      â† Placeholder (logic hiá»‡n á»Ÿ apps/lib/content/)
 ```
 
 ## Tech Stack
@@ -39,58 +38,58 @@ e:/project/huang/
 | Hosting | Cloudflare Workers (via @opennextjs/cloudflare) |
 | Database | Supabase (PostgreSQL) |
 | Frontmatter parsing | gray-matter |
-| MD → HTML | unified + remark-parse + remark-gfm + remark-rehype + rehype-stringify |
+| MD â†’ HTML | unified + remark-parse + remark-gfm + remark-rehype + rehype-stringify |
 | Syntax highlighting | rehype-highlight + highlight.js (server-side) |
 
 ## Content System
 
-### Luồng dữ liệu
+### Luá»“ng dá»¯ liá»‡u
 
 ```
-content/collections/blogs/*.md
-         │
-         ▼ gray-matter parse frontmatter
-apps/portfolio/lib/content/blogs.ts
-         │ getBlogPosts() / getBlogBySlug()
-         ▼
-app/blog/page.tsx (RSC) ──────────────→ BlogList.tsx ("use client", topic filter)
+apps/content/collections/blogs/*.md
+         â”‚
+         â–¼ gray-matter parse frontmatter
+apps/lib/content/blogs.ts
+         â”‚ getBlogPosts() / getBlogBySlug()
+         â–¼
+app/blog/page.tsx (RSC) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â†’ BlogList.tsx ("use client", topic filter)
 app/blog/[id]/page.tsx (RSC + SSG)
-         │
-         ▼ markdownToHtml() (remark → rehype → rehype-highlight → HTML string)
-         HTML đầy đủ trong source → Google crawl được ngay, SEO tốt
+         â”‚
+         â–¼ markdownToHtml() (remark â†’ rehype â†’ rehype-highlight â†’ HTML string)
+         HTML Ä‘áº§y Ä‘á»§ trong source â†’ Google crawl Ä‘Æ°á»£c ngay, SEO tá»‘t
 ```
 
 ### Collections
 
 | Collection | Route | Description |
 |-----------|-------|-------------|
-| `blogs/` | `/blog/[slug]` | Blog posts với syntax highlighting |
-| `projects/` | `/project/[slug]` | Project showcase với tabs |
-| `videos/` | `/videos/[slug]` | YouTube embeds với related blogs |
-| `topics/` | `/topics/[slug]` | Topic categories với description đầy đủ |
+| `blogs/` | `/blog/[slug]` | Blog posts vá»›i syntax highlighting |
+| `projects/` | `/project/[slug]` | Project showcase vá»›i tabs |
+| `videos/` | `/videos/[slug]` | YouTube embeds vá»›i related blogs |
+| `topics/` | `/topics/[slug]` | Topic categories vá»›i description Ä‘áº§y Ä‘á»§ |
 | `qa/` | `/about` | Q&A cho trang About |
 
-### Content Loader (`apps/portfolio/lib/content/`)
+### Content Loader (`apps/lib/content/`)
 
 ```typescript
 lib/content/
-├── types.ts      ← TypeScript interfaces (BlogPost, Project, Video, Topic, QA...)
-├── utils.ts      ← FS helpers, markdownToHtml() async pipeline
-├── blogs.ts      ← getBlogPosts(), getBlogBySlug(), getBlogsBySlugs()
-├── projects.ts   ← getProjects(), getProjectBySlug(), getProjectsBySlugs()
-├── videos.ts     ← getVideos(), getVideoBySlug()
-├── topics.ts     ← getTopics(), getTopicBySlug()
-├── qa.ts         ← getQAs()
-└── index.ts      ← Re-exports all
+â”œâ”€â”€ types.ts      â† TypeScript interfaces (BlogPost, Project, Video, Topic, QA...)
+â”œâ”€â”€ utils.ts      â† FS helpers, markdownToHtml() async pipeline
+â”œâ”€â”€ blogs.ts      â† getBlogPosts(), getBlogBySlug(), getBlogsBySlugs()
+â”œâ”€â”€ projects.ts   â† getProjects(), getProjectBySlug(), getProjectsBySlugs()
+â”œâ”€â”€ videos.ts     â† getVideos(), getVideoBySlug()
+â”œâ”€â”€ topics.ts     â† getTopics(), getTopicBySlug()
+â”œâ”€â”€ qa.ts         â† getQAs()
+â””â”€â”€ index.ts      â† Re-exports all
 ```
 
 ## SEO Architecture
 
-### Tại sao RSC?
-Client-side rendering gửi HTML rỗng về browser — bot phải chạy JS để thấy nội dung. RSC gửi HTML đầy đủ ngay lập tức.
+### Táº¡i sao RSC?
+Client-side rendering gá»­i HTML rá»—ng vá» browser â€” bot pháº£i cháº¡y JS Ä‘á»ƒ tháº¥y ná»™i dung. RSC gá»­i HTML Ä‘áº§y Ä‘á»§ ngay láº­p tá»©c.
 
 ### Static Site Generation (SSG)
-Pages với dynamic routes dùng `generateStaticParams` để pre-render tất cả lúc `next build`:
+Pages vá»›i dynamic routes dÃ¹ng `generateStaticParams` Ä‘á»ƒ pre-render táº¥t cáº£ lÃºc `next build`:
 
 ```typescript
 // app/blog/[id]/page.tsx
@@ -101,10 +100,10 @@ export async function generateStaticParams() {
 ```
 
 **Build output (21 pages pre-rendered):**
-- `/blog/[slug]` — mỗi blog post = 1 static HTML file
-- `/project/[slug]` — mỗi project = 1 static HTML file
-- `/topics/[slug]` — mỗi topic = 1 static HTML file
-- `/videos/[slug]` — mỗi video = 1 static HTML file
+- `/blog/[slug]` â€” má»—i blog post = 1 static HTML file
+- `/project/[slug]` â€” má»—i project = 1 static HTML file
+- `/topics/[slug]` â€” má»—i topic = 1 static HTML file
+- `/videos/[slug]` â€” má»—i video = 1 static HTML file
 
 ### Per-page Metadata
 ```typescript
@@ -124,14 +123,14 @@ export async function generateMetadata({ params }) {
 
 ## Cross-linking System
 
-Content types liên kết với nhau qua slug references trong frontmatter:
+Content types liÃªn káº¿t vá»›i nhau qua slug references trong frontmatter:
 
 ```yaml
 # Blog post frontmatter
 related_projects:
-  - "huang-workspace"    ← slug của project
+  - "huang-workspace"    â† slug cá»§a project
 related_blogs:
-  - "tailwind-css-v4-guide"   ← slug của blog khác
+  - "tailwind-css-v4-guide"   â† slug cá»§a blog khÃ¡c
 
 # Project frontmatter
 related_blogs:
@@ -142,73 +141,73 @@ related_blogs:
   - "tailwind-css-v4-guide"
 ```
 
-Các references được resolve lúc build và render thành `RelatedContent` component ở cuối mỗi trang.
+CÃ¡c references Ä‘Æ°á»£c resolve lÃºc build vÃ  render thÃ nh `RelatedContent` component á»Ÿ cuá»‘i má»—i trang.
 
 ## YouTube Embed (Facade Pattern)
 
 ```typescript
-// components/YouTubeEmbed.tsx — "use client"
-// State: playing = false → thumbnail | true → iframe
+// components/YouTubeEmbed.tsx â€” "use client"
+// State: playing = false â†’ thumbnail | true â†’ iframe
 
-// Trạng thái ban đầu: thumbnail + play button
+// Tráº¡ng thÃ¡i ban Ä‘áº§u: thumbnail + play button
 <img src={`https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`} />
 
-// Sau khi click: load iframe với autoplay
+// Sau khi click: load iframe vá»›i autoplay
 <iframe src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1`} />
 ```
 
-Tốt cho performance: không load iframe/YouTube JS cho mỗi video card.
+Tá»‘t cho performance: khÃ´ng load iframe/YouTube JS cho má»—i video card.
 
 ## Mobile-First Responsive Design
 
-Layout và typography được thiết kế mobile-first — styles mặc định cho màn hình nhỏ, scale up qua breakpoints.
+Layout vÃ  typography Ä‘Æ°á»£c thiáº¿t káº¿ mobile-first â€” styles máº·c Ä‘á»‹nh cho mÃ n hÃ¬nh nhá», scale up qua breakpoints.
 
 ### Breakpoints
 
-| Breakpoint | Ý nghĩa |
+| Breakpoint | Ã nghÄ©a |
 |-----------|---------|
 | Default | Mobile (<640px) |
-| `sm:` (640px) | Tablet nhỏ |
-| `md:` (768px) | Tablet / laptop nhỏ |
+| `sm:` (640px) | Tablet nhá» |
+| `md:` (768px) | Tablet / laptop nhá» |
 | `lg:` (1024px) | Desktop (sidebar layouts) |
 
 ### Header
 
-- Mobile: dropdown overlay (absolute, góc phải), backdrop blur, header height `h-14`
+- Mobile: dropdown overlay (absolute, gÃ³c pháº£i), backdrop blur, header height `h-14`
 - Desktop (`sm:`): inline nav links, height `h-16`
-- Component: `components/Header.tsx` ("use client" — cần state cho menu toggle)
+- Component: `components/Header.tsx` ("use client" â€” cáº§n state cho menu toggle)
 
 ### Landing Page (HomeClient)
 
-- **Hero**: font size scale `text-2xl → sm:text-3xl → md:text-4xl` để title/subtitle vừa 1 dòng trên mobile
-- **Garden tabs**: luôn hiện cả icon + text label (text nhỏ hơn trên mobile: `text-xs → sm:text-sm`)
-- **Project cards**: description hiện 2 dòng (`line-clamp-2`) trên mọi breakpoint; padding lớn hơn trên `sm:`
+- **Hero**: font size scale `text-2xl â†’ sm:text-3xl â†’ md:text-4xl` Ä‘á»ƒ title/subtitle vá»«a 1 dÃ²ng trÃªn mobile
+- **Garden tabs**: luÃ´n hiá»‡n cáº£ icon + text label (text nhá» hÆ¡n trÃªn mobile: `text-xs â†’ sm:text-sm`)
+- **Project cards**: description hiá»‡n 2 dÃ²ng (`line-clamp-2`) trÃªn má»i breakpoint; padding lá»›n hÆ¡n trÃªn `sm:`
 
 ### Blog List (BlogList)
 
-- Mobile: topic filter là button góc phải dưới header (`sticky top-14`), click mở dropdown overlay với backdrop blur
+- Mobile: topic filter lÃ  button gÃ³c pháº£i dÆ°á»›i header (`sticky top-14`), click má»Ÿ dropdown overlay vá»›i backdrop blur
 - Desktop (`sm:`): inline flex-wrap topic buttons
-- Post cards: padding và font size giảm trên mobile
+- Post cards: padding vÃ  font size giáº£m trÃªn mobile
 
 ### Blog Detail
 
-- Mobile: TOC (mục lục) là button góc phải trên dưới header (`components/MobileToc.tsx`), click mở dropdown với backdrop blur
-- Desktop (`lg:`): sidebar sticky TOC bên phải (`lg:grid lg:grid-cols-[minmax(0,1fr)_18rem]`)
-- Blog title: `text-2xl → sm:text-4xl → md:text-5xl`
+- Mobile: TOC (má»¥c lá»¥c) lÃ  button gÃ³c pháº£i trÃªn dÆ°á»›i header (`components/MobileToc.tsx`), click má»Ÿ dropdown vá»›i backdrop blur
+- Desktop (`lg:`): sidebar sticky TOC bÃªn pháº£i (`lg:grid lg:grid-cols-[minmax(0,1fr)_18rem]`)
+- Blog title: `text-2xl â†’ sm:text-4xl â†’ md:text-5xl`
 
 ## RSC + Client Split Pattern
 
-Khi page cần cả data fetching và interactivity:
+Khi page cáº§n cáº£ data fetching vÃ  interactivity:
 
 ```
-app/blog/page.tsx              ← RSC: load data, export metadata
-app/blog/BlogList.tsx          ← "use client": topic filter, animations
+app/blog/page.tsx              â† RSC: load data, export metadata
+app/blog/BlogList.tsx          â† "use client": topic filter, animations
 
-app/project/[id]/page.tsx           ← RSC: generateStaticParams, load data
-app/project/[id]/ProjectDetailClient.tsx  ← "use client": tab switching
+app/project/[id]/page.tsx           â† RSC: generateStaticParams, load data
+app/project/[id]/ProjectDetailClient.tsx  â† "use client": tab switching
 
-app/about/page.tsx             ← RSC: load QAs from MD
-app/about/AboutClient.tsx      ← "use client": accordion, scroll nav
+app/about/page.tsx             â† RSC: load QAs from MD
+app/about/AboutClient.tsx      â† "use client": accordion, scroll nav
 ```
 
 **Rule:** RSC handles data + SEO. Client components handle state + animations.
@@ -217,36 +216,36 @@ app/about/AboutClient.tsx      ← "use client": accordion, scroll nav
 
 ```bash
 npm run magic                       # Help + content stats
-npm run magic new blog "Title"      # Tạo blog MD từ template
-npm run magic new video "Title"     # Tạo video MD từ template
-npm run magic validate              # Kiểm tra tất cả content files
-npm run magic list                  # Liệt kê tất cả content
+npm run magic new blog "Title"      # Táº¡o blog MD tá»« template
+npm run magic new video "Title"     # Táº¡o video MD tá»« template
+npm run magic validate              # Kiá»ƒm tra táº¥t cáº£ content files
+npm run magic list                  # Liá»‡t kÃª táº¥t cáº£ content
 ```
 
-Script: `apps/portfolio/scripts/magic.mjs` — Node.js ES module, không cần cài thêm deps.
+Script: `apps/scripts/magic.mjs` â€” Node.js ES module, khÃ´ng cáº§n cÃ i thÃªm deps.
 
 ## Cloudflare Deployment
 
-### Kiến trúc
+### Kiáº¿n trÃºc
 
 ```
 Next.js build
-     │
-     ▼  @opennextjs/cloudflare
+     â”‚
+     â–¼  @opennextjs/cloudflare
 .open-next/
-├── worker.js     ← Cloudflare Worker (SSR + API routes)
-└── assets/       ← Static files (CSS, JS, images)
-     │
-     ▼  wrangler deploy
+â”œâ”€â”€ worker.js     â† Cloudflare Worker (SSR + API routes)
+â””â”€â”€ assets/       â† Static files (CSS, JS, images)
+     â”‚
+     â–¼  wrangler deploy
 Cloudflare Workers + Assets CDN
 ```
 
 ### Config files
 
-| File | Mục đích |
+| File | Má»¥c Ä‘Ã­ch |
 |------|---------|
 | `wrangler.jsonc` | Worker name, compatibility flags (`nodejs_compat`), assets binding |
-| `open-next.config.ts` | OpenNext adapter config (có thể bật R2 cache) |
+| `open-next.config.ts` | OpenNext adapter config (cÃ³ thá»ƒ báº­t R2 cache) |
 | `next.config.ts` | Security headers + `initOpenNextCloudflareForDev()` |
 
 ### Scripts
@@ -254,123 +253,124 @@ Cloudflare Workers + Assets CDN
 ```bash
 npm run dev       # Local dev (turbopack)
 npm run build     # Next.js build
-npm run preview   # Build + preview trên Cloudflare local
-npm run deploy    # Build + deploy lên Cloudflare production
-npm run upload    # Build + upload (không activate)
+npm run preview   # Build + preview trÃªn Cloudflare local
+npm run deploy    # Build + deploy lÃªn Cloudflare production
+npm run upload    # Build + upload (khÃ´ng activate)
 ```
 
 ### Security Headers
 
-Tất cả responses đều có:
-- `X-Frame-Options: DENY` — chống clickjacking
-- `X-Content-Type-Options: nosniff` — chống MIME sniffing
+Táº¥t cáº£ responses Ä‘á»u cÃ³:
+- `X-Frame-Options: DENY` â€” chá»‘ng clickjacking
+- `X-Content-Type-Options: nosniff` â€” chá»‘ng MIME sniffing
 - `Referrer-Policy: strict-origin-when-cross-origin`
 - `X-DNS-Prefetch-Control: on`
 
 ### Environment Variables
 
-Cần set trên Cloudflare Dashboard (Workers > Settings > Variables):
+Cáº§n set trÃªn Cloudflare Dashboard (Workers > Settings > Variables):
 
-| Variable | Mô tả | Bảo mật |
+| Variable | MÃ´ táº£ | Báº£o máº­t |
 |----------|-------|---------|
-| `SUPABASE_URL` | URL Supabase project | Server-only (không `NEXT_PUBLIC_`) |
-| `SUPABASE_ANON_KEY` | Publishable anon key | Server-only (không `NEXT_PUBLIC_`) |
+| `SUPABASE_URL` | URL Supabase project | Server-only (khÃ´ng `NEXT_PUBLIC_`) |
+| `SUPABASE_ANON_KEY` | Publishable anon key | Server-only (khÃ´ng `NEXT_PUBLIC_`) |
 
 ## Supabase Backend
 
-### Tổng quan
+### Tá»•ng quan
 
-Supabase cung cấp 2 tính năng:
-1. **Contact form** — lưu tin nhắn liên hệ từ trang About
-2. **View counting** — đếm lượt xem cho blog, project, video
+Supabase cung cáº¥p 2 tÃ­nh nÄƒng:
+1. **Contact form** â€” lÆ°u tin nháº¯n liÃªn há»‡ tá»« trang About
+2. **View counting** â€” Ä‘áº¿m lÆ°á»£t xem cho blog, project, video
 
 ### Database Schema
 
 ```
 contacts
-├── id           BIGINT (auto)
-├── name         TEXT (max 100)
-├── email        TEXT (max 254)
-├── message      TEXT (max 2000)
-└── created_at   TIMESTAMPTZ
+â”œâ”€â”€ id           BIGINT (auto)
+â”œâ”€â”€ name         TEXT (max 100)
+â”œâ”€â”€ email        TEXT (max 254)
+â”œâ”€â”€ message      TEXT (max 2000)
+â””â”€â”€ created_at   TIMESTAMPTZ
 
 page_views
-├── id              BIGINT (auto)
-├── resource_type   TEXT ('blog' | 'project' | 'video')
-├── slug            TEXT (max 200)
-├── view_count      BIGINT (default 0)
-├── created_at      TIMESTAMPTZ
-├── updated_at      TIMESTAMPTZ
-└── UNIQUE (resource_type, slug)
+â”œâ”€â”€ id              BIGINT (auto)
+â”œâ”€â”€ resource_type   TEXT ('blog' | 'project' | 'video')
+â”œâ”€â”€ slug            TEXT (max 200)
+â”œâ”€â”€ view_count      BIGINT (default 0)
+â”œâ”€â”€ created_at      TIMESTAMPTZ
+â”œâ”€â”€ updated_at      TIMESTAMPTZ
+â””â”€â”€ UNIQUE (resource_type, slug)
 ```
 
 ### RPC Functions
 
-- `increment_page_view(p_resource_type, p_slug)` — atomic upsert + increment, trả về view count mới. An toàn race condition nhờ `ON CONFLICT DO UPDATE`.
+- `increment_page_view(p_resource_type, p_slug)` â€” atomic upsert + increment, tráº£ vá» view count má»›i. An toÃ n race condition nhá» `ON CONFLICT DO UPDATE`.
 
 ### Row Level Security (RLS)
 
-| Table | Policy | Quyền |
+| Table | Policy | Quyá»n |
 |-------|--------|-------|
-| `contacts` | `anon_insert_contacts` | Anon chỉ được INSERT |
-| `page_views` | `anon_read_page_views` | Anon được SELECT |
-| `page_views` | `anon_upsert_page_views` | Anon được INSERT (qua RPC) |
-| `page_views` | `anon_update_page_views` | Anon được UPDATE (qua RPC) |
+| `contacts` | `anon_insert_contacts` | Anon chá»‰ Ä‘Æ°á»£c INSERT |
+| `page_views` | `anon_read_page_views` | Anon Ä‘Æ°á»£c SELECT |
+| `page_views` | `anon_upsert_page_views` | Anon Ä‘Æ°á»£c INSERT (qua RPC) |
+| `page_views` | `anon_update_page_views` | Anon Ä‘Æ°á»£c UPDATE (qua RPC) |
 
-> Không có policy SELECT cho `contacts` → client không thể đọc danh sách contact. Chỉ admin qua Supabase Dashboard mới xem được.
+> KhÃ´ng cÃ³ policy SELECT cho `contacts` â†’ client khÃ´ng thá»ƒ Ä‘á»c danh sÃ¡ch contact. Chá»‰ admin qua Supabase Dashboard má»›i xem Ä‘Æ°á»£c.
 
 ### API Routes
 
 ```
 POST /api/contact
-├── Input: { name, email, message }
-├── Validation: required fields, email regex, max length
-├── Action: INSERT vào contacts table
-└── Response: { success: true } | { error: "..." }
+â”œâ”€â”€ Input: { name, email, message }
+â”œâ”€â”€ Validation: required fields, email regex, max length
+â”œâ”€â”€ Action: INSERT vÃ o contacts table
+â””â”€â”€ Response: { success: true } | { error: "..." }
 
 POST /api/views
-├── Input: { type: "blog"|"project"|"video", slug: "..." }
-├── Validation: whitelist type, regex slug
-├── Action: RPC increment_page_view (atomic upsert)
-└── Response: { views: number }
+â”œâ”€â”€ Input: { type: "blog"|"project"|"video", slug: "..." }
+â”œâ”€â”€ Validation: whitelist type, regex slug
+â”œâ”€â”€ Action: RPC increment_page_view (atomic upsert)
+â””â”€â”€ Response: { views: number }
 
 GET /api/views?type=blog&slug=my-post
-├── Validation: whitelist type, regex slug
-├── Action: SELECT view_count
-└── Response: { views: number }
+â”œâ”€â”€ Validation: whitelist type, regex slug
+â”œâ”€â”€ Action: SELECT view_count
+â””â”€â”€ Response: { views: number }
 ```
 
-### Bảo mật
+### Báº£o máº­t
 
-1. **Env vars server-only** — `SUPABASE_URL` và `SUPABASE_ANON_KEY` không có prefix `NEXT_PUBLIC_`, chỉ accessible trong API routes
-2. **Parameterized queries** — Supabase SDK tự escape tất cả values, không SQL injection
-3. **Input validation** — tất cả input được validate (type, length, regex) trước khi query
-4. **Error masking** — server log chi tiết error, client chỉ nhận generic message
-5. **RLS** — database-level access control, ngay cả khi bypass API
-6. **No auth required** — portfolio public, dùng anon key với RLS restricted
+1. **Env vars server-only** â€” `SUPABASE_URL` vÃ  `SUPABASE_ANON_KEY` khÃ´ng cÃ³ prefix `NEXT_PUBLIC_`, chá»‰ accessible trong API routes
+2. **Parameterized queries** â€” Supabase SDK tá»± escape táº¥t cáº£ values, khÃ´ng SQL injection
+3. **Input validation** â€” táº¥t cáº£ input Ä‘Æ°á»£c validate (type, length, regex) trÆ°á»›c khi query
+4. **Error masking** â€” server log chi tiáº¿t error, client chá»‰ nháº­n generic message
+5. **RLS** â€” database-level access control, ngay cáº£ khi bypass API
+6. **No auth required** â€” portfolio public, dÃ¹ng anon key vá»›i RLS restricted
 
-### Luồng dữ liệu
+### Luá»“ng dá»¯ liá»‡u
 
 ```
-User mở blog post
-     │
-     ▼ ViewCounter component (client)
+User má»Ÿ blog post
+     â”‚
+     â–¼ ViewCounter component (client)
 POST /api/views { type: "blog", slug: "my-post" }
-     │
-     ▼ API route (server)
-     Validate input → Supabase RPC increment_page_view
-     │
-     ▼ Supabase (database)
+     â”‚
+     â–¼ API route (server)
+     Validate input â†’ Supabase RPC increment_page_view
+     â”‚
+     â–¼ Supabase (database)
      UPSERT page_views SET view_count = view_count + 1
-     │
-     ▼ Response
-     { views: 42 } → hiển thị "42 views" trên UI
+     â”‚
+     â–¼ Response
+     { views: 42 } â†’ hiá»ƒn thá»‹ "42 views" trÃªn UI
 ```
 
 ### Server Utilities
 
-| File | Mục đích |
+| File | Má»¥c Ä‘Ã­ch |
 |------|---------|
-| `lib/env.server.ts` | `requireEnv()` — throw nếu thiếu env var |
-| `lib/supabase-server.ts` | `createSupabaseServerClient()` — tạo Supabase client |
-| `lib/server/api-error.ts` | `dbError()` — log thật, trả generic message |
+| `lib/env.server.ts` | `requireEnv()` â€” throw náº¿u thiáº¿u env var |
+| `lib/supabase-server.ts` | `createSupabaseServerClient()` â€” táº¡o Supabase client |
+| `lib/server/api-error.ts` | `dbError()` â€” log tháº­t, tráº£ generic message |
+

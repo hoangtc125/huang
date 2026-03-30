@@ -1,8 +1,8 @@
-# Content Guide
+﻿# Content Guide
 
-## Tổng quan
+## Tá»•ng quan
 
-Portfolio dùng **Markdown files** làm nguồn dữ liệu, không có CMS hay database. Có 5 loại collection content:
+Portfolio dÃ¹ng **Markdown files** lÃ m nguá»“n dá»¯ liá»‡u, khÃ´ng cÃ³ CMS hay database. CÃ³ 5 loáº¡i collection content:
 
 | Collection | Folder | Route |
 |-----------|--------|-------|
@@ -14,18 +14,18 @@ Portfolio dùng **Markdown files** làm nguồn dữ liệu, không có CMS hay 
 
 ---
 
-## Workflow nhanh: Thêm bài blog mới
+## Workflow nhanh: ThÃªm bÃ i blog má»›i
 
 ```bash
-# Bước 1: Tạo file từ template
-npm run magic new blog "Tiêu đề bài viết của tôi"
+# BÆ°á»›c 1: Táº¡o file tá»« template
+npm run magic new blog "TiÃªu Ä‘á» bÃ i viáº¿t cá»§a tÃ´i"
 
-# Bước 2: Edit file được tạo trong content/collections/blogs/
-# (file sẽ được mở gợi ý trong terminal)
+# BÆ°á»›c 2: Edit file Ä‘Æ°á»£c táº¡o trong content/collections/blogs/
+# (file sáº½ Ä‘Æ°á»£c má»Ÿ gá»£i Ã½ trong terminal)
 
-# Bước 3: Khi xong, set published: true trong frontmatter
+# BÆ°á»›c 3: Khi xong, set published: true trong frontmatter
 
-# Bước 4: Build để pre-render
+# BÆ°á»›c 4: Build Ä‘á»ƒ pre-render
 npm run build
 ```
 
@@ -37,35 +37,35 @@ npm run build
 
 ```yaml
 ---
-title: "Tiêu đề bài viết"
-slug: "url-friendly-slug"          # dùng làm URL: /blog/url-friendly-slug
-description: "Mô tả ~150 ký tự"   # SEO + listing card
-cover: "/images/blog/cover.jpg"    # Cover image (tùy chọn)
+title: "TiÃªu Ä‘á» bÃ i viáº¿t"
+slug: "url-friendly-slug"          # dÃ¹ng lÃ m URL: /blog/url-friendly-slug
+description: "MÃ´ táº£ ~150 kÃ½ tá»±"   # SEO + listing card
+cover: "/images/blog/cover.jpg"    # Cover image (tÃ¹y chá»n)
 
-# Topic: PHẢI khớp với slug trong content/collections/topics/
+# Topic: PHáº¢I khá»›p vá»›i slug trong content/collections/topics/
 topic: "web-development"           # web-development | system-design | career
 
 tags:
   - "React"
   - "TypeScript"
 
-# Cross-links (dùng slug của content liên quan)
+# Cross-links (dÃ¹ng slug cá»§a content liÃªn quan)
 related_projects:
   - "huang-workspace"
 related_blogs:
   - "tailwind-css-v4-guide"
 
-published: true    # false = draft, không hiển thị
-featured: false    # true = hiển thị nổi bật
+published: true    # false = draft, khÃ´ng hiá»ƒn thá»‹
+featured: false    # true = hiá»ƒn thá»‹ ná»•i báº­t
 date: "2026-03-20"
-reading_time: 8    # phút (tự tính nếu bỏ trống)
+reading_time: 8    # phÃºt (tá»± tÃ­nh náº¿u bá» trá»‘ng)
 
-# SEO (tùy chọn)
+# SEO (tÃ¹y chá»n)
 seo_title: ""
 seo_description: ""
 ---
 
-Nội dung bài viết...
+Ná»™i dung bÃ i viáº¿t...
 ```
 
 ### Naming convention
@@ -75,9 +75,9 @@ yyyy-mm-dd-slug.md
 ```
 
 ### Markdown features
-- GitHub Flavored Markdown (GFM) — tables, task lists, strikethrough
-- Syntax highlighting: tất cả ngôn ngữ phổ biến (JS, TS, Python, Go, SQL...)
-- Images, blockquotes, code blocks đều styled
+- GitHub Flavored Markdown (GFM) â€” tables, task lists, strikethrough
+- Syntax highlighting: táº¥t cáº£ ngÃ´n ngá»¯ phá»• biáº¿n (JS, TS, Python, Go, SQL...)
+- Images, blockquotes, code blocks Ä‘á»u styled
 
 ---
 
@@ -88,9 +88,9 @@ yyyy-mm-dd-slug.md
 ```yaml
 ---
 slug: "ten-du-an"
-title: "Tên dự án"
-description: "Mô tả cho SEO và card (1-2 câu)"
-short_desc: "Câu ngắn hơn cho project list"
+title: "TÃªn dá»± Ã¡n"
+description: "MÃ´ táº£ cho SEO vÃ  card (1-2 cÃ¢u)"
+short_desc: "CÃ¢u ngáº¯n hÆ¡n cho project list"
 thumbnail: "/images/projects/thumb.jpg"
 icon_url: "https://..."
 images:
@@ -104,11 +104,11 @@ source_url: "https://github.com/..."
 
 # Features tab content
 features:
-  - title: "Tên tính năng"
-    desc: "Mô tả tính năng"
+  - title: "TÃªn tÃ­nh nÄƒng"
+    desc: "MÃ´ táº£ tÃ­nh nÄƒng"
 
 # Architecture tab content
-architecture: "Mô tả kiến trúc kỹ thuật..."
+architecture: "MÃ´ táº£ kiáº¿n trÃºc ká»¹ thuáº­t..."
 
 # Cross-links
 related_blogs:
@@ -117,35 +117,35 @@ related_blogs:
 status: "live"     # live | in-progress | archived | review
 published: true
 featured: true
-order: 1           # thứ tự hiển thị (nhỏ hơn = trước)
+order: 1           # thá»© tá»± hiá»ƒn thá»‹ (nhá» hÆ¡n = trÆ°á»›c)
 date: "2026-01-15"
 ---
 
-# Body (optional, không hiển thị trực tiếp hiện tại)
+# Body (optional, khÃ´ng hiá»ƒn thá»‹ trá»±c tiáº¿p hiá»‡n táº¡i)
 ```
 
 ---
 
 ## Topics
 
-Topics là **phân loại chính** cho blog posts — khác với tags, topics có description đầy đủ và trang riêng.
+Topics lÃ  **phÃ¢n loáº¡i chÃ­nh** cho blog posts â€” khÃ¡c vá»›i tags, topics cÃ³ description Ä‘áº§y Ä‘á»§ vÃ  trang riÃªng.
 
-### Tạo topic mới
+### Táº¡o topic má»›i
 
 ```yaml
 # content/collections/topics/my-topic.md
 ---
 slug: "my-topic"
 title: "My Topic"
-description: "Mô tả đầy đủ về topic này, giải thích nó bao gồm gì và tại sao quan trọng."
+description: "MÃ´ táº£ Ä‘áº§y Ä‘á»§ vá» topic nÃ y, giáº£i thÃ­ch nÃ³ bao gá»“m gÃ¬ vÃ  táº¡i sao quan trá»ng."
 color: "indigo"   # indigo | emerald | amber | rose | violet | cyan
-icon: "📝"        # emoji
+icon: "ðŸ“"        # emoji
 published: true
 ---
 ```
 
-### Liên kết blog → topic
-Trong blog frontmatter: `topic: "my-topic"` (phải khớp slug)
+### LiÃªn káº¿t blog â†’ topic
+Trong blog frontmatter: `topic: "my-topic"` (pháº£i khá»›p slug)
 
 ---
 
@@ -156,9 +156,9 @@ Trong blog frontmatter: `topic: "my-topic"` (phải khớp slug)
 ```yaml
 ---
 slug: "ten-video"
-title: "Tiêu đề video"
-description: "Mô tả video"
-youtube_id: "dQw4w9WgXcQ"   # lấy từ youtube.com/watch?v=<ID>
+title: "TiÃªu Ä‘á» video"
+description: "MÃ´ táº£ video"
+youtube_id: "dQw4w9WgXcQ"   # láº¥y tá»« youtube.com/watch?v=<ID>
 tags:
   - "React"
 related_blogs:
@@ -170,7 +170,7 @@ views: "12.5K"
 ---
 ```
 
-YouTube thumbnail tự động lấy từ: `img.youtube.com/vi/{youtube_id}/maxresdefault.jpg`
+YouTube thumbnail tá»± Ä‘á»™ng láº¥y tá»«: `img.youtube.com/vi/{youtube_id}/maxresdefault.jpg`
 
 ---
 
@@ -179,15 +179,15 @@ YouTube thumbnail tự động lấy từ: `img.youtube.com/vi/{youtube_id}/maxr
 ```yaml
 ---
 slug: "cau-hoi-slug"
-question: "Câu hỏi?"
+question: "CÃ¢u há»i?"
 category: "general"
 tags: ["tech"]
 published: true
 featured: false
-order: 1          # thứ tự hiển thị
+order: 1          # thá»© tá»± hiá»ƒn thá»‹
 ---
 
-Câu trả lời viết ở body Markdown...
+CÃ¢u tráº£ lá»i viáº¿t á»Ÿ body Markdown...
 ```
 
 ---
@@ -196,28 +196,28 @@ Câu trả lời viết ở body Markdown...
 
 ```
 Project "huang-workspace"
-    └─ related_blogs:
-          ├─ "react-server-components-seo"  ←── Blog về RSC/SEO liên quan tới project này
-          └─ "tailwind-css-v4-guide"        ←── Blog về Tailwind liên quan tới project này
+    â””â”€ related_blogs:
+          â”œâ”€ "react-server-components-seo"  â†â”€â”€ Blog vá» RSC/SEO liÃªn quan tá»›i project nÃ y
+          â””â”€ "tailwind-css-v4-guide"        â†â”€â”€ Blog vá» Tailwind liÃªn quan tá»›i project nÃ y
 
 Blog "react-server-components-seo"
-    └─ related_projects: ["huang-workspace"]   ←── Link ngược lại project
-    └─ related_blogs: ["tailwind-css-v4-guide"] ←── Blogs liên quan khác
+    â””â”€ related_projects: ["huang-workspace"]   â†â”€â”€ Link ngÆ°á»£c láº¡i project
+    â””â”€ related_blogs: ["tailwind-css-v4-guide"] â†â”€â”€ Blogs liÃªn quan khÃ¡c
 
 Video "react-performance-2026"
-    └─ related_blogs: ["react-server-components-seo"] ←── Blog liên quan tới video
+    â””â”€ related_blogs: ["react-server-components-seo"] â†â”€â”€ Blog liÃªn quan tá»›i video
 ```
 
-**Lưu ý:** Cross-links chỉ render theo một chiều — khai báo ở đâu thì hiển thị ở đó. Không tự động bidirectional.
+**LÆ°u Ã½:** Cross-links chá»‰ render theo má»™t chiá»u â€” khai bÃ¡o á»Ÿ Ä‘Ã¢u thÃ¬ hiá»ƒn thá»‹ á»Ÿ Ä‘Ã³. KhÃ´ng tá»± Ä‘á»™ng bidirectional.
 
 ---
 
 ## Content Rules
 
-- `_template.md` files — KHÔNG phải content, bỏ qua khi scan
-- `published: false` — draft, không hiển thị trên site
-- Slug phải unique trong cùng collection
-- Slug dùng `kebab-case`, không dấu, không space
+- `_template.md` files â€” KHÃ”NG pháº£i content, bá» qua khi scan
+- `published: false` â€” draft, khÃ´ng hiá»ƒn thá»‹ trÃªn site
+- Slug pháº£i unique trong cÃ¹ng collection
+- Slug dÃ¹ng `kebab-case`, khÃ´ng dáº¥u, khÃ´ng space
 
 ---
 
@@ -225,8 +225,9 @@ Video "react-performance-2026"
 
 ```bash
 npm run magic                        # Help + stats
-npm run magic list                   # Liệt kê tất cả content
-npm run magic validate               # Kiểm tra required fields
-npm run magic new blog "Title"       # Tạo blog từ template
-npm run magic new video "Title"      # Tạo video từ template
+npm run magic list                   # Liá»‡t kÃª táº¥t cáº£ content
+npm run magic validate               # Kiá»ƒm tra required fields
+npm run magic new blog "Title"       # Táº¡o blog tá»« template
+npm run magic new video "Title"      # Táº¡o video tá»« template
 ```
+
