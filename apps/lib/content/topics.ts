@@ -1,14 +1,18 @@
-import { getCollectionFiles, readMDFile } from "./utils";
 import type { Topic } from "./types";
+import raw from "./generated-content.json";
+
+type RawEntry = {
+  file: string;
+  data: Record<string, unknown>;
+  content: string;
+};
 
 export function getTopics(): Topic[] {
-  const files = getCollectionFiles("topics");
   const topics: Topic[] = [];
+  const entries = (raw.topics ?? []) as RawEntry[];
 
-  for (const file of files) {
-    const parsed = readMDFile(file);
-    if (!parsed) continue;
-    const { data } = parsed;
+  for (const entry of entries) {
+    const { data } = entry;
     if (data.published === false) continue;
 
     topics.push({

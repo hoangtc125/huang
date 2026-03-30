@@ -1,14 +1,18 @@
-import { getCollectionFiles, readMDFile } from "./utils";
 import type { QA } from "./types";
+import raw from "./generated-content.json";
+
+type RawEntry = {
+  file: string;
+  data: Record<string, unknown>;
+  content: string;
+};
 
 export function getQAs(): QA[] {
-  const files = getCollectionFiles("qa");
   const qas: QA[] = [];
+  const entries = (raw.qa ?? []) as RawEntry[];
 
-  for (const file of files) {
-    const parsed = readMDFile(file);
-    if (!parsed) continue;
-    const { data, content } = parsed;
+  for (const entry of entries) {
+    const { data, content } = entry;
 
     if (data.published === false) continue;
 

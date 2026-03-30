@@ -1,23 +1,35 @@
-import { getCollectionFiles, readMDFile, calcReadingTime } from "./utils";
+import { calcReadingTime } from "./utils";
 import type { BlogPost } from "./types";
+import raw from "./generated-content.json";
+
+type RawEntry = {
+  file: string;
+  data: Record<string, unknown>;
+  content: string;
+};
 
 export function getBlogPosts(options?: {
   topic?: string;
   featured?: boolean;
   publishedOnly?: boolean;
 }): BlogPost[] {
-  const files = getCollectionFiles("blogs");
   const posts: BlogPost[] = [];
   const publishedOnly = options?.publishedOnly ?? true;
+  const entries = (raw.blogs ?? []) as RawEntry[];
 
-  for (const file of files) {
-    const parsed = readMDFile(file);
-    if (!parsed) continue;
-    const { data, content } = parsed;
+  for (const entry of entries) {
+    const { data, content } = entry;
 
     if (publishedOnly && data.published === false) continue;
     if (options?.topic && data.topic !== options.topic && data.category !== options.topic) continue;
     if (options?.featured !== undefined && Boolean(data.featured) !== options.featured) continue;
+
+    const readingTimeValue =
+      typeof data.reading_time === "number"
+        ? data.reading_time
+        : typeof data.reading_time === "string"
+        ? Number(data.reading_time)
+        : NaN;
 
     posts.push({
       slug: String(data.slug ?? ""),
@@ -27,7 +39,7 @@ export function getBlogPosts(options?: {
       coverImage: data.cover ? String(data.cover) : data.coverImage ? String(data.coverImage) : undefined,
       topic: String(data.topic ?? data.category ?? "general"),
       tags: Array.isArray(data.tags) ? data.tags.map(String) : [],
-      readingTime: typeof data.reading_time === "number" ? data.reading_time : calcReadingTime(content),
+      readingTime: Number.isFinite(readingTimeValue) ? readingTimeValue : calcReadingTime(content),
       publishedAt: String(data.date ?? data.publishedAt ?? ""),
       published: data.published !== false,
       featured: Boolean(data.featured),

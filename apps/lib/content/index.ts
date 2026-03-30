@@ -4,4 +4,4 @@ export * from "./projects";
 export * from "./videos";
 export * from "./topics";
 export * from "./qa";
-export { markdownToHtml, CONTENT_ROOT } from "./utils";
+export { markdownToHtml } from "./utils";

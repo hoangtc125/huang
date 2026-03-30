@@ -1,14 +1,18 @@
-import { getCollectionFiles, readMDFile } from "./utils";
 import type { Project, ProjectFeature } from "./types";
+import raw from "./generated-content.json";
+
+type RawEntry = {
+  file: string;
+  data: Record<string, unknown>;
+  content: string;
+};
 
 export function getProjects(options?: { featured?: boolean }): Project[] {
-  const files = getCollectionFiles("projects");
   const projects: Project[] = [];
+  const entries = (raw.projects ?? []) as RawEntry[];
 
-  for (const file of files) {
-    const parsed = readMDFile(file);
-    if (!parsed) continue;
-    const { data, content } = parsed;
+  for (const entry of entries) {
+    const { data, content } = entry;
 
     if (data.published === false) continue;
     if (options?.featured !== undefined && Boolean(data.featured) !== options.featured) continue;

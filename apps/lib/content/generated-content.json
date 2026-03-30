@@ -1,0 +1,375 @@
+{
+  "blogs": [
+    {
+      "file": "2026-03-29-markdown-showcase.md",
+      "data": {
+        "title": "Markdown Showcase: Tổng hợp mọi element trong blog",
+        "slug": "markdown-showcase",
+        "description": "Bài viết mẫu tổng hợp tất cả các thể loại markdown element — headings, code blocks, tables, images, blockquotes, lists, inline styles — để kiểm tra UI rendering.",
+        "cover": "https://picsum.photos/seed/md-showcase/1200/630",
+        "topic": "web-development",
+        "tags": [
+          "Markdown",
+          "UI Testing",
+          "Design System"
+        ],
+        "related_projects": [
+          "huang-workspace"
+        ],
+        "related_blogs": [
+          "tailwind-css-v4-guide"
+        ],
+        "published": true,
+        "featured": false,
+        "date": "2026-03-29",
+        "reading_time": 8,
+        "seo_title": "Markdown Showcase — Tất cả element types",
+        "seo_description": "Sample blog post hiển thị mọi loại markdown element: code blocks, tables, images, blockquotes, lists, media embeds."
+      },
+      "content": "# Markdown Showcase\n\nĐây là bài viết mẫu để kiểm tra UI rendering cho tất cả các element trong markdown. Mỗi section dưới đây demo một loại element khác nhau.\n\n## Headings\n\nCác level heading từ H2 đến H3 (H1 dùng cho tiêu đề bài viết):\n\n### Heading cấp 3\n\nNội dung dưới heading cấp 3. Đây là paragraph bình thường với **bold text**, *italic text*, và ***bold italic***.\n\n## Inline Styles\n\nĐây là paragraph chứa nhiều inline styles:\n\n- **Bold text** cho nhấn mạnh\n- *Italic text* cho thuật ngữ\n- ~~Strikethrough~~ cho nội dung đã sửa\n- `inline code` cho function names hoặc variables\n- [Link tới Google](https://google.com) cho external references\n- Kết hợp: **`bold code`**, *`italic code`*, [**bold link**](https://example.com)\n\n## Paragraphs và Line Breaks\n\nĐây là paragraph đầu tiên. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.\n\nĐây là paragraph thứ hai, cách paragraph trên bằng 1 dòng trống. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.\n\n## Code Blocks\n\n### JavaScript\n\n```javascript\n// React component với hooks\nimport { useState, useEffect } from 'react';\n\nexport function useDebounce<T>(value: T, delay: number): T {\n  const [debounced, setDebounced] = useState(value);\n\n  useEffect(() => {\n    const timer = setTimeout(() => setDebounced(value), delay);\n    return () => clearTimeout(timer);\n  }, [value, delay]);\n\n  return debounced;\n}\n\n// Usage\nconst searchTerm = useDebounce(input, 300);\nconsole.log(\"Debounced:\", searchTerm);\n```\n\n### TypeScript\n\n```typescript\ninterface BlogPost {\n  slug: string;\n  title: string;\n  description: string;\n  content: string;\n  tags: string[];\n  publishedAt: string;\n  readingTime: number;\n}\n\ntype PostFilter = {\n  topic?: string;\n  featured?: boolean;\n  publishedOnly?: boolean;\n};\n\nfunction getBlogPosts(options?: PostFilter): BlogPost[] {\n  return posts\n    .filter(p => options?.topic ? p.topic === options.topic : true)\n    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());\n}\n```\n\n### SQL\n\n```sql\n-- Tạo bảng với RLS\nCREATE TABLE friendly_matches (\n  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n  region_id TEXT NOT NULL REFERENCES regions(id),\n  court_id UUID REFERENCES courts(id),\n  match_date DATE,\n  match_time TIME,\n  level TEXT CHECK (level IN ('beginner', 'intermediate', 'advanced')),\n  fee INTEGER CHECK (fee >= 0),\n  slots_needed INTEGER DEFAULT 1,\n  created_at TIMESTAMPTZ DEFAULT now(),\n  status TEXT DEFAULT 'active'\n);\n\n-- Index cho query phổ biến\nCREATE INDEX idx_fm_region_date\n  ON friendly_matches(region_id, match_date DESC);\n\n-- RLS policy\nALTER TABLE friendly_matches ENABLE ROW LEVEL SECURITY;\n\nCREATE POLICY \"read_active\" ON friendly_matches\n  FOR SELECT USING (status = 'active');\n```\n\n### Bash\n\n```bash\n#!/bin/bash\n# Deploy script\n\necho \"Building...\"\nnpm run build\n\necho \"Running tests...\"\nnpm test -- --coverage\n\nif [ $? -eq 0 ]; then\n  echo \"Tests passed! Deploying...\"\n  npx wrangler deploy --env production\n  curl -s -X POST \"https://api.telegram.org/bot${BOT_TOKEN}/sendMessage\" \\\n    -d \"chat_id=${CHAT_ID}\" \\\n    -d \"text=✅ Deploy thành công!\"\nelse\n  echo \"Tests failed. Aborting deploy.\"\n  exit 1\nfi\n```\n\n### JSON\n\n```json\n{\n  \"name\": \"smashmate\",\n  \"version\": \"2.0.0\",\n  \"dependencies\": {\n    \"next\": \"^16.1.0\",\n    \"@supabase/supabase-js\": \"^2.45.0\",\n    \"zod\": \"^3.23.0\",\n    \"leaflet\": \"^1.9.4\"\n  },\n  \"scripts\": {\n    \"dev\": \"next dev\",\n    \"build\": \"opennextjs-cloudflare build\",\n    \"deploy\": \"opennextjs-cloudflare deploy\"\n  }\n}\n```\n\n### CSS\n\n```css\n/* Custom scrollbar — rose-brown theme */\n::-webkit-scrollbar {\n  width: 6px;\n  height: 6px;\n}\n\n::-webkit-scrollbar-thumb {\n  background: hsl(345 20% 22% / 0.6);\n  border-radius: 999px;\n}\n\n::-webkit-scrollbar-thumb:hover {\n  background: hsl(345 25% 30% / 0.8);\n}\n```\n\n### Plain text (no language)\n\n```\nĐây là code block không có language specified.\nSẽ không có syntax highlighting.\nDùng cho log output, config files, hoặc text thuần.\n\nERROR 2026-03-29 14:30:00 [api] Request failed\n  method=GET path=/api/posts status=500\n  duration=1234ms error=\"connection timeout\"\n```\n\n## Blockquotes\n\n> Đây là blockquote đơn giản. Dùng để highlight ý quan trọng hoặc trích dẫn.\n\n> **Lưu ý quan trọng**: Blockquote có thể chứa **bold**, *italic*, `code`, và [links](https://example.com).\n>\n> Và có thể có nhiều paragraphs bên trong.\n\n> Nested blockquote:\n> > Cấp 2 — đây là quote bên trong quote.\n> > Thường dùng cho conversation hoặc email thread.\n\n## Lists\n\n### Unordered List\n\n- Item đầu tiên\n- Item thứ hai với **bold text**\n- Item thứ ba với `inline code`\n- Item có sub-items:\n  - Sub-item A\n  - Sub-item B\n  - Sub-item C với [link](https://example.com)\n    - Sub-sub-item (3 cấp)\n\n### Ordered List\n\n1. Bước 1: Clone repository\n2. Bước 2: Install dependencies\n3. Bước 3: Configure environment variables\n   - Copy `.env.example` thành `.env`\n   - Điền `SUPABASE_URL` và `SUPABASE_ANON_KEY`\n4. Bước 4: Run development server\n5. Bước 5: Open browser tại `http://localhost:3000`\n\n### Task List (GFM)\n\n- [x] Setup project structure\n- [x] Implement content loader\n- [x] Add blog page with markdown rendering\n- [ ] Add image optimization\n- [ ] Add search functionality\n- [ ] Deploy to production\n\n## Tables\n\n### Bảng đơn giản\n\n| Feature | Free | Pro | Business |\n| --- | --- | --- | --- |\n| Feed queries | Unlimited | Unlimited | Unlimited |\n| AI Search/ngày | 50 | 100 | 200 |\n| Post creation | 1/ngày | 5/ngày | 10/ngày |\n| Reminders | 5 | 20 | 50 |\n| Saved posts | 10 | 50 | 200 |\n\n### Bảng với alignment\n\n| Metric | V1 | V2 | Improvement |\n| :--- | ---: | ---: | :---: |\n| Query p95 | 200ms | 5ms | **40x** |\n| Cold start | 500ms | 150ms | **3.3x** |\n| Indexable cols | 3 | All | **∞** |\n| NULL rate | 60% | <10% | **6x** |\n\n## Images\n\n### Ảnh đơn\n\n![Landscape mẫu — dùng để test image rendering](https://picsum.photos/seed/blog-demo-1/1200/600)\n\n### Ảnh nhỏ hơn\n\n![Screenshot UI mẫu](https://picsum.photos/seed/blog-demo-2/800/450)\n\n### Ảnh liên tiếp\n\n![Dashboard analytics](https://picsum.photos/seed/blog-demo-3/1200/500)\n\n![Map visualization](https://picsum.photos/seed/blog-demo-4/1200/500)\n\n## Horizontal Rule\n\nNội dung trước horizontal rule.\n\n---\n\nNội dung sau horizontal rule. Thường dùng để phân tách sections lớn.\n\n## Mixed Content\n\nPhần này demo việc kết hợp nhiều element types trong cùng một flow tự nhiên.\n\nKhi thiết kế API, có 3 nguyên tắc quan trọng:\n\n1. **Validate mọi input** — dùng Zod schema:\n\n```typescript\nconst QuerySchema = z.object({\n  category: z.enum(['friendly_matches', 'marketplace']),\n  page: z.coerce.number().int().min(1).max(100).default(1),\n});\n```\n\n2. **Không leak error details** — trả generic message:\n\n> Tip: Log full error server-side, trả `{ error: \"Something went wrong\" }` cho client.\n\n3. **Rate limiting** — bảng so sánh các approach:\n\n| Approach | Pros | Cons |\n| --- | --- | --- |\n| Cloudflare WAF | Zero-config, global | Không custom logic |\n| In-memory | Đơn giản, nhanh | Không distributed |\n| Redis | Distributed, chính xác | Thêm dependency |\n\nKết quả sau khi áp dụng cả 3:\n\n![Security dashboard mẫu](https://picsum.photos/seed/blog-demo-5/1000/400)\n\n## Footnote-style Links\n\nĐây là cách viết link kiểu reference [như thế này][ref-link] — hữu ích khi có nhiều links dài.\n\n[ref-link]: https://example.com \"Example Domain\"\n\n## Kết\n\nBài viết này cover hầu hết các element types trong markdown:\n\n- ✅ Headings (H2, H3)\n- ✅ Inline styles (bold, italic, strikethrough, code, links)\n- ✅ Code blocks (JS, TS, SQL, Bash, JSON, CSS, plain)\n- ✅ Blockquotes (đơn, nested)\n- ✅ Lists (unordered, ordered, task list)\n- ✅ Tables (đơn giản, aligned)\n- ✅ Images (đơn, nhiều ảnh liên tiếp)\n- ✅ Horizontal rules\n- ✅ Mixed content (kết hợp nhiều element)\n\nNếu UI render đúng tất cả trên đây thì blog system đã sẵn sàng cho production! 🚀"
+    }
+  ],
+  "projects": [
+    {
+      "file": "huang-workspace.md",
+      "data": {
+        "slug": "huang-workspace",
+        "title": "Huang Workspace",
+        "description": "Portfolio cá nhân — hub trung tâm cho projects, blogs, và videos. Xây dựng với Next.js App Router, Tailwind CSS v4, và Markdown-based content system.",
+        "short_desc": "My personal portfolio and digital garden — the site you're currently browsing.",
+        "thumbnail": "https://picsum.photos/seed/workspace/800/450",
+        "icon_url": "https://picsum.photos/seed/workspace-icon/128/128",
+        "images": [
+          "https://picsum.photos/seed/hw-sc1/1200/800",
+          "https://picsum.photos/seed/hw-sc2/1200/800"
+        ],
+        "type": "web",
+        "tags": [
+          "Next.js",
+          "TypeScript",
+          "Tailwind CSS",
+          "Framer Motion"
+        ],
+        "tech_stack": [
+          "Next.js 15",
+          "React 19",
+          "TypeScript",
+          "Tailwind CSS v4",
+          "Framer Motion"
+        ],
+        "demo_url": "https://huangwork.space",
+        "source_url": "https://github.com/huangtran/huang-workspace",
+        "features": [
+          {
+            "title": "Markdown Content System",
+            "desc": "Blogs, projects, videos được viết bằng Markdown và compile lúc build time — không cần CMS hay backend."
+          },
+          {
+            "title": "SEO-First Architecture",
+            "desc": "React Server Components + generateStaticParams = HTML tĩnh cho mọi trang, Google crawl được ngay."
+          },
+          {
+            "title": "Cross-linked Content",
+            "desc": "Projects link tới blogs liên quan, videos link tới blogs — tạo mạng lưới nội dung có liên kết."
+          },
+          {
+            "title": "Beautiful Dark Theme",
+            "desc": "Dark UI với parallax animations, smooth page transitions, và syntax-highlighted code blocks."
+          }
+        ],
+        "architecture": "Built with Next.js 15 App Router. Content system reads Markdown files from content/ directory at build time using gray-matter for frontmatter parsing and unified/remark/rehype for Markdown-to-HTML conversion. All pages are Server Components with generateStaticParams for full static generation. Animations use Framer Motion with the new motion library.",
+        "related_blogs": [
+          "react-server-components-seo",
+          "tailwind-css-v4-guide"
+        ],
+        "status": "live",
+        "published": true,
+        "featured": true,
+        "order": 3,
+        "date": "2026-03-22"
+      },
+      "content": "# Huang Workspace\n\n## Tổng quan\n\nTrang bạn đang xem. Portfolio cá nhân kiêm digital garden — nơi tôi tập hợp projects, viết blog, và share videos về software engineering.\n\n## Kiến trúc Content System\n\nThay vì dùng CMS hay database, toàn bộ nội dung được viết bằng Markdown:\n\n```\ncontent/\n  collections/\n    blogs/        ← Mỗi .md file = 1 bài viết\n    projects/     ← Mỗi .md file = 1 project\n    videos/       ← Mỗi .md file = 1 video\n    topics/       ← Phân loại blog posts\n    qa/           ← Q&A cho trang About\n```\n\nContent được parse lúc `next build` và generate thành static HTML. Không cần server, không cần database khi serve traffic.\n\n## SEO Strategy\n\n- **Server Components mặc định**: Mọi page là RSC, content có trong HTML ngay lập tức\n- **generateStaticParams**: Pre-render tất cả blog posts, project pages lúc build time\n- **generateMetadata**: Meta tags và Open Graph riêng cho từng trang\n- **JSON-LD**: Structured data cho blog posts (BlogPosting schema)\n\n## Workflow khi thêm blog mới\n\n1. Tạo file `.md` trong `content/collections/blogs/` theo template\n2. Chạy `npm run magic` để validate và xem preview\n3. `npm run build` → pre-render tất cả pages\n\nKhông cần deploy infrastructure phức tạp."
+    },
+    {
+      "file": "sample-portfolio-website.md",
+      "data": {
+        "published": false,
+        "title": "Portfolio Website",
+        "slug": "portfolio-website",
+        "description": "Trang portfolio cá nhân được xây dựng với Next.js và TailwindCSS",
+        "thumbnail": "/images/projects/portfolio-thumb.jpg",
+        "images": [
+          "/images/projects/portfolio-1.jpg",
+          "/images/projects/portfolio-2.jpg"
+        ],
+        "type": "web",
+        "tags": [
+          "Next.js",
+          "TypeScript",
+          "TailwindCSS",
+          "Markdown"
+        ],
+        "demo_url": "https://yoursite.com",
+        "source_url": "https://github.com/you/portfolio",
+        "status": "completed",
+        "featured": true,
+        "order": 1,
+        "date": "2026-03-01"
+      },
+      "content": "# Portfolio Website\r\n\r\n## Tổng quan\r\n\r\nTrang portfolio cá nhân sử dụng Markdown làm nguồn dữ liệu chính,\r\nkhông cần backend hay CMS phức tạp.\r\n\r\n## Tech Stack\r\n\r\n- **Framework:** Next.js 14\r\n- **Styling:** TailwindCSS\r\n- **Content:** Markdown + YAML frontmatter\r\n- **Deploy:** Vercel"
+    },
+    {
+      "file": "smashmate.md",
+      "data": {
+        "slug": "smashmate",
+        "title": "SmashMate",
+        "description": "Nền tảng giúp người chơi cầu lông tìm trận nhanh hơn bằng cách chuẩn hóa dữ liệu cộng đồng và đưa vào trải nghiệm tìm kiếm trực quan.",
+        "short_desc": "Từ dữ liệu thô đến trải nghiệm tìm trận trong vài giây (mobile-first).",
+        "thumbnail": "https://picsum.photos/seed/smashmate-cover/1200/675",
+        "icon_url": "https://picsum.photos/seed/smashmate-icon/256/256",
+        "images": [
+          "https://picsum.photos/seed/smashmate-feed/1200/800",
+          "https://picsum.photos/seed/smashmate-map/1200/800",
+          "https://picsum.photos/seed/smashmate-admin/1200/800"
+        ],
+        "type": "web",
+        "tags": [
+          "Next.js",
+          "TypeScript",
+          "Supabase",
+          "Cloudflare",
+          "Data Pipeline",
+          "Gemini AI",
+          "Automa"
+        ],
+        "tech_stack": [
+          "Next.js 16 (React 19)",
+          "TypeScript",
+          "Supabase (Postgres + Auth + Edge Functions)",
+          "Cloudflare Workers (opennextjs-cloudflare)",
+          "Google Gemini (AI extraction)",
+          "Leaflet (Map)",
+          "TailwindCSS + Radix UI"
+        ],
+        "demo_url": "",
+        "source_url": "",
+        "features": [
+          {
+            "title": "Feed 7 danh mục bài đăng",
+            "desc": "Giao lưu, sang nhượng sân, dạy cầu, tuyển CLB, tìm người chơi, khuyến mãi sân, mua bán — mỗi danh mục có bộ lọc riêng theo ngữ cảnh thực tế."
+          },
+          {
+            "title": "Chuẩn hóa dữ liệu bằng AI",
+            "desc": "Dùng Gemini API tự động trích xuất giờ, sân, mức độ, phí, số slot từ bài đăng thô — người dùng không cần đọc thủ công."
+          },
+          {
+            "title": "Bản đồ sân cầu lông",
+            "desc": "Leaflet interactive map với clustering, lọc theo khoảng cách (tối đa 20km), hiển thị số bài đăng tại mỗi sân."
+          },
+          {
+            "title": "Hệ thống Reminder",
+            "desc": "Lưu bộ lọc yêu thích (ngày, giờ, trình độ, khu vực), tự match với bài mới và gửi push notification mỗi giờ."
+          },
+          {
+            "title": "Xếp hạng tác giả và sân",
+            "desc": "Ranking theo ngày/tuần cho tác giả hoạt động nhiều nhất và sân được đăng nhiều nhất — rebuild nightly qua cron."
+          },
+          {
+            "title": "AI Search bằng tiếng Việt",
+            "desc": "Nhập câu hỏi tự nhiên ('sân nào quận 7 tối nay') → Gemini parse thành bộ lọc có cấu trúc → trả kết quả ngay."
+          },
+          {
+            "title": "Pipeline thu thập tự động",
+            "desc": "eSuit (Chrome extension) scrape Facebook → Automa tự động hóa workflow → Edge Function batch process + upsert → dữ liệu sẵn sàng trong feed."
+          },
+          {
+            "title": "Admin Dashboard đầy đủ",
+            "desc": "Quản lý sân, vùng, user, feedback, ingest keys. Upload/ingest UI, execution log, usage analytics, court alias matching queue."
+          }
+        ],
+        "architecture": "SmashMate được thiết kế theo kiến trúc 3 lớp zero-trust:\n\n**Layer 1 — Edge/WAF (Cloudflare Workers)**\nProxy tất cả request qua Cloudflare, rate limiting, security headers. App chạy trên serverless edge runtime qua opennextjs-cloudflare.\n\n**Layer 2 — API (Next.js BFF)**\nAPI routes validate input bằng Zod, enforce usage quota, admin auth guards. Không leak internal error ra ngoài.\n\n**Layer 3 — Database (Supabase Postgres + RLS)**\nRow-Level Security deny-by-default. Stored functions cho extraction, court matching, ranking, dedup, cleanup cron. Edge Functions xử lý batch ingest và push notification.\n\n**Data Pipeline:**\neSuit scrape Facebook groups → Automa automation workflow → JSON upload qua Admin → Edge Function gọi Gemini batch 5 bài → upsert vào 7 extracted tables → auto-match court aliases.\n\n**Quota System:**\nBackend-driven, atomic RPC consumption. Mỗi plan (Free/Pro/Business) có daily limit cho AI search, premium queries, post creation, reminders, saved posts.\n",
+        "related_blogs": [
+          "smashmate-v2-feature-breakdown",
+          "vercel-to-cloudflare-pages-lessons",
+          "smashmate-ddos-incident-lessons",
+          "smashmate-sql-injection-hardening",
+          "facebook-data-crawl-self-host-playbook",
+          "external-ingest-api-key-fallback",
+          "posts-first-schema-without-raw-posts",
+          "selfhost-to-ec2-n8n-migration"
+        ],
+        "status": "live",
+        "published": true,
+        "featured": true,
+        "order": 2,
+        "date": "2026-03-27",
+        "seo_title": "SmashMate - Nền tảng tìm trận cầu lông (Case Study)",
+        "seo_description": "Portfolio case study: cách xây một sản phẩm dữ liệu thể thao với pipeline chuẩn hóa AI, bộ lọc thực tế, và kiến trúc zero-trust trên Cloudflare + Supabase."
+      },
+      "content": "# SmashMate\n\n## Bối cảnh\n\nCộng đồng cầu lông Việt Nam hoạt động chủ yếu qua các nhóm Facebook. Mỗi ngày có hàng trăm bài đăng tìm người chơi, sang nhượng sân, mở lớp dạy — nhưng tất cả đều dưới dạng text tự do, không có cấu trúc. Để tìm một trận giao lưu phù hợp, người chơi phải lướt nhiều nhóm, đọc từng bài, tự suy luận thời gian, khu vực, trình độ.\n\nSmashMate giải quyết vấn đề này: biến quá trình tìm trận từ \"đọc và đoán\" thành \"lọc và chọn trong vài giây\".\n\n## Kiến trúc tổng quan\n\n### Pipeline dữ liệu\n\n```\nFacebook Groups\n      │\n      ▼\neSuit (Chrome Extension) ── scrape posts → JSON\n      │\n      ▼\nAutoma (Browser Automation) ── scheduled workflow\n      │\n      ▼\nAdmin Dashboard ── upload JSON / trigger ingest\n      │\n      ▼\nSupabase Edge Function\n  ├── Normalize text\n  ├── Batch 5 posts → Gemini API\n  ├── Classify category (1 trong 7)\n  ├── Extract structured fields\n  ├── Auto-match court aliases\n  └── Upsert → extracted tables\n      │\n      ▼\nUser App (Feed + Map + Search)\n```\n\n### Hệ thống 3 lớp\n\n| Lớp | Công nghệ | Vai trò |\n| --- | --- | --- |\n| **Edge** | Cloudflare Workers | WAF, rate limiting, CDN, serverless runtime |\n| **App** | Next.js 16 (BFF) | API validation (Zod), quota enforcement, SSR |\n| **Data** | Supabase Postgres | RLS, stored functions, edge functions, real-time |\n\n### 7 danh mục nội dung\n\n1. **Giao lưu** (`friendly_matches`) — trận đấu, có trích xuất: sân, giờ, trình độ, phí, slot, loại cầu\n2. **Sang nhượng sân** (`court_transfers`) — pass sân, trading\n3. **Dạy cầu** (`coaching_classes`) — lớp học, huấn luyện\n4. **CLB** (`club_memberships`) — tuyển thành viên\n5. **Tìm người chơi** (`player_searches`) — người chơi tìm trận\n6. **Khuyến mãi sân** (`court_promotions`) — ưu đãi từ sân\n7. **Mua bán** (`marketplace`) — thiết bị cầu lông\n\n## Tính năng chi tiết\n\n### Feed thông minh\n\nMỗi danh mục có bộ lọc riêng theo ngữ cảnh thực tế của người chơi. Feed hỗ trợ sắp xếp theo: mới nhất, giá, thời gian, khoảng cách. Phân trang tối đa 50 bài/trang, query tối ưu không join raw_posts.\n\n### Bản đồ tương tác\n\nLeaflet map với marker clustering. Mỗi marker hiển thị số bài đăng tại sân đó. Lọc theo bán kính (tối đa 20km). Feed và map dùng chung bộ lọc — chuyển qua lại không mất context.\n\n### Reminder & Push Notification\n\nNgười dùng tạo preset lọc (ngày trong tuần, khung giờ, trình độ, thành phố, giới tính, format). Hệ thống match bài mới mỗi ngày và gửi push notification mỗi giờ qua Web Push API. Limit theo plan: Free 5 reminders, Pro 20, Business 50.\n\n### AI Search\n\nNhập tiếng Việt tự nhiên → Gemini parse thành structured filters → trả kết quả. Timeout 8s, retry 1 lần. Daily limit theo plan.\n\n### Ranking\n\nXếp hạng tác giả và sân theo ngày/tuần. Retention 7 ngày. Rebuild nightly qua PostgreSQL cron job. Dữ liệu tính từ extracted tables, không phụ thuộc raw_posts.\n\n### Quota & Pricing\n\n4 tầng: Welcome → Free → Pro → Business. Mỗi tầng có daily limit cho AI search, premium query, post creation, reminders, saved posts. Enforcement tại API layer bằng atomic RPC, response trả headers usage info.\n\n## Hạ tầng & Vận hành\n\n### Thu thập dữ liệu\n\nEC2 Ubuntu (`t3.small`, ~$17/tháng) chạy Chrome 24/7 với Xvfb (màn hình ảo). eSuit scrape Facebook groups ra JSON, Automa tự động hóa workflow theo schedule. Watchdog check mỗi 5 phút, Telegram notify khi start/crash.\n\n### Deployment\n\n- **Frontend + API**: Cloudflare Workers (serverless edge, global)\n- **Database**: Supabase managed Postgres\n- **Edge Functions**: Supabase Deno runtime (ingest + push)\n- **Collector**: EC2 VM (Chrome automation)\n\n### Security (V2 Hardening)\n\n- Input validation toàn bộ bằng Zod\n- RLS deny-by-default trên mọi table\n- Admin role tách riêng (`admin_accounts`), không dùng `profiles`\n- Error standardization — không leak internal details\n- Rate limiting tại Cloudflare + in-memory fallback\n- Ingest API key rotation\n- Timing-safe secret comparison cho edge functions\n\n## Bài học chính\n\n1. **Sản phẩm dữ liệu thành công nhờ chuẩn hóa, không nhờ khối lượng.** Crawl 10,000 bài thô ít giá trị bằng 1,000 bài đã extract đúng fields.\n\n2. **Schema extracted-first.** V2 loại bỏ dependency vào `raw_posts` — mỗi danh mục có table riêng, query nhanh, dễ scale, dễ cleanup.\n\n3. **Bảo mật cần tính từ MVP.** SmashMate đã trải qua DDoS, SQL injection attempts, và abuse — những bài học đắt giá dẫn đến kiến trúc zero-trust hiện tại.\n\n4. **Tách lớp rõ ràng giúp vận hành bền.** Khi collector crash, feed vẫn chạy. Khi Gemini timeout, bài vào queue retry. Không có single point of failure."
+    }
+  ],
+  "videos": [
+    {
+      "file": "react-performance-2026.md",
+      "data": {
+        "slug": "react-performance-masterclass-2026",
+        "title": "Mastering React Performance in 2026",
+        "description": "A deep dive into advanced techniques for identifying and fixing performance bottlenecks in large-scale React applications. Concurrent rendering, memoization strategies, and the React Compiler.",
+        "youtube_id": "dQw4w9WgXcQ",
+        "tags": [
+          "React",
+          "Performance",
+          "Frontend"
+        ],
+        "related_blogs": [
+          "react-server-components-seo"
+        ],
+        "published": true,
+        "featured": true,
+        "date": "2026-03-12",
+        "duration": "45:20",
+        "views": "12.5K"
+      },
+      "content": ""
+    },
+    {
+      "file": "scalable-backends-go-redis.md",
+      "data": {
+        "slug": "building-scalable-backends-go-redis",
+        "title": "Building Scalable Backends with Go & Redis",
+        "description": "Learn how to architect high-throughput backend services. This tutorial walks through building a notification system capable of handling millions of messages per day using Go routines and Redis streams.",
+        "youtube_id": "dQw4w9WgXcQ",
+        "tags": [
+          "Go",
+          "Redis",
+          "Backend",
+          "System Design"
+        ],
+        "related_blogs": [
+          "scalable-notification-systems"
+        ],
+        "published": true,
+        "featured": false,
+        "date": "2026-02-28",
+        "duration": "32:15",
+        "views": "8.2K"
+      },
+      "content": ""
+    },
+    {
+      "file": "tailwind-css-best-practices.md",
+      "data": {
+        "slug": "tailwind-css-from-messy-to-maintainable",
+        "title": "Tailwind CSS: From Messy to Maintainable",
+        "description": "Stop writing spaghetti utility classes. Discover patterns and tools (like tailwind-merge and cva) to keep your Tailwind CSS clean, reusable, and scalable in enterprise codebases.",
+        "youtube_id": "dQw4w9WgXcQ",
+        "tags": [
+          "CSS",
+          "Tailwind",
+          "Frontend"
+        ],
+        "related_blogs": [
+          "tailwind-css-v4-guide"
+        ],
+        "published": true,
+        "featured": false,
+        "date": "2026-01-15",
+        "duration": "18:40",
+        "views": "24K"
+      },
+      "content": ""
+    }
+  ],
+  "topics": [
+    {
+      "file": "career.md",
+      "data": {
+        "slug": "career",
+        "title": "Career & Life",
+        "description": "Góc nhìn cá nhân về hành trình làm software engineer — từ những bài học đầu tiên đến quyết định career, cách học hiệu quả, và suy nghĩ về cân bằng công việc-cuộc sống. Không phải best practices, chỉ là những gì tôi đã trải qua.",
+        "color": "amber",
+        "icon": "🌱",
+        "published": true
+      },
+      "content": ""
+    },
+    {
+      "file": "system-design.md",
+      "data": {
+        "slug": "system-design",
+        "title": "System Design",
+        "description": "Thiết kế hệ thống phần mềm quy mô lớn — kiến trúc microservices, message queues, database scaling, caching strategies, và các pattern để xây dựng hệ thống chịu tải cao. Những bài học rút ra từ thực tế triển khai production.",
+        "color": "emerald",
+        "icon": "🏗️",
+        "published": true
+      },
+      "content": ""
+    },
+    {
+      "file": "web-development.md",
+      "data": {
+        "slug": "web-development",
+        "title": "Web Development",
+        "description": "Kiến thức và kỹ thuật phát triển web hiện đại — từ React Server Components, Next.js App Router, đến Tailwind CSS và các công cụ frontend mới nhất. Nơi tôi chia sẻ những gì tôi học được trong quá trình xây dựng sản phẩm thực tế.",
+        "color": "indigo",
+        "icon": "🌐",
+        "published": true
+      },
+      "content": ""
+    }
+  ],
+  "qa": [
+    {
+      "file": "freelance.md",
+      "data": {
+        "question": "Bạn có nhận freelance không?",
+        "slug": "freelance",
+        "category": "career",
+        "tags": [
+          "freelance",
+          "work"
+        ],
+        "published": true,
+        "featured": false,
+        "order": 3,
+        "date": "2026-03-18"
+      },
+      "content": "Có, tôi đang mở cho các cơ hội freelance phù hợp — đặc biệt là các dự án web application phức tạp hoặc mobile app cross-platform.\n\nTôi thích làm việc với các project có scope rõ ràng và team nhỏ, nơi tôi có thể có impact thực sự thay vì chỉ implement tickets.\n\nNếu bạn có dự án thú vị, hãy email cho tôi với brief ngắn về dự án và timeline. Tôi sẽ phản hồi trong vòng 24 giờ."
+    },
+    {
+      "file": "tech-stack.md",
+      "data": {
+        "question": "Tech stack chính của bạn là gì?",
+        "slug": "tech-stack",
+        "category": "technical",
+        "tags": [
+          "tech",
+          "stack"
+        ],
+        "published": true,
+        "featured": true,
+        "order": 2,
+        "date": "2026-03-18"
+      },
+      "content": "Tôi làm việc chủ yếu với JavaScript/TypeScript ecosystem.\n\n**Frontend**: React, Next.js (App Router), Tailwind CSS. Tôi quan tâm nhiều đến performance và UX — Server Components, code splitting, và animation có chủ đích.\n\n**Mobile**: React Native + Expo. Cross-platform nhưng native feel.\n\n**Backend**: Node.js với Express hoặc Fastify. Với database: PostgreSQL cho relational data, Redis cho caching và real-time features, Firebase khi cần quick prototyping.\n\n**Tools**: TypeScript everywhere, Git, Docker cho local dev, Vercel/Railway cho deployment.\n\nTôi chọn tools dựa trên bài toán — không phải hype. Và tôi đủ linh hoạt để học thêm khi dự án cần."
+    },
+    {
+      "file": "why-hire-me.md",
+      "data": {
+        "question": "Tại sao bạn nên chọn tôi?",
+        "slug": "tai-sao-chon-toi",
+        "category": "career",
+        "tags": [
+          "hiring",
+          "introduction"
+        ],
+        "published": true,
+        "featured": true,
+        "order": 1,
+        "date": "2026-03-18"
+      },
+      "content": "Tôi không chỉ biết code — tôi biết cách đưa sản phẩm từ ý tưởng đến production và giữ nó chạy ổn định.\n\n**Kinh nghiệm đa dạng**: Từ frontend React/Next.js, mobile React Native, đến backend Node.js và kiến trúc hệ thống. Tôi có thể làm việc full-stack và hiểu trade-offs ở mỗi layer.\n\n**Tư duy sản phẩm**: Tôi không chỉ implement spec — tôi đặt câu hỏi tại sao, đề xuất cải tiến, và quan tâm đến UX cuối cùng người dùng nhận được.\n\n**Tự học và thích nghi nhanh**: Tech stack thay đổi nhanh, nhưng nguyên tắc cơ bản không đổi. Tôi học tech mới nhanh vì tôi hiểu tại sao chúng được tạo ra.\n\nNếu bạn cần một engineer vừa biết code tốt vừa nghĩ được về product — tôi sẵn sàng để nói chuyện thêm."
+    }
+  ]
+}
