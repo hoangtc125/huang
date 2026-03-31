@@ -33,6 +33,15 @@ export async function generateMetadata({
       title,
       description,
       type: "website",
+      ...(project.thumbnail && {
+        images: [{ url: project.thumbnail, width: 1200, height: 675, alt: title }],
+      }),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      ...(project.thumbnail && { images: [project.thumbnail] }),
     },
   };
 }

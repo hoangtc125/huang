@@ -13,6 +13,14 @@ export const metadata: Metadata = {
     description:
       "Personal portfolio of Tran Cong Hoang — software engineer specializing in React, Next.js, and mobile development.",
     type: "website",
+    images: [{ url: "/images/ava.jpg", width: 800, height: 800, alt: "Huang Workspace" }],
+  },
+  twitter: {
+    card: "summary",
+    title: "Huang Workspace",
+    description:
+      "Personal portfolio of Tran Cong Hoang — software engineer specializing in React, Next.js, and mobile development.",
+    images: ["/images/ava.jpg"],
   },
 };
 

@@ -6,8 +6,13 @@ import AnimatedBackground from "@/components/AnimatedBackground";
 import ShootingStars from "@/components/ShootingStars";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://huangwork.space"),
   title: "Huang Workspace",
   description: "Personal portfolio & blog of Tran Cong Hoang",
+  openGraph: {
+    siteName: "Huang Workspace",
+    locale: "vi_VN",
+  },
 };
 
 export default function RootLayout({

@@ -42,11 +42,15 @@ export async function generateMetadata({
       publishedTime: post.publishedAt,
       authors: ["Tran Cong Hoang"],
       tags: post.tags,
+      ...(post.coverImage && {
+        images: [{ url: post.coverImage, width: 1200, height: 630, alt: title }],
+      }),
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
+      ...(post.coverImage && { images: [post.coverImage] }),
     },
   };
 }
