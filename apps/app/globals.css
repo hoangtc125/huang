@@ -102,6 +102,20 @@
   animation: text-shimmer 4s linear infinite;
 }
 
+@media (max-width: 768px) {
+  .animate-text-shimmer {
+    animation-duration: 8s;
+    background-size: 150% auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .animate-text-shimmer {
+    animation: none;
+    background-position: 50% 50%;
+  }
+}
+
 /* Blob Animation */
 @keyframes blob {
   0% {
@@ -128,6 +142,15 @@
 
 .animation-delay-4000 {
   animation-delay: 4s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-text-shimmer,
+  .stars,
+  .stars2,
+  .animate-blob {
+    animation: none !important;
+  }
 }
 
 /* Blog content: Override hljs theme to match site style */

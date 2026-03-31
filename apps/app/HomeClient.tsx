@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, ReactNode } from "react";
+import { useEffect, useState, ReactNode } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { ArrowRight, Code, Smartphone, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Project, ProjectType } from "@/lib/content/types";
@@ -24,6 +24,18 @@ const statusColors: Record<string, string> = {
 
 export default function HomeClient({ projects }: { projects: Project[] }) {
   const [activeTab, setActiveTab] = useState<ProjectType | "all">("all");
+  const [isMobile, setIsMobile] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
+    const sync = () => setIsMobile(mediaQuery.matches);
+    sync();
+    mediaQuery.addEventListener("change", sync);
+    return () => mediaQuery.removeEventListener("change", sync);
+  }, []);
+
+  const useLightMotion = Boolean(prefersReducedMotion) || isMobile;
 
   const filteredProjects = projects.filter(
     (p) => activeTab === "all" || p.type === activeTab
@@ -35,20 +47,23 @@ export default function HomeClient({ projects }: { projects: Project[] }) {
         {/* Hero */}
         <section className="flex flex-col items-center text-center space-y-4 pt-24 pb-16">
           <motion.h1
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.1 }}
+            initial={useLightMotion ? { opacity: 0 } : { y: 20, opacity: 0 }}
+            animate={useLightMotion ? { opacity: 1 } : { y: 0, opacity: 1 }}
+            transition={useLightMotion ? { duration: 0.2 } : { delay: 0.1 }}
             className="text-2xl sm:text-3xl md:text-4xl font-medium tracking-tight text-[hsl(var(--muted-foreground))]"
           >
             Hey, I&apos;m not {" "} 
-            <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-rose-200 via-amber-100 to-rose-300 animate-text-shimmer">
+            <span className={cn(
+              "font-bold text-transparent bg-clip-text bg-gradient-to-r from-rose-200 via-amber-100 to-rose-300",
+              !isMobile && !prefersReducedMotion && "animate-text-shimmer"
+            )}>
               Jensen Huang
             </span>
           </motion.h1>
           <motion.h2
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.2 }}
+            initial={useLightMotion ? { opacity: 0 } : { y: 20, opacity: 0 }}
+            animate={useLightMotion ? { opacity: 1 } : { y: 0, opacity: 1 }}
+            transition={useLightMotion ? { duration: 0.2, delay: 0.05 } : { delay: 0.2 }}
             className="text-sm sm:text-base md:text-lg text-[hsl(var(--muted-foreground))] font-medium tracking-tight"
           >
             Software Engineer <span className="text-[hsl(var(--muted-foreground)/0.7)]">and</span> Technical
@@ -87,10 +102,10 @@ export default function HomeClient({ projects }: { projects: Project[] }) {
                 <motion.div
                   key={project.slug}
                   layout
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
-                  transition={{ duration: 0.2, delay: index * 0.05 }}
+                  initial={useLightMotion ? { opacity: 0 } : { opacity: 0, x: -20 }}
+                  animate={useLightMotion ? { opacity: 1 } : { opacity: 1, x: 0 }}
+                  exit={useLightMotion ? { opacity: 0 } : { opacity: 0, x: 20 }}
+                  transition={useLightMotion ? { duration: 0.12 } : { duration: 0.2, delay: index * 0.05 }}
                 >
                   <Link
                     href={`/project/${project.slug}`}
