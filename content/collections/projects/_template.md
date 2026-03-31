@@ -29,14 +29,26 @@ demo_url: "https://demo.example.com"
 source_url: "https://github.com/you/project"
 
 # Features (hiển thị trong tab Features)
+# Mỗi feature có thể có image (preview trên card) và images (nhiều ảnh trong popup)
+# Tất cả ảnh feature đều tự động hiện trong Gallery
 features:
   - title: "Tính năng 1"
     desc: "Mô tả tính năng 1"
+    image: "/images/projects/feature-1-preview.jpg"
+    images:
+      - "/images/projects/feature-1-detail-1.jpg"
+      - "/images/projects/feature-1-detail-2.jpg"
   - title: "Tính năng 2"
     desc: "Mô tả tính năng 2"
+    image: "/images/projects/feature-2-preview.jpg"
 
 # Architecture (hiển thị trong tab Architecture)
 architecture: "Mô tả kiến trúc kỹ thuật của project..."
+
+# Architecture images (hiển thị trong tab Architecture + Gallery)
+architecture_images:
+  - "/images/projects/arch-diagram-1.jpg"
+  - "/images/projects/arch-diagram-2.jpg"
 
 # Cross-links
 related_blogs:   # slug của các blog liên quan

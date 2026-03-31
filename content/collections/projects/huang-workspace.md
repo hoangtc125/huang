@@ -25,12 +25,24 @@ source_url: "https://github.com/huangtran/huang-workspace"
 features:
   - title: "Markdown Content System"
     desc: "Blogs, projects, videos được viết bằng Markdown và compile lúc build time — không cần CMS hay backend."
+    image: "https://picsum.photos/seed/hw-content/800/450"
+    images:
+      - "https://picsum.photos/seed/hw-content-1/1200/800"
+      - "https://picsum.photos/seed/hw-content-2/1200/800"
   - title: "SEO-First Architecture"
     desc: "React Server Components + generateStaticParams = HTML tĩnh cho mọi trang, Google crawl được ngay."
+    image: "https://picsum.photos/seed/hw-seo/800/450"
   - title: "Cross-linked Content"
     desc: "Projects link tới blogs liên quan, videos link tới blogs — tạo mạng lưới nội dung có liên kết."
+    image: "https://picsum.photos/seed/hw-crosslink/800/450"
   - title: "Beautiful Dark Theme"
     desc: "Dark UI với parallax animations, smooth page transitions, và syntax-highlighted code blocks."
+    image: "https://picsum.photos/seed/hw-theme/800/450"
+    images:
+      - "https://picsum.photos/seed/hw-theme-1/1200/800"
+      - "https://picsum.photos/seed/hw-theme-2/1200/800"
+architecture_images:
+  - "https://picsum.photos/seed/hw-arch/1200/800"
 architecture: "Built with Next.js 15 App Router. Content system reads Markdown files from content/ directory at build time using gray-matter for frontmatter parsing and unified/remark/rehype for Markdown-to-HTML conversion. All pages are Server Components with generateStaticParams for full static generation. Animations use Framer Motion with the new motion library."
 related_blogs:
   - "react-server-components-seo"

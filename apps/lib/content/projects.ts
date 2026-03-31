@@ -18,10 +18,12 @@ export function getProjects(options?: { featured?: boolean }): Project[] {
     if (options?.featured !== undefined && Boolean(data.featured) !== options.featured) continue;
 
     const features: ProjectFeature[] = Array.isArray(data.features)
-      ? data.features.map((f: Record<string, string>) => ({
+      ? data.features.map((f: Record<string, unknown>) => ({
           title: String(f.title ?? ""),
           desc: String(f.desc ?? ""),
           icon: f.icon ? String(f.icon) : undefined,
+          image: f.image ? String(f.image) : undefined,
+          images: Array.isArray(f.images) ? f.images.map(String) : undefined,
         }))
       : [];
 
@@ -46,6 +48,7 @@ export function getProjects(options?: { featured?: boolean }): Project[] {
       relatedBlogs: Array.isArray(data.related_blogs) ? data.related_blogs.map(String) : [],
       features,
       architecture: String(data.architecture ?? ""),
+      architectureImages: Array.isArray(data.architecture_images) ? data.architecture_images.map(String) : [],
       content,
       seoTitle: data.seo_title ? String(data.seo_title) : undefined,
       seoDescription: data.seo_description ? String(data.seo_description) : undefined,

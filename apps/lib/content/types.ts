@@ -39,6 +39,8 @@ export interface ProjectFeature {
   title: string;
   desc: string;
   icon?: string;
+  image?: string;        // preview image cho card
+  images?: string[];     // nhiều ảnh cho popup detail
 }
 
 export interface Project {
@@ -62,6 +64,7 @@ export interface Project {
   relatedBlogs: string[]; // blog slugs
   features: ProjectFeature[];
   architecture: string;
+  architectureImages: string[];  // ảnh trong tab architecture, cũng hiện trong gallery
   content: string; // raw markdown body
   seoTitle?: string;
   seoDescription?: string;

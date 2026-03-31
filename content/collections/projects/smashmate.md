@@ -34,20 +34,49 @@ source_url: ""
 features:
   - title: "Feed 7 danh mục bài đăng"
     desc: "Giao lưu, sang nhượng sân, dạy cầu, tuyển CLB, tìm người chơi, khuyến mãi sân, mua bán — mỗi danh mục có bộ lọc riêng theo ngữ cảnh thực tế."
+    image: "https://picsum.photos/seed/sm-feed/800/450"
+    images:
+      - "https://picsum.photos/seed/sm-feed-1/1200/800"
+      - "https://picsum.photos/seed/sm-feed-2/1200/800"
+      - "https://picsum.photos/seed/sm-feed-3/1200/800"
   - title: "Chuẩn hóa dữ liệu bằng AI"
     desc: "Dùng Gemini API tự động trích xuất giờ, sân, mức độ, phí, số slot từ bài đăng thô — người dùng không cần đọc thủ công."
+    image: "https://picsum.photos/seed/sm-ai-extract/800/450"
+    images:
+      - "https://picsum.photos/seed/sm-ai-1/1200/800"
+      - "https://picsum.photos/seed/sm-ai-2/1200/800"
   - title: "Bản đồ sân cầu lông"
     desc: "Leaflet interactive map với clustering, lọc theo khoảng cách (tối đa 20km), hiển thị số bài đăng tại mỗi sân."
+    image: "https://picsum.photos/seed/sm-map/800/450"
+    images:
+      - "https://picsum.photos/seed/sm-map-1/1200/800"
+      - "https://picsum.photos/seed/sm-map-2/1200/800"
   - title: "Hệ thống Reminder"
     desc: "Lưu bộ lọc yêu thích (ngày, giờ, trình độ, khu vực), tự match với bài mới và gửi push notification mỗi giờ."
+    image: "https://picsum.photos/seed/sm-reminder/800/450"
   - title: "Xếp hạng tác giả và sân"
     desc: "Ranking theo ngày/tuần cho tác giả hoạt động nhiều nhất và sân được đăng nhiều nhất — rebuild nightly qua cron."
+    image: "https://picsum.photos/seed/sm-ranking/800/450"
   - title: "AI Search bằng tiếng Việt"
     desc: "Nhập câu hỏi tự nhiên ('sân nào quận 7 tối nay') → Gemini parse thành bộ lọc có cấu trúc → trả kết quả ngay."
+    image: "https://picsum.photos/seed/sm-search/800/450"
+    images:
+      - "https://picsum.photos/seed/sm-search-1/1200/800"
+      - "https://picsum.photos/seed/sm-search-2/1200/800"
   - title: "Pipeline thu thập tự động"
     desc: "eSuit (Chrome extension) scrape Facebook → Automa tự động hóa workflow → Edge Function batch process + upsert → dữ liệu sẵn sàng trong feed."
+    image: "https://picsum.photos/seed/sm-pipeline/800/450"
   - title: "Admin Dashboard đầy đủ"
     desc: "Quản lý sân, vùng, user, feedback, ingest keys. Upload/ingest UI, execution log, usage analytics, court alias matching queue."
+    image: "https://picsum.photos/seed/sm-admin/800/450"
+    images:
+      - "https://picsum.photos/seed/sm-admin-1/1200/800"
+      - "https://picsum.photos/seed/sm-admin-2/1200/800"
+      - "https://picsum.photos/seed/sm-admin-3/1200/800"
+
+architecture_images:
+  - "https://picsum.photos/seed/sm-arch-diagram/1200/800"
+  - "https://picsum.photos/seed/sm-arch-pipeline/1200/800"
 
 architecture: |
   SmashMate được thiết kế theo kiến trúc 3 lớp zero-trust:
