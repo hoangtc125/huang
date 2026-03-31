@@ -84,7 +84,7 @@ function FeatureModal({
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
         transition={{ duration: 0.2 }}
-        className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl bg-zinc-900 border border-white/10 shadow-2xl"
+        className="relative w-full max-w-6xl max-h-[95vh] overflow-y-auto rounded-2xl bg-zinc-900 border border-white/10 shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close button */}
@@ -98,7 +98,7 @@ function FeatureModal({
         {/* Image carousel */}
         {allImages.length > 0 && (
           <div className="relative">
-            <div className="aspect-video bg-zinc-800 overflow-hidden rounded-t-2xl">
+            <div className="bg-zinc-800 overflow-hidden rounded-t-2xl" style={{ maxHeight: "60vh" }}>
               <AnimatePresence mode="wait">
                 <motion.img
                   key={currentImg}
@@ -108,7 +108,8 @@ function FeatureModal({
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="w-full h-full object-cover"
+                  className="w-full object-contain"
+                  style={{ maxHeight: "60vh" }}
                   referrerPolicy="no-referrer"
                 />
               </AnimatePresence>
@@ -131,7 +132,7 @@ function FeatureModal({
                 </button>
 
                 {/* Dots */}
-                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 px-3 py-1.5 rounded-full bg-black/50 backdrop-blur-sm">
                   {allImages.map((_, i) => (
                     <button
                       key={i}
@@ -205,7 +206,7 @@ function GalleryLightbox({
       <div className="absolute inset-0 bg-black/90 backdrop-blur-sm" />
 
       <div
-        className="relative w-full max-w-5xl mx-4"
+        className="relative w-full max-w-[95vw] mx-4"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close */}
@@ -217,7 +218,7 @@ function GalleryLightbox({
         </button>
 
         {/* Image */}
-        <div className="relative aspect-video bg-zinc-900 rounded-xl overflow-hidden">
+        <div className="relative bg-zinc-900 rounded-xl overflow-hidden" style={{ maxHeight: "80vh" }}>
           <AnimatePresence mode="wait">
             <motion.img
               key={current}
@@ -227,7 +228,8 @@ function GalleryLightbox({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.15 }}
-              className="w-full h-full object-contain"
+              className="w-full object-contain"
+              style={{ maxHeight: "80vh" }}
               referrerPolicy="no-referrer"
             />
           </AnimatePresence>
@@ -519,7 +521,7 @@ export default function ProjectDetailClient({
                                 <img
                                   src={img}
                                   alt={`${feature.title} preview ${i + 1}`}
-                                  className="w-full h-full object-cover"
+                                  className="w-full h-full object-contain"
                                   referrerPolicy="no-referrer"
                                 />
                               </div>
@@ -575,7 +577,7 @@ export default function ProjectDetailClient({
                             <img
                               src={img}
                               alt={`Architecture diagram ${idx + 1}`}
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                              className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                               referrerPolicy="no-referrer"
                             />
                           </div>
@@ -600,12 +602,12 @@ export default function ProjectDetailClient({
                     <div
                       key={idx}
                       onClick={() => setLightboxIndex(idx)}
-                      className="relative rounded-2xl overflow-hidden border border-white/5 bg-zinc-900 aspect-video cursor-pointer group"
+                      className="relative rounded-2xl overflow-hidden border border-white/5 bg-zinc-900 cursor-pointer group"
                     >
                       <img
                         src={img}
                         alt={galleryData.labels[idx]}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        className="w-full h-auto group-hover:scale-105 transition-transform duration-500"
                         referrerPolicy="no-referrer"
                       />
                       <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
