@@ -9,7 +9,8 @@ tags:
   - "Cloud"
   - "Browser Automation"
   - "Linux"
-related_projects: []
+related_projects:
+  - "smashmate"
 related_blogs:
   - "facebook-data-crawl-esuit-automa"
 published: true

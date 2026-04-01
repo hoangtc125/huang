@@ -45,15 +45,15 @@ export default function BlogList({ posts, topics }: Props) {
         {/* Header */}
         <section className="space-y-4">
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             className="text-3xl font-bold tracking-tight text-white"
           >
             Blog
           </motion.h1>
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ delay: 0.1 }}
             className="text-[hsl(var(--muted-foreground))]"
           >
@@ -66,8 +66,8 @@ export default function BlogList({ posts, topics }: Props) {
           <>
             {/* Desktop filter */}
             <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               transition={{ delay: 0.15 }}
               className="hidden sm:flex flex-wrap gap-2"
             >
@@ -183,9 +183,9 @@ export default function BlogList({ posts, topics }: Props) {
               return (
                 <motion.article
                   key={post.slug}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.08 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: index * 0.05 }}
                 >
                   <Link
                     href={`/blog/${post.slug}`}

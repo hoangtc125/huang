@@ -12,7 +12,9 @@ export const entry = {
       "Browser Automation",
       "Linux"
     ],
-    "related_projects": [],
+    "related_projects": [
+      "smashmate"
+    ],
     "related_blogs": [
       "facebook-data-crawl-esuit-automa"
     ],

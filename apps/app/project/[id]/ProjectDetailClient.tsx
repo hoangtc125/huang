@@ -346,7 +346,7 @@ export default function ProjectDetailClient({
     <PageTransition>
       <div className="space-y-12 pb-24">
         {/* Back */}
-        <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
           <Link
             href="/"
             className="inline-flex items-center gap-2 text-sm font-medium text-zinc-400 hover:text-zinc-100 transition-colors"
@@ -359,8 +359,8 @@ export default function ProjectDetailClient({
         {/* Hero */}
         <section className="space-y-8">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             className={cn(
               "gap-4 sm:gap-8 items-start",
               project.iconUrl
@@ -461,9 +461,9 @@ export default function ProjectDetailClient({
               {activeTab === "features" && (
                 <motion.div
                   key="features"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
                   transition={{ duration: 0.2 }}
                   className="space-y-4"
                 >
@@ -545,9 +545,9 @@ export default function ProjectDetailClient({
               {activeTab === "architecture" && (
                 <motion.div
                   key="architecture"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
                   transition={{ duration: 0.2 }}
                   className="space-y-6"
                 >
@@ -599,9 +599,9 @@ export default function ProjectDetailClient({
               {activeTab === "gallery" && (
                 <motion.div
                   key="gallery"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
                   transition={{ duration: 0.2 }}
                   className="columns-1 sm:columns-2 lg:columns-3 gap-4 [column-fill:_balance]"
                 >

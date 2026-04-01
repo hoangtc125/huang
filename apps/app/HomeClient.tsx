@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, ReactNode } from "react";
+import { useState, useEffect, ReactNode } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { ArrowRight, Code, Smartphone, Globe } from "lucide-react";
@@ -25,7 +25,15 @@ const statusColors: Record<string, string> = {
 export default function HomeClient({ projects }: { projects: Project[] }) {
   const [activeTab, setActiveTab] = useState<ProjectType | "all">("all");
   const prefersReducedMotion = useReducedMotion();
-  const useLightMotion = Boolean(prefersReducedMotion);
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 768px)");
+    setIsMobile(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+  const useLightMotion = Boolean(prefersReducedMotion) || isMobile;
 
   const filteredProjects = projects.filter(
     (p) => activeTab === "all" || p.type === activeTab

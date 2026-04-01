@@ -108,6 +108,11 @@
     background-position: 50% 50%;
     background-size: 100% auto;
   }
+  .animate-blob,
+  .stars,
+  .stars2 {
+    animation: none !important;
+  }
 }
 
 /* Blob Animation */

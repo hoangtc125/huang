@@ -1,11 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import {
   Mail,
-  Github,
-  Linkedin,
   ChevronDown,
   Send,
 } from "lucide-react";
@@ -31,6 +29,7 @@ interface Props {
 export default function AboutClient({ qas, experience, profile, bioHtml }: Props) {
   const [openQA, setOpenQA] = useState<number | null>(null);
   const [activeSection, setActiveSection] = useState("bio");
+  const prefersReducedMotion = useReducedMotion();
 
   // Contact form state
   const [contactForm, setContactForm] = useState({ name: "", email: "", message: "" });
@@ -105,15 +104,15 @@ export default function AboutClient({ qas, experience, profile, bioHtml }: Props
           {/* Bio */}
           <section id="bio" className="scroll-mt-24 space-y-6">
             <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               className="text-3xl font-bold tracking-tight text-zinc-100"
             >
               About Me
             </motion.h1>
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               transition={{ delay: 0.1 }}
               className="prose prose-invert prose-zinc max-w-none text-zinc-400 leading-relaxed"
               dangerouslySetInnerHTML={{ __html: bioHtml }}
@@ -127,10 +126,10 @@ export default function AboutClient({ qas, experience, profile, bioHtml }: Props
               {experience.map((item, index) => (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
+                  transition={{ delay: prefersReducedMotion ? 0 : index * 0.08 }}
                   className="relative"
                 >
                   <div className="absolute -left-[39px] top-1.5 w-3 h-3 rounded-full bg-zinc-800 border-2 border-zinc-400" />
@@ -154,8 +153,8 @@ export default function AboutClient({ qas, experience, profile, bioHtml }: Props
               {qas.map((qa, index) => (
                 <motion.div
                   key={qa.slug || index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
                   className="bg-zinc-900/30 border border-white/5 rounded-xl overflow-hidden"
                 >
@@ -199,9 +198,7 @@ export default function AboutClient({ qas, experience, profile, bioHtml }: Props
               <div className="space-y-3">
                 {[
                   profile.email && { href: `mailto:${profile.email}`, icon: <Mail className="w-5 h-5" />, label: "Email" },
-                  profile.social.github && { href: profile.social.github, icon: <Github className="w-5 h-5" />, label: "GitHub" },
                   profile.social.facebook && { href: profile.social.facebook, icon: <FacebookIcon className="w-5 h-5" />, label: "Facebook" },
-                  profile.social.linkedin && { href: profile.social.linkedin, icon: <Linkedin className="w-5 h-5" />, label: "LinkedIn" },
                 ].filter(Boolean).map((link) => (
                   <a
                     key={link.label}
