@@ -603,18 +603,18 @@ export default function ProjectDetailClient({
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.2 }}
-                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+                  className="columns-1 sm:columns-2 lg:columns-3 gap-4 [column-fill:_balance]"
                 >
                   {galleryData.images.map((img, idx) => (
                     <div
                       key={idx}
                       onClick={() => setLightboxIndex(idx)}
-                      className="relative rounded-2xl overflow-hidden border border-white/5 bg-zinc-900 cursor-pointer group"
+                      className="relative mb-4 break-inside-avoid overflow-hidden rounded-2xl border border-white/5 bg-zinc-900 cursor-pointer group"
                     >
                       <img
                         src={img}
                         alt={galleryData.labels[idx]}
-                        className="w-full h-auto group-hover:scale-105 transition-transform duration-500"
+                        className="block w-full h-auto object-contain group-hover:scale-[1.02] transition-transform duration-500"
                         referrerPolicy="no-referrer"
                       />
                       <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">

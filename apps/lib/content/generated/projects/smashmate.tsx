@@ -5,10 +5,10 @@ export const entry = {
     "title": "SmashMate",
     "description": "Nền tảng giúp người chơi cầu lông tìm trận nhanh hơn bằng cách chuẩn hóa dữ liệu cộng đồng và đưa vào trải nghiệm tìm kiếm trực quan.",
     "short_desc": "Từ dữ liệu thô đến trải nghiệm tìm trận trong vài giây.",
-    "thumbnail": "/images/projects/smashmate/giaoluucaulong-xyz-hero.jpg",
-    "icon_url": "/images/projects/smashmate/giaoluucaulong-xyz-hero.jpg",
+    "thumbnail": "/images/projects/smashmate/pwa-icon.svg",
+    "icon_url": "/images/projects/smashmate/pwa-icon.svg",
     "images": [
-      "/images/projects/smashmate/giaoluucaulong-xyz-hero.jpg"
+      "/images/projects/smashmate/pwa-icon.svg"
     ],
     "type": "web",
     "tags": [
@@ -38,9 +38,9 @@ export const entry = {
         "title": "Feed 7 danh mục bài đăng",
         "desc": "Giao lưu, sang nhượng sân, dạy cầu, tuyển CLB, tìm người chơi, khuyến mãi sân, mua bán — mỗi danh mục có bộ lọc riêng theo ngữ cảnh thực tế. Hỗ trợ sort theo mới nhất, giá, thời gian, khoảng cách.",
         "images": [
+          "/images/projects/smashmate/giaoluucaulong-xyz-hero.jpg",
           "/images/projects/smashmate/giaoluucaulong-xyz-feed-filter.jpg",
-          "/images/projects/smashmate/giaoluucaulong-xyz-feed-post.jpg",
-          "/images/projects/smashmate/giaoluucaulong-xyz-install.jpg"
+          "/images/projects/smashmate/giaoluucaulong-xyz-feed-post.jpg"
         ]
       },
       {
@@ -85,7 +85,7 @@ export const entry = {
       {
         "title": "Pipeline thu thập dữ liệu tự động",
         "desc": "Chrome extension scrape Facebook groups → browser automation xử lý workflow → backend AI extract + phân loại + lưu trữ. Chạy 24/7 trên cloud VM với watchdog tự restart và Telegram alerts.",
-        "image": ""
+        "image": "/images/projects/smashmate/giaoluucaulong-xyz-install.jpg"
       },
       {
         "title": "Marketplace mua bán dụng cụ",
