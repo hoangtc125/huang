@@ -8,9 +8,15 @@ export const entry = {
         "description": "SaaS B2B product for Vietnamese businesses."
       },
       {
+        "company": "Bizfly Cloud (VCCorp)",
+        "role": "Backend Developer",
+        "period": "2024",
+        "description": "Build dashboard management for cloud infrastructure services."
+      },
+      {
         "company": "Techpro",
         "role": "Software Engineer",
-        "period": "2023 - Mar 2024",
+        "period": "2022 - Mar 2024",
         "description": "Build and maintain Smart Parking system."
       }
     ],

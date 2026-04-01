@@ -94,7 +94,7 @@ export default function HomeClient({ projects }: { projects: Project[] }) {
             </div>
           </div>
 
-          <motion.div layout className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3">
             <AnimatePresence mode="popLayout">
               {filteredProjects.map((project, index) => (
                 <motion.div
@@ -166,7 +166,7 @@ export default function HomeClient({ projects }: { projects: Project[] }) {
                 </motion.div>
               ))}
             </AnimatePresence>
-          </motion.div>
+          </div>
         </section>
       </div>
     </PageTransition>
