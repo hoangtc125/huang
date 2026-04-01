@@ -5,44 +5,30 @@ import { motion, AnimatePresence } from "motion/react";
 import {
   Mail,
   Github,
-  Twitter,
   Linkedin,
   ChevronDown,
   Send,
 } from "lucide-react";
+
+function FacebookIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+    </svg>
+  );
+}
 import { cn } from "@/lib/utils";
 import PageTransition from "@/components/PageTransition";
-import type { QA } from "@/lib/content/types";
-
-const timeline = [
-  {
-    year: "2024 - Present",
-    role: "Senior Software Engineer",
-    company: "Tech Innovators Inc.",
-    description:
-      "Leading the frontend architecture for a high-traffic SaaS platform. Mentoring junior developers and establishing best practices for React performance.",
-  },
-  {
-    year: "2021 - 2024",
-    role: "Software Engineer",
-    company: "Digital Solutions LLC",
-    description:
-      "Developed cross-platform mobile applications using React Native and built scalable backend services with Node.js and PostgreSQL.",
-  },
-  {
-    year: "2019 - 2021",
-    role: "Frontend Developer",
-    company: "Creative Agency",
-    description:
-      "Crafted interactive and responsive web experiences for various clients. Specialized in animations and pixel-perfect UI implementations.",
-  },
-];
+import type { QA, ExperienceItem, Profile } from "@/lib/content/types";
 
 interface Props {
   qas: QA[];
+  experience: ExperienceItem[];
+  profile: Profile;
+  bioHtml: string;
 }
 
-export default function AboutClient({ qas }: Props) {
+export default function AboutClient({ qas, experience, profile, bioHtml }: Props) {
   const [openQA, setOpenQA] = useState<number | null>(null);
   const [activeSection, setActiveSection] = useState("bio");
 
@@ -129,32 +115,16 @@ export default function AboutClient({ qas }: Props) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="space-y-4 text-zinc-400 leading-relaxed"
-            >
-              <p>
-                I&apos;m <span className="text-zinc-200 font-medium">Tran Cong Hoang</span> — a software engineer focused on
-                building robust, scalable, and beautiful digital products. My journey in
-                tech started with a fascination for how things work under the hood, which
-                quickly evolved into a passion for creating tools that solve real problems.
-              </p>
-              <p>
-                With a background spanning frontend web development, cross-platform mobile
-                apps, and backend architecture, I enjoy taking projects from mere concepts
-                to fully deployed, production-ready applications.
-              </p>
-              <p>
-                When I&apos;m not coding, you can find me exploring new technologies,
-                writing technical content, or optimizing my workspace for maximum
-                productivity.
-              </p>
-            </motion.div>
+              className="prose prose-invert prose-zinc max-w-none text-zinc-400 leading-relaxed"
+              dangerouslySetInnerHTML={{ __html: bioHtml }}
+            />
           </section>
 
           {/* Career */}
           <section id="career" className="scroll-mt-24 space-y-8">
             <h2 className="text-2xl font-semibold text-zinc-100 tracking-tight">Career</h2>
             <div className="space-y-8 border-l border-white/10 ml-3 pl-8 relative">
-              {timeline.map((item, index) => (
+              {experience.map((item, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, x: -20 }}
@@ -167,7 +137,7 @@ export default function AboutClient({ qas }: Props) {
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
                     <h3 className="text-lg font-medium text-zinc-200">{item.role}</h3>
                     <span className="text-sm font-medium text-zinc-500 bg-zinc-900/50 px-2 py-1 rounded-md w-fit">
-                      {item.year}
+                      {item.period}
                     </span>
                   </div>
                   <div className="text-sm font-medium text-zinc-400 mb-3">{item.company}</div>
@@ -228,11 +198,11 @@ export default function AboutClient({ qas }: Props) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-3">
                 {[
-                  { href: "mailto:hoang.tran02@base.vn", icon: <Mail className="w-5 h-5" />, label: "Email" },
-                  { href: "#", icon: <Github className="w-5 h-5" />, label: "GitHub" },
-                  { href: "#", icon: <Twitter className="w-5 h-5" />, label: "Twitter" },
-                  { href: "#", icon: <Linkedin className="w-5 h-5" />, label: "LinkedIn" },
-                ].map((link) => (
+                  profile.email && { href: `mailto:${profile.email}`, icon: <Mail className="w-5 h-5" />, label: "Email" },
+                  profile.social.github && { href: profile.social.github, icon: <Github className="w-5 h-5" />, label: "GitHub" },
+                  profile.social.facebook && { href: profile.social.facebook, icon: <FacebookIcon className="w-5 h-5" />, label: "Facebook" },
+                  profile.social.linkedin && { href: profile.social.linkedin, icon: <Linkedin className="w-5 h-5" />, label: "LinkedIn" },
+                ].filter(Boolean).map((link) => (
                   <a
                     key={link.label}
                     href={link.href}

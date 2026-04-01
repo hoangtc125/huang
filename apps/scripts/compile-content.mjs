@@ -11,6 +11,7 @@ const collectionsRoot = path.join(contentRoot, "collections");
 const outputRoot = path.join(appRoot, "lib", "content", "generated");
 
 const collections = ["blogs", "projects", "videos", "topics", "qa"];
+const staticFiles = ["experience", "profile", "skills", "about"];
 
 function ensureDir(dir) {
   fs.mkdirSync(dir, { recursive: true });
@@ -70,6 +71,20 @@ function writeCollection(collection) {
   return files.length;
 }
 
+function writeStatic(name) {
+  const srcFile = path.join(contentRoot, "static", `${name}.md`);
+  const outDir = path.join(outputRoot, "static");
+  ensureDir(outDir);
+
+  if (!fs.existsSync(srcFile)) return;
+
+  const raw = fs.readFileSync(srcFile, "utf-8");
+  const { data, content } = matter(raw);
+  const payload = { data: data ?? {}, content: (content ?? "").trim() };
+  const moduleCode = `export const entry = ${JSON.stringify(payload, null, 2)} as const;\nexport default entry;\n`;
+  fs.writeFileSync(path.join(outDir, `${name}.ts`), moduleCode, "utf-8");
+}
+
 function main() {
   if (!fs.existsSync(collectionsRoot)) {
     throw new Error(`Missing content collections directory: ${collectionsRoot}`);
@@ -87,6 +102,10 @@ function main() {
     const count = writeCollection(c);
     total += count;
     summary.push(`${c}:${count}`);
+  }
+
+  for (const s of staticFiles) {
+    writeStatic(s);
   }
 
   const rootIndex = collections

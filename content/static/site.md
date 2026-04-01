@@ -6,13 +6,13 @@
 
 site_name: "Huang Portfolio"
 site_description: "Personal portfolio & blog"
-site_url: "https://yoursite.com"
+site_url: "https://huangwork.space"
 language: "vi"
 
 # SEO defaults
 seo:
   title_template: "%s | Huang Portfolio"
-  default_description: "Portfolio của Huang - Full-stack Developer"
+  default_description: "Portfolio của Huang - Software Engineer"
 
 # Navigation
 nav:

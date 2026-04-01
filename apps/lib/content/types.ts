@@ -98,6 +98,16 @@ export interface QA {
   order: number;
 }
 
+// ------ Static: Experience ------
+export interface ExperienceItem {
+  company: string;
+  role: string;
+  period: string;
+  description: string;
+  logo?: string;
+  highlights: string[];
+}
+
 // ------ Static: Profile ------
 export interface Profile {
   name: string;
@@ -107,7 +117,7 @@ export interface Profile {
   location?: string;
   social: {
     github?: string;
-    twitter?: string;
+    facebook?: string;
     linkedin?: string;
     youtube?: string;
   };

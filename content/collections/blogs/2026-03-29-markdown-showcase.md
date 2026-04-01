@@ -12,7 +12,7 @@ related_projects:
   - "huang-workspace"
 related_blogs:
   - "tailwind-css-v4-guide"
-published: true
+published: false
 featured: false
 date: "2026-03-29"
 reading_time: 8

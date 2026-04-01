@@ -4,4 +4,7 @@ export * from "./projects";
 export * from "./videos";
 export * from "./topics";
 export * from "./qa";
+export * from "./experience";
+export * from "./profile";
+export * from "./about";
 export { markdownToHtml } from "./utils";

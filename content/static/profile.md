@@ -5,22 +5,22 @@
 # Chỉ cần sửa file này, rebuild là cập nhật
 # ========================================
 
-name: "Nguyen Van A"
+name: "Tran Cong Hoang"
 nickname: "Huang"
-title: "Full-stack Developer" # Chức danh hiển thị chính
-email: "your@email.com"
-phone: "+84 xxx xxx xxx"
-location: "Ho Chi Minh City, Vietnam"
-website: "https://yoursite.com"
+title: "Software Engineer" # Chức danh hiển thị chính
+email: "work.conghoang@gmail.com"
+phone: "+84 0846 303 882"
+location: "Hanoi, Vietnam"
+website: "https://huangwork.space"
 
 # Social links
 socials:
-  github: "https://github.com/yourusername"
-  linkedin: "https://linkedin.com/in/yourusername"
-  twitter: "https://twitter.com/yourusername"
-  # Thêm social khác tại đây
+  github: "https://github.com/hoangtc125"
+  linkedin: "https://linkedin.com/in/hoangtc125"
+  facebook: "https://facebook.com/hoang2k1111"
+# Thêm social khác tại đây
 
 # Avatar & branding
-avatar: "/images/avatar.jpg"
-og_image: "/images/og-default.jpg"
+avatar: "/images/ava.jpg"
+og_image: "/images/ava.jpg"
 ---
