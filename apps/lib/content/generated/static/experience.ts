@@ -10,7 +10,7 @@ export const entry = {
       {
         "company": "Bizfly Cloud (VCCorp)",
         "role": "Backend Developer",
-        "period": "2024",
+        "period": "2023",
         "description": "Build dashboard management for cloud infrastructure services."
       },
       {

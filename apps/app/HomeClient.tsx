@@ -99,11 +99,10 @@ export default function HomeClient({ projects }: { projects: Project[] }) {
               {filteredProjects.map((project, index) => (
                 <motion.div
                   key={project.slug}
-                  layout
-                  initial={useLightMotion ? { opacity: 0 } : { opacity: 0, x: -20 }}
-                  animate={useLightMotion ? { opacity: 1 } : { opacity: 1, x: 0 }}
-                  exit={useLightMotion ? { opacity: 0 } : { opacity: 0, x: 20 }}
-                  transition={useLightMotion ? { duration: 0.12 } : { duration: 0.2, delay: index * 0.05 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: useLightMotion ? 0.12 : 0.2, delay: useLightMotion ? 0 : index * 0.05 }}
                 >
                   <Link
                     href={`/project/${project.slug}`}
