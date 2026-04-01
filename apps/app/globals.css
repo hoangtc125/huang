@@ -104,15 +104,9 @@
 
 @media (max-width: 768px) {
   .animate-text-shimmer {
-    animation-duration: 8s;
-    background-size: 150% auto;
-  }
-}
-
-@media (max-width: 640px) {
-  .animate-text-shimmer {
     animation: none;
     background-position: 50% 50%;
+    background-size: 100% auto;
   }
 }
 

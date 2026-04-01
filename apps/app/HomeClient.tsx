@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, ReactNode } from "react";
+import { useState, ReactNode } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { ArrowRight, Code, Smartphone, Globe } from "lucide-react";
@@ -24,18 +24,8 @@ const statusColors: Record<string, string> = {
 
 export default function HomeClient({ projects }: { projects: Project[] }) {
   const [activeTab, setActiveTab] = useState<ProjectType | "all">("all");
-  const [isMobile, setIsMobile] = useState(false);
   const prefersReducedMotion = useReducedMotion();
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 768px)");
-    const sync = () => setIsMobile(mediaQuery.matches);
-    sync();
-    mediaQuery.addEventListener("change", sync);
-    return () => mediaQuery.removeEventListener("change", sync);
-  }, []);
-
-  const useLightMotion = Boolean(prefersReducedMotion) || isMobile;
+  const useLightMotion = Boolean(prefersReducedMotion);
 
   const filteredProjects = projects.filter(
     (p) => activeTab === "all" || p.type === activeTab
@@ -55,7 +45,7 @@ export default function HomeClient({ projects }: { projects: Project[] }) {
             Hey, I&apos;m not {" "} 
             <span className={cn(
               "font-bold text-transparent bg-clip-text bg-gradient-to-r from-rose-200 via-amber-100 to-rose-300",
-              !isMobile && !prefersReducedMotion && "animate-text-shimmer"
+              !prefersReducedMotion && "animate-text-shimmer"
             )}>
               Jensen Huang
             </span>
@@ -64,7 +54,7 @@ export default function HomeClient({ projects }: { projects: Project[] }) {
             initial={useLightMotion ? { opacity: 0 } : { y: 20, opacity: 0 }}
             animate={useLightMotion ? { opacity: 1 } : { y: 0, opacity: 1 }}
             transition={useLightMotion ? { duration: 0.2, delay: 0.05 } : { delay: 0.2 }}
-            className="text-sm sm:text-base md:text-lg text-[hsl(var(--muted-foreground))] font-medium tracking-tight"
+            className="text-sm sm:text-base md:text-lg max-[370px]:text-[11px] max-[370px]:whitespace-nowrap max-[370px]:tracking-normal text-[hsl(var(--muted-foreground))] font-medium tracking-tight"
           >
             Software Engineer <span className="text-[hsl(var(--muted-foreground)/0.7)]">and</span> Technical
             Content Specialist
