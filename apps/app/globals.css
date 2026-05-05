@@ -426,3 +426,17 @@
   text-align: center;
   white-space: nowrap;
 }
+
+/* react-pdf TextLayer — override magenta default with blue */
+.react-pdf__Page__textContent.textLayer {
+  --highlight-bg-color: rgba(59, 130, 246, 0.45);
+  --highlight-selected-bg-color: rgba(37, 99, 235, 0.6);
+}
+.react-pdf__Page__textContent.textLayer ::selection {
+  background: rgba(59, 130, 246, 0.5);
+  color: transparent;
+}
+.react-pdf__Page__textContent.textLayer ::-moz-selection {
+  background: rgba(59, 130, 246, 0.5);
+  color: transparent;
+}
